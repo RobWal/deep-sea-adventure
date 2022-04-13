@@ -1,0 +1,23 @@
+{
+  "engines": {
+    "node": "16.x"
+  },
+  "scripts": {
+    "postinstall": "(npm install --prefix server); (npm install --prefix client);",
+    "build": "npm run build --prefix client",
+    "start": "npm run start --prefix server",
+    "start:local": "npm run start:local --prefix server",
+    "dev": "concurrently \"npm run start --prefix client\" \"npm run dev --prefix server\"",
+    "test": "echo \"No tests here. Did you mean to run tests in client or server directories instead?\""
+  },
+  "devDependencies": {
+    "concurrently": "^6.5.1"
+  },
+  "name": "deep-sea-adventure",
+  "version": "1.0.0",
+  "main": "index.js",
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": ""
+}
