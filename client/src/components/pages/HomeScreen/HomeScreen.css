@@ -1,0 +1,18 @@
+.home-screen {
+    display: flex;
+    justify-content: center;
+    min-width: 1250px;
+    width: 1250px;
+    min-height: 710px;
+    height: 710px;
+    position: relative;
+    background-color: #003a74;
+    border: 10px solid black;
+    border-radius: 10px;
+}
+
+.text-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}

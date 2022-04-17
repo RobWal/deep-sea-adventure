@@ -1,0 +1,12 @@
+.announcer-container {
+    position: absolute;
+    right: 30px;
+    top: 150px;
+    width: 350px;
+    min-width: 350px;
+    height: 135px;
+    min-height: 135px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}

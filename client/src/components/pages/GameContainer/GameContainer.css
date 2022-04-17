@@ -1,0 +1,10 @@
+.game-container {
+    position: relative;
+    width: 1250px;
+    min-width: 1250px;
+    height: 710px;
+    min-height: 710px;
+    background-color: #003a74;
+    border: 10px solid black;
+    border-radius: 10px;
+}
