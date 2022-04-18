@@ -1,67 +1,53 @@
-import './GameContainer.css'
-
-import TreasureOne from '../../atoms/TreasureOne';
-import TreasureTwo from '../../atoms/TreasureTwo';
-import TreasureThree from '../../atoms/TreasureThree';
-import TreasureFour from '../../atoms/TreasureFour';
-import NoTreasure from '../../atoms/NoTreasure';
-import OxygenSubmarine from '../../atoms/OxygenSubmarine';
-import DieTwo from '../../atoms/DieTwo';
+import {useState } from 'react';
+import AnnouncerMessage from '../../atoms/AnnouncerMessage';
 import DieOne from '../../atoms/DieOne';
 import DieThree from '../../atoms/DieThree';
-import TreasurePointZero from '../../atoms/TreasurePointZero';
-import TreasurePointOne from '../../atoms/TreasurePointOne';
-import TreasurePointTwo from '../../atoms/TreasurePointTwo';
-import TreasurePointThree from '../../atoms/TreasurePointThree';
-import TreasurePointFour from '../../atoms/TreasurePointFour';
-import TreasurePointFive from '../../atoms/TreasurePointFive';
-import TreasurePointSix from '../../atoms/TreasurePointSix';
-import TreasurePointSeven from '../../atoms/TreasurePointSeven';
-import TreasurePointEight from '../../atoms/TreasurePointEight';
-import TreasurePointNine from '../../atoms/TreasurePointNine';
-import TreasurePointTen from '../../atoms/TreasurePointTen';
-import TreasurePointEleven from '../../atoms/TreasurePointEleven';
-import TreasurePointTwelve from '../../atoms/TreasurePointTwelve';
-import TreasurePointThirteen from '../../atoms/TreasurePointThirteen';
-import TreasurePointFourteen from '../../atoms/TreasurePointFourteen';
-import TreasurePointFifteen from '../../atoms/TreasurePointFifteen';
 import DSALogo from '../../atoms/DSALogo';
-import DiceContainer from '../../molecules/DiceContainer';
 import H1 from '../../atoms/H1';
-import AnnouncerMessage from '../../atoms/AnnouncerMessage';
+import NoTreasure from '../../atoms/NoTreasure';
+import OxygenSubmarine from '../../atoms/OxygenSubmarine';
+import TreasureFour from '../../atoms/TreasureFour';
+import TreasureOne from '../../atoms/TreasureOne';
+import TreasureThree from '../../atoms/TreasureThree';
+import TreasureTwo from '../../atoms/TreasureTwo';
+import DiceContainer from '../../molecules/DiceContainer';
 import AnnouncerContainer from '../../organisms/AnnouncerContainer';
+import './GameContainer.css'
 
-const GameContainer = (props: any) => {
+
+const GameContainer = () => {
+    const [clicked, setClicked] = useState(false);
     return (
-        <div className="game-container">
-
-            <TreasureOne />
-            <TreasureTwo />
-            <TreasureThree />
-            <TreasureFour />
-            <OxygenSubmarine style={{position: 'absolute', top: '20px', left: '500px'}}/>
-            <AnnouncerContainer dice={<DiceContainer diceOne={<DieOne />} diceTwo={<DieThree />}/>} announcerMessage={<AnnouncerMessage text='TomTomTomTom picked up the treasure!'/>}/>
-            <div>
-                
-                {/* <DieTwo />
-                <NoTreasure />
-                <TreasurePointZero />
-                <TreasurePointOne />
-                <TreasurePointTwo />
-                <TreasurePointThree />
-                <TreasurePointFour />
-                <TreasurePointFive />
-                <TreasurePointSix />
-                <TreasurePointSeven />
-                <TreasurePointEight />
-                <TreasurePointNine />
-                <TreasurePointTen />
-                <TreasurePointEleven />
-                <TreasurePointTwelve />
-                <TreasurePointThirteen />
-                <TreasurePointFourteen />
-                <TreasurePointFifteen /> */}
+        <div>
+            {!clicked ? <div className="game-container" onClick={(e)=>{
+                setClicked(true);
+                }}>
+                <div className='text-container'>
+                    <H1 text={'DEEP SEA ADVENTURE'} style={{marginTop: '20px', fontSize:'82px', color: '#2AD2C5'}}/>
+                    <H1 text={'Click to play!'} style={{marginTop: '60px',color: 'white', fontSize: '45px'}}/>
+                    <H1 text={'Jun Sasaki & Goro Sasaki'} style={{marginTop: '350px',fontSize:'50px', color: '#2AD2C5'}}/>
+                </div>
+                <NoTreasure style={{position: 'absolute', top: '20px', left:'20px'}}/>
+                <NoTreasure style={{position: 'absolute', top: '20px', right:'20px'}}/>
+                <NoTreasure style={{position: 'absolute', bottom: '20px', left:'20px'}}/>
+                <NoTreasure style={{position: 'absolute', bottom: '20px', right:'20px'}}/>
+                <DSALogo style={{position: 'absolute', top: '340px', left: '50px', transform: 'rotate(15deg)'}}/>
+                <OxygenSubmarine style={{position: 'absolute', top: '210px', right: '40px', transform: 'rotate(-15deg)'}}/>
+                <div className="treasure-line">
+                    <TreasureOne style={{position: 'absolute', left: '870px', top: '420px'}}/>
+                    <TreasureOne style={{position: 'absolute', left: '830px', top: '500px'}}/>
+                    <TreasureTwo style={{position: 'absolute', top: '530px', left: '740px'}}/>
+                    <TreasureTwo style={{position: 'absolute', top: '500px', left: '650px'}}/>
+                    <TreasureThree style={{position: 'absolute', top: '440px', left: '570px'}}/>
+                    <TreasureThree style={{position: 'absolute', top: '380px', left: '500px'}}/>
+                    <TreasureFour style={{position: 'absolute', top: '400px', left: '410px'}}/>
+                    <TreasureFour style={{position: 'absolute', top: '450px', left: '330px'}}/>
+                </div>
             </div>
+            : <div  className="game-container">
+                <OxygenSubmarine style={{position: 'absolute', top: '20px', left: '500px'}}/>
+                <AnnouncerContainer dice={<DiceContainer diceOne={<DieOne />} diceTwo={<DieThree />}/>} announcerMessage={<AnnouncerMessage text='TomTomTomTom picked up the treasure!'/>}/>
+            </div>}
         </div>
     )
 }
