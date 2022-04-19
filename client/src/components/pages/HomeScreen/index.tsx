@@ -1,30 +1,26 @@
-import React, {useState, useEffect }from 'react';
-import AnnouncerMessage from '../../atoms/AnnouncerMessage';
-import DieOne from '../../atoms/DieOne';
-import DieThree from '../../atoms/DieThree';
+// import { useNavigate } from "react-router-dom"
+import { useState } from 'react';
 import DSALogo from '../../atoms/DSALogo';
 import H1 from '../../atoms/H1';
 import NoTreasure from '../../atoms/NoTreasure';
 import OxygenSubmarine from '../../atoms/OxygenSubmarine';
+import TealOverlay from '../../atoms/TealOverlay';
 import TreasureFour from '../../atoms/TreasureFour';
 import TreasureOne from '../../atoms/TreasureOne';
 import TreasureThree from '../../atoms/TreasureThree';
 import TreasureTwo from '../../atoms/TreasureTwo';
-import DiceContainer from '../../molecules/DiceContainer';
-import AnnouncerContainer from '../../organisms/AnnouncerContainer';
-import GameContainer from '../GameContainer';
+import NamePlayersContainer from '../../organisms/NamePlayersContainer';
 import './HomeScreen.css'
 
 
 const HomeScreen = () => {
-    const [clicked, setClicked] = useState(false);
+    const [playerIsReady, setPlayerIsReady] = useState(false);
+    console.log(playerIsReady)
+    // let navigate = useNavigate();
     return (
         <div>
-            {!clicked ? <div className="game-container" onClick={(e)=>{
-                console.log(e);
-                setClicked(true);
-                console.log(clicked)
-                }}>
+            {/* <div className="home-screen" onClick={()=>{navigate("/gamecontainer")}}></div> */}
+            <div className="home-screen" onClick={()=>{setPlayerIsReady(true)}}>
                 <div className='text-container'>
                     <H1 text={'DEEP SEA ADVENTURE'} style={{marginTop: '20px', fontSize:'82px', color: '#2AD2C5'}}/>
                     <H1 text={'Click to play!'} style={{marginTop: '60px',color: 'white', fontSize: '45px'}}/>
@@ -46,11 +42,9 @@ const HomeScreen = () => {
                     <TreasureFour style={{position: 'absolute', top: '400px', left: '410px'}}/>
                     <TreasureFour style={{position: 'absolute', top: '450px', left: '330px'}}/>
                 </div>
+                {playerIsReady ? <TealOverlay /> : <></>}
+                {playerIsReady ? <NamePlayersContainer /> : <></>}
             </div>
-            : <div  className="game-container">
-                <OxygenSubmarine style={{position: 'absolute', top: '20px', left: '500px'}}/>
-                <AnnouncerContainer dice={<DiceContainer diceOne={<DieOne />} diceTwo={<DieThree />}/>} announcerMessage={<AnnouncerMessage text='TomTomTomTom picked up the treasure!'/>}/>
-            </div>}
         </div>
     )
 }

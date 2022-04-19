@@ -1,0 +1,7 @@
+.escape-button-text {
+    position: absolute;
+    top: -15px;
+    left: 12px;
+    cursor: default;
+    color: white;
+}

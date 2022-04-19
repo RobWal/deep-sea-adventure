@@ -1,0 +1,7 @@
+.help-button-text {
+    position: absolute;
+    top: -15px;
+    left: 14px;
+    cursor: default;
+    color: white;
+}

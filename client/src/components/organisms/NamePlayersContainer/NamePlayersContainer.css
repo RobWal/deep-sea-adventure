@@ -1,0 +1,9 @@
+.name-players-container {
+    position: absolute;
+    top: 170px;
+    left: 350px;
+    width: 550px;
+    height: 370px;
+    background-color: #004489;
+    border-radius: 10px;
+}

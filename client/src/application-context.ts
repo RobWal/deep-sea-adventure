@@ -17,9 +17,50 @@ export interface GameState {
         currentStep: string,
         dice: number[],
         players: object[],
-        tiles: {}
+        round: number,
+        tiles: any[],
     };
 }
+
+export const tileGenerator = () => {
+    const numberOfTiles = 8;
+    const tileTypes = [
+        {
+            type: 1,
+            treasureValues: [0,0,1,1,2,2,3,3]
+        },
+        {
+            type: 2,
+            treasureValues: [4,4,5,5,6,6,7,7]
+        },
+        {
+            type: 3,
+            treasureValues: [8,8,9,9,10,10,11,11]
+        },
+        {
+            type: 4,
+            treasureValues: [12,12,13,13,14,14,15,15]
+        }
+    ]
+    const tiles: any[] = [];
+    tileTypes.forEach((type, index) => {
+        const treasureValues = type.treasureValues.sort((a: any,b: any)=>{
+            return Math.random()-0.5
+        });
+        for(let i = 0; i < numberOfTiles; i++){
+            tiles.push({
+                type: type.type,
+                id: i+(index*numberOfTiles) + 1,
+                location: i+(index*numberOfTiles) + 1,
+                value: treasureValues[i],
+                // value: Math.floor(Math.random()*(type.max - type.min + 1)) + type.min
+            })
+        }
+    })
+    return tiles;
+}
+
+// 0-3, 4-7, 
 
 export const DefaultGameState: GameState = {
     gameState: {
@@ -31,114 +72,14 @@ export const DefaultGameState: GameState = {
             {
                 name: 'Sandy',
                 mapPosition: 0,
-                treasure: []
+                treasure: [],
+                score: 0,
+                settings: {},
             }
         ],
-        tiles: {
-            oneDot: [
-                {
-                    id: 1,
-                    location: 1,
-                    value: 0
-                },
-                {
-                    id: 2,
-                    location: 2,
-                    value: 0
-                },
-                {
-                    id: 3,
-                    location: 3,
-                    value: 1
-                },
-                {
-                    id: 4,
-                    location: 4,
-                    value: 1
-                },
-                {
-                    id: 5,
-                    location: 5,
-                    value: 2
-                },
-                {
-                    id: 6,
-                    location: 6,
-                    value: 2
-                },
-                {
-                    id: 7,
-                    location: 7,
-                    value: 3
-                },
-                {
-                    id: 8,
-                    location: 8,
-                    value: 3
-                },
-            ],
-            twoDot: [
-                {
-                    id: 9,
-                    location: 9,
-                    value: 4
-                },
-                {
-                    id: 10,
-                    location: 10,
-                    value: 4
-                },
-                {
-                    id: 11,
-                    location: 11,
-                    value: 5
-                },
-                {
-                    id: 12,
-                    location: 12,
-                    value: 5
-                },
-                {
-                    id: 13,
-                    location: 13,
-                    value: 6
-                },
-                {
-                    id: 14,
-                    location: 14,
-                    value: 6
-                },
-                {
-                    id: 15,
-                    location: 15,
-                    value: 7
-                },
-                {
-                    id: 16,
-                    location: 16,
-                    value: 7
-                },
-            ]
-        }
+        round: 1,
+        tiles: tileGenerator(),
     },
-    // currentRound: 'MAIN_GAME'
-    // currentPlayer: 'Rob',
-    // currentStep: 'ROLL',
-    // dice: [],
-    // players: [
-    //    {
-    //       name: 'Alex',
-    //       mapPosition: 14,
-    //       treasure is picked up for Alex
-    //       ...
-    //    }
-    // ],
-    // treasure: [
-    //    treasure Alex picked up is not available
-    // ]
-    // currentUser: null,
-    // theme: "light",
-    // settings: {},
 };
 
 export type ApplicationAction = LoginAction | LogoutAction;
@@ -153,6 +94,8 @@ export interface LoginAction {
 export interface LogoutAction {
     type: ActionType.LOGOUT;
 }
+
+
 
 export const ApplicationContextReducer: Reducer<
     GameState,
@@ -177,3 +120,15 @@ export const ApplicationContextReducer: Reducer<
 export const ApplicationContext = React.createContext<
     [GameState, React.Dispatch<ApplicationAction>]
 >([DefaultGameState, () => {}]);
+
+
+/*
+
+OXYGEN LEVEL = OL
+PLAYER TREASURES = PT
+DISTANCE FROM SUB = DFB
+
+TURNS TAKEN = DFB/(4 - PT) 
+
+
+*/

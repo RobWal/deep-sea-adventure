@@ -1,0 +1,10 @@
+.button-number-of-players {
+    width: 75px;
+    height: 75px;
+    background-color: #2ad2c5;
+    color: white;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 50px;
+    border: none;
+    border-radius: 5px;
+}

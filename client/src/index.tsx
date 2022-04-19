@@ -3,6 +3,9 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import GameContainer from './components/pages/GameContainer';
+import HomeScreen from './components/pages/HomeScreen';
 
 
 const root = ReactDOM.createRoot(
@@ -10,7 +13,9 @@ const root = ReactDOM.createRoot(
 );
 root.render(
   <React.StrictMode>
-    <App />
+     <BrowserRouter>
+          <App />
+        </BrowserRouter>
   </React.StrictMode>
 );
 
