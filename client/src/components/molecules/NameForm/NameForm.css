@@ -12,3 +12,22 @@
     display: flex;
     justify-content: space-evenly;
 }
+
+input {
+    border-radius: 2px;
+    border-width: 5px;
+    border-color: white;
+    border-top: 0;
+    border-left: 0;
+    border-right: 0;
+    background-color: #004489;
+    color: white;
+    font-size: 35px;
+    text-align: center;
+    font-family: 'Open Sans', sans-serif;
+    margin: 0 0 20px 0;
+}
+
+input:focus {
+    outline: none;
+}

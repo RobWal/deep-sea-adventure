@@ -1,6 +1,5 @@
 import React, { Reducer } from "react";
 
-// TODO: move this type somewhere
 export interface User {
     name: string;
 }
@@ -8,6 +7,7 @@ export interface User {
 export enum ActionType {
     LOGIN = "login",
     LOGOUT = "logout",
+    ADD_USER = "add_user",
 }
 
 export interface GameState {
@@ -53,21 +53,23 @@ export const tileGenerator = () => {
                 id: i+(index*numberOfTiles) + 1,
                 location: i+(index*numberOfTiles) + 1,
                 value: treasureValues[i],
-                // value: Math.floor(Math.random()*(type.max - type.min + 1)) + type.min
             })
         }
     })
     return tiles;
 }
 
-// 0-3, 4-7, 
+export const playersGenerator = () => {
+    console.log('WOO I AM HERE')
+    const numberOfPlayers = 1;
+}
 
 export const DefaultGameState: GameState = {
     gameState: {
         currentRound: 1,
         currentPlayer: 'PLACEHOLDER',
         currentStep: 'PLACEHOLDER',
-        dice: [],
+        dice: [1, 3],
         players: [
             {
                 name: 'Sandy',
@@ -82,7 +84,7 @@ export const DefaultGameState: GameState = {
     },
 };
 
-export type ApplicationAction = LoginAction | LogoutAction;
+export type GameAction = LoginAction | LogoutAction;
 
 export interface LoginAction {
     type: ActionType.LOGIN;
@@ -95,11 +97,17 @@ export interface LogoutAction {
     type: ActionType.LOGOUT;
 }
 
+export interface AddUserAction {
+    type: ActionType.ADD_USER;
+    payload: {
+        userName: User;
+    };
+}
 
 
-export const ApplicationContextReducer: Reducer<
+export const GameContextReducer: Reducer<
     GameState,
-    ApplicationAction
+    GameAction
 > = (state, action) => {
     switch (action.type) {
         case ActionType.LOGIN:
@@ -117,8 +125,8 @@ export const ApplicationContextReducer: Reducer<
     }
 };
 
-export const ApplicationContext = React.createContext<
-    [GameState, React.Dispatch<ApplicationAction>]
+export const GameContext = React.createContext<
+    [GameState, React.Dispatch<GameAction>]
 >([DefaultGameState, () => {}]);
 
 
