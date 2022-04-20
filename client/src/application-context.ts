@@ -1,25 +1,27 @@
 import React, { Reducer } from "react";
 
-export interface User {
-    name: string;
+export interface Players {
+    name: string,
+    mapPosition: number,
+    treasure: [],
+    score: number,
+    settings: {},
+    color: string,
 }
 
 export enum ActionType {
-    LOGIN = "login",
-    LOGOUT = "logout",
-    ADD_USER = "add_user",
+    ADD_PLAYER = "add_player",
 }
 
 export interface GameState {
-    gameState: {
-        currentRound: number,
-        currentPlayer: string,
-        currentStep: string,
-        dice: number[],
-        players: object[],
-        round: number,
-        tiles: any[],
-    };
+    currentRound: number,
+    currentPlayer: number,
+    totalPlayers: number,
+    currentStep: string,
+    dice: number[],
+    players: Players[],
+    round: number,
+    tiles: any[],
 }
 
 export const tileGenerator = () => {
@@ -61,46 +63,66 @@ export const tileGenerator = () => {
 
 export const playersGenerator = () => {
     console.log('WOO I AM HERE')
-    const numberOfPlayers = 1;
 }
 
 export const DefaultGameState: GameState = {
-    gameState: {
-        currentRound: 1,
-        currentPlayer: 'PLACEHOLDER',
-        currentStep: 'PLACEHOLDER',
-        dice: [1, 3],
-        players: [
-            {
-                name: 'Sandy',
-                mapPosition: 0,
-                treasure: [],
-                score: 0,
-                settings: {},
-            }
-        ],
-        round: 1,
-        tiles: tileGenerator(),
-    },
+    currentRound: 1,
+    currentPlayer: 0,
+    totalPlayers: 2,
+    currentStep: '',
+    dice: [1, 3],
+    players: [
+        {
+            name: 'Tom',
+            mapPosition: 0,
+            treasure: [],
+            score: 0,
+            settings: {},
+            color: '#FF1616',
+        },
+        {
+            name: 'Sandy',
+            mapPosition: 0,
+            treasure: [],
+            score: 0,
+            settings: {},
+            color: '#FFDE59',
+        },
+        {
+            name: 'Cha-Cha',
+            mapPosition: 0,
+            treasure: [],
+            score: 0,
+            settings: {},
+            color: '#008037',
+        },
+        {
+            name: 'Danny',
+            mapPosition: 0,
+            treasure: [],
+            score: 0,
+            settings: {},
+            color: '#5E17EB',
+        },
+        {
+            name: 'Frenchy',
+            mapPosition: 0,
+            treasure: [],
+            score: 0,
+            settings: {},
+            color: '#000000',
+        }
+    ],
+    round: 1,
+    tiles: tileGenerator(),
 };
 
-export type GameAction = LoginAction | LogoutAction;
-
-export interface LoginAction {
-    type: ActionType.LOGIN;
-    payload: {
-        user: User;
-    };
-}
-
-export interface LogoutAction {
-    type: ActionType.LOGOUT;
-}
+export type GameAction = AddUserAction;
 
 export interface AddUserAction {
-    type: ActionType.ADD_USER;
+    type: ActionType.ADD_PLAYER;
     payload: {
-        userName: User;
+        userName: Players["name"];
     };
 }
 
@@ -109,34 +131,28 @@ export const GameContextReducer: Reducer<
     GameState,
     GameAction
 > = (state, action) => {
+    console.log(state);
+    console.log(state.players)
     switch (action.type) {
-        case ActionType.LOGIN:
+        case ActionType.ADD_PLAYER:
             return {
                 ...state,
-                currentUser: action.payload.user,
-                theme: "dark",
-            };
-        case ActionType.LOGOUT:
-            return {
-                ...state,
-                currentUser: null,
-                theme: "light",
+                players: [ 
+                {
+                    name: action.payload.userName,
+                    mapPosition: 0,
+                    treasure: [],
+                    score: 0,
+                    settings: {},
+                    color: '#FFFFFF',
+                },
+                ...state.players,
+            ]
             };
     }
 };
+// action.payload.userName
 
 export const GameContext = React.createContext<
     [GameState, React.Dispatch<GameAction>]
 >([DefaultGameState, () => {}]);
-
-
-/*
-
-OXYGEN LEVEL = OL
-PLAYER TREASURES = PT
-DISTANCE FROM SUB = DFB
-
-TURNS TAKEN = DFB/(4 - PT) 
-
-
-*/

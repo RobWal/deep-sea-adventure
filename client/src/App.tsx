@@ -12,17 +12,6 @@ function App() {
       GameContextReducer,
       DefaultGameState
     );
-    console.log('DefaultGameState in App.tsx');
-    console.log(DefaultGameState);
-    // useEffect(()=> {
-    //   appAction({
-    //     type: ActionType.START_GAME,
-    //     payload: {
-    //       userName: userName,
-    //       totalPlayers: totalPlayers,
-    //     }
-    //   })
-    // }, []);
     return (
       <div className="App">
         <GameContext.Provider value={[gameState, gameAction]}>
@@ -30,9 +19,6 @@ function App() {
               <Route path="/" element={<HomeScreen />}/>
               <Route path="/gamecontainer" element={<GameContainer />}/>
             </Routes>
-          {/* {<HomeScreen /> ? <HomeScreen /> : <GameContainer />}
-          <HomeScreen /> 
-          <GameContainer /> */}
         </GameContext.Provider>
       </div>
     );

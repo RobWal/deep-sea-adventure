@@ -12,18 +12,19 @@ import {
 
 const NamePlayersContainer = () => {
     const [appState, appAction] = useContext(GameContext);
-    const [users, addUser] = useState("");
 
-    const addNewUser = (value: string) => {
-        addUser(users + value)
-        console.log('Users: ')
-        console.log(users)
+    const addNewUser = (value: any) => {
+        appAction({
+        type: ActionType.ADD_PLAYER,
+        payload: {
+          userName: value,
+        }
+      })
     }
 
     const addNumberOfPlayers = (value: number) => {
-        console.log(`We're in here! ${value}`)
-        console.log('DefaultGameState in NamePlayersContainer.tsx');
-        console.log(DefaultGameState);
+        // appState.totalPlayers 
+        console.log('ARE WE HERE?')
     }
 
     return (

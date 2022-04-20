@@ -1,0 +1,12 @@
+.score-board-container {
+    position: absolute;
+    right: 0px;
+    bottom: 50px;
+    /* background-color: brown; */
+    width: 800px;
+    min-width: 800px;
+    height: 300px;
+    min-height: 300px;
+    display: flex;
+    flex-wrap: wrap;
+}

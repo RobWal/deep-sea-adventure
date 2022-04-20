@@ -1,6 +1,11 @@
 import './H1.css'
 
-const H1 = ({text, style}: any) => {
+type H1 = {
+    text: string,
+    style: any,
+}
+
+const H1 = ({text, style}: H1) => {
     return (
         <h1 className='H1' style={style}>{text}</h1>
     )

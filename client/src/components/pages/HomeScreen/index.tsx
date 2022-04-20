@@ -1,25 +1,21 @@
-// import { useNavigate } from "react-router-dom"
 import { useState } from 'react';
-import DSALogo from '../../atoms/DSALogo';
+import DSALogo from '../../atoms/VisualAssets/DSALogo';
 import H1 from '../../atoms/H1';
-import NoTreasure from '../../atoms/NoTreasure';
-import OxygenSubmarine from '../../atoms/OxygenSubmarine';
+import NoTreasure from '../../atoms/VisualAssets/NoTreasure';
+import OxygenSubmarine from '../../atoms/VisualAssets/OxygenSubmarine';
 import TealOverlay from '../../atoms/TealOverlay';
-import TreasureFour from '../../atoms/TreasureFour';
-import TreasureOne from '../../atoms/TreasureOne';
-import TreasureThree from '../../atoms/TreasureThree';
-import TreasureTwo from '../../atoms/TreasureTwo';
+import TreasureFour from '../../atoms/VisualAssets/TreasureFour';
+import TreasureOne from '../../atoms/VisualAssets/TreasureOne';
+import TreasureThree from '../../atoms/VisualAssets/TreasureThree';
+import TreasureTwo from '../../atoms/VisualAssets/TreasureTwo';
 import NamePlayersContainer from '../../organisms/NamePlayersContainer';
 import './HomeScreen.css'
 
 
 const HomeScreen = () => {
     const [playerIsReady, setPlayerIsReady] = useState(false);
-    console.log(playerIsReady)
-    // let navigate = useNavigate();
     return (
         <div>
-            {/* <div className="home-screen" onClick={()=>{navigate("/gamecontainer")}}></div> */}
             <div className="home-screen" onClick={()=>{setPlayerIsReady(true)}}>
                 <div className='text-container'>
                     <H1 text={'DEEP SEA ADVENTURE'} style={{marginTop: '20px', fontSize:'82px', color: '#2AD2C5'}}/>
