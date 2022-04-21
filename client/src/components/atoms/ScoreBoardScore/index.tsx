@@ -1,8 +1,8 @@
 import './ScoreBoardScore.css'
 
-const ScoreBoardScore = ({style}: any) => {
+const ScoreBoardScore = ({style, score}: any) => {
     return (
-        <div className='score-board-score' style={style}></div>
+        <div className='score-board-score' style={style}>{score}</div>
     )
 }
 

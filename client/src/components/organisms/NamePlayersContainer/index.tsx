@@ -22,9 +22,18 @@ const NamePlayersContainer = () => {
       })
     }
 
-    const addNumberOfPlayers = (value: number) => {
-        // appState.totalPlayers 
-        console.log('ARE WE HERE?')
+    const setTotalPlayers = (value: number) => {
+        appAction({
+        type: ActionType.SET_TOTAL_PLAYERS,
+        payload: {
+          totalPlayers: value,
+        }})
+        appAction({
+            type: ActionType.GENERATE_PLAYERS,
+            payload: {
+                totalPlayers: value,
+            }
+        })
     }
 
     return (
@@ -32,7 +41,7 @@ const NamePlayersContainer = () => {
             <div className='name-players-container'>
                 <HelpButton style={{position: 'absolute', top:'15px', right:'0px'}}/>
                 <EscapeButton style={{position: 'absolute', top:'15px', left:'15px'}}/>
-                <NameForm addOpponents={addNumberOfPlayers} addUser={addNewUser} style={{position: 'absolute', top:'50px'}}/>
+                <NameForm setTotalPlayers={setTotalPlayers} addUser={addNewUser} style={{position: 'absolute', top:'50px'}}/>
             </div>
         </div>
     )

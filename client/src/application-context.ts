@@ -3,14 +3,10 @@ import React, { Reducer } from "react";
 export interface Players {
     name: string,
     mapPosition: number,
-    treasure: [],
-    score: number,
+    treasure: number[],
+    score: number | string,
     settings: {},
     color: string,
-}
-
-export enum ActionType {
-    ADD_PLAYER = "add_player",
 }
 
 export interface GameState {
@@ -61,8 +57,27 @@ export const tileGenerator = () => {
     return tiles;
 }
 
-export const playersGenerator = () => {
-    console.log('WOO I AM HERE')
+export const playerGenerator = (totalPlayers: number) => {
+    const botNameArray = ['Claus', 'Stan', 'Francine', 'Hayley', 'Steve', 'Roger', 'Jeff', 'Billy-Bob', 'Lewis', 'Greg', 'Terry', 'Toshi', 'Avery']
+    const botColorArray = ['#FF1616', '#FFDE59', '#008037', '#5E17EB', '#000000'];
+    let newPlayersArray = [];
+    let nameArrayIndex = 0;
+    let colorArrayIndex = 0;
+    for(let i = 0; i < totalPlayers - 1; i++){
+        nameArrayIndex = (Math.floor(Math.random() * botNameArray.length));
+        colorArrayIndex = (Math.floor(Math.random() * botColorArray.length));
+        newPlayersArray.push({
+            name: botNameArray[nameArrayIndex],
+            mapPosition: 0,
+            treasure: [],
+            score: 0,
+            settings: {},
+            color: botColorArray[colorArrayIndex],
+        })
+        botColorArray.splice(colorArrayIndex, 1)
+        botNameArray.splice(nameArrayIndex, 1)
+    }
+    return (newPlayersArray)
 }
 
 export const DefaultGameState: GameState = {
@@ -71,53 +86,18 @@ export const DefaultGameState: GameState = {
     totalPlayers: 2,
     currentStep: '',
     dice: [1, 3],
-    players: [
-        {
-            name: 'Tom',
-            mapPosition: 0,
-            treasure: [],
-            score: 0,
-            settings: {},
-            color: '#FF1616',
-        },
-        {
-            name: 'Sandy',
-            mapPosition: 0,
-            treasure: [],
-            score: 0,
-            settings: {},
-            color: '#FFDE59',
-        },
-        {
-            name: 'Cha-Cha',
-            mapPosition: 0,
-            treasure: [],
-            score: 0,
-            settings: {},
-            color: '#008037',
-        },
-        {
-            name: 'Danny',
-            mapPosition: 0,
-            treasure: [],
-            score: 0,
-            settings: {},
-            color: '#5E17EB',
-        },
-        {
-            name: 'Frenchy',
-            mapPosition: 0,
-            treasure: [],
-            score: 0,
-            settings: {},
-            color: '#000000',
-        }
-    ],
+    players: [],
     round: 1,
     tiles: tileGenerator(),
 };
 
-export type GameAction = AddUserAction;
+export enum ActionType {
+    ADD_PLAYER = "add_player",
+    SET_TOTAL_PLAYERS = "set_total_players",
+    GENERATE_PLAYERS = "generate_players"
+}
+
+export type GameAction = AddUserAction | SetTotalPlayersAction | GeneratePlayersAction;
 
 export interface AddUserAction {
     type: ActionType.ADD_PLAYER;
@@ -126,13 +106,24 @@ export interface AddUserAction {
     };
 }
 
+export interface SetTotalPlayersAction {
+    type: ActionType.SET_TOTAL_PLAYERS;
+    payload: {
+        totalPlayers: number;
+    };
+}
+
+export interface GeneratePlayersAction {
+    type: ActionType.GENERATE_PLAYERS;
+    payload: {
+        totalPlayers: number;
+    }
+}
 
 export const GameContextReducer: Reducer<
     GameState,
     GameAction
 > = (state, action) => {
-    console.log(state);
-    console.log(state.players)
     switch (action.type) {
         case ActionType.ADD_PLAYER:
             return {
@@ -149,10 +140,39 @@ export const GameContextReducer: Reducer<
                 ...state.players,
             ]
             };
+        case ActionType.SET_TOTAL_PLAYERS:
+            return {
+                ...state,
+                totalPlayers: action.payload.totalPlayers,
+            }
+        case ActionType.GENERATE_PLAYERS:
+            let playerArray = playerGenerator(action.payload.totalPlayers);
+            return {
+                ...state,
+                players: [
+                ...playerArray,
+                ...state.players,
+            ]
+            };
     }
 };
-// action.payload.userName
 
 export const GameContext = React.createContext<
     [GameState, React.Dispatch<GameAction>]
 >([DefaultGameState, () => {}]);
+
+// return {
+//                 ...state,
+//                 players: [
+//                     {
+//                         name: 'action.payload.userName',
+//                         mapPosition: 0,
+//                         treasure: [],
+//                         score: 0,
+//                         settings: {},
+//                         color: '#FFFFFF',
+//                     },
+
+//                 ...state.players,
+//             ]
+//             };

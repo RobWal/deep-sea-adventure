@@ -4,7 +4,7 @@ import ButtonNumberOfPlayers from "../../atoms/ButtonNumberOfPlayers";
 import H1 from "../../atoms/H1";
 import './NameForm.css'
 
-const NameForm = ({style, addUser, addOpponents}: any) => {
+const NameForm = ({style, addUser, setTotalPlayers}: any) => {
     let navigate = useNavigate();
     const [playerName, setPlayerName] = useState("");
     const handleChange = (event: any) => {
@@ -12,7 +12,7 @@ const NameForm = ({style, addUser, addOpponents}: any) => {
     }
 
     const handleSubmit = (e: any) => {
-        addOpponents(e.target.innerHTML)
+        setTotalPlayers(e.target.innerHTML)
         addUser(playerName);
         navigate("/gamecontainer");
     }

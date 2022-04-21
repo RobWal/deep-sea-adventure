@@ -10,3 +10,9 @@
     display: flex;
     flex-wrap: wrap;
 }
+
+.score-board-row {
+    display: flex;
+    height: 50px;
+    width: 800px;
+}
