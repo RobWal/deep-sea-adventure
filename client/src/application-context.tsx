@@ -1,23 +1,76 @@
 import React, { Reducer } from "react";
+import TreasureFour from "./components/atoms/VisualAssets/TreasureFour";
+import TreasureOne from "./components/atoms/VisualAssets/TreasureOne";
+import TreasureThree from "./components/atoms/VisualAssets/TreasureThree";
+import TreasureTwo from "./components/atoms/VisualAssets/TreasureTwo";
 
-export interface Players {
-    name: string,
-    mapPosition: number,
-    treasure: number[],
-    score: number | string,
-    settings: {},
-    color: string,
+interface PlayerTokenHomeLocations {
+    [index: number]: {
+        top: string,
+        left: string,
+    }
 }
 
-export interface GameState {
-    currentRound: number,
-    currentPlayer: number,
-    totalPlayers: number,
-    currentStep: string,
-    dice: number[],
-    players: Players[],
-    round: number,
-    tiles: any[],
+export const playerTokenHomeLocations: PlayerTokenHomeLocations = {
+    1: {top: '50px', left: '1100px',},
+    2: {top: '50px',left: '1070px',},
+    3: {top: '50px',left: '1040px',},
+    4: {top: '50px', left: '1010px',},
+    5: {top: '50px',left: '980px',},
+    6: {top: '50px',left: '950px',},
+} 
+
+interface TileLocations {
+    [index: number]: {
+        top: string,
+        left: string,
+    }
+}; 
+
+export const tileLocations: TileLocations = {
+    1: {top: '60px',left: '390px',},
+    2: {top: '40px',left: '320px',},
+    3: {top: '30px', left: '250px',},
+    4: {top: '40px',left: '180px',},
+    5: {top: '60px',left: '110px',},
+    6: {top: '120px',left: '65px',},
+    7: {top: '200px',left: '35px',},
+    8: {top: '280px',left: '45px',},
+    9: {top: '360px',left: '60px',},
+    10: {top: '440px',left: '55px',},
+    11: {top: '520px',left: '35px',},
+    12: {top: '600px',left: '55px',},
+    13: {top: '640px', left: '135px',},
+    14: {top: '620px',left: '215px',},
+    15: {top: '540px',left: '245px',},
+    16: {top: '460px',left: '265px',},
+    17: {top: '378px',left: '235px',},
+    18: {top: '300px',left: '245px',},
+    19: {top: '250px',left: '310px',},
+    20: {top: '235px',left: '390px',},
+    21: {top: '300px',left: '450px',},
+    22: {top: '380px',left: '470px',},
+    23: {top: '450px', left: '450px',},
+    24: {top: '530px',left: '430px',},
+    25: {top: '610px',left: '460px',},
+    26: {top: '630px',left: '540px',},
+    27: {top: '610px',left: '620px',},
+    28: {top: '530px',left: '640px',},
+    29: {top: '445px',left: '630px',},
+    30: {top: '360px', left: '625px',},
+    31: {top: '280px',left: '650px',},
+    32: {top: '270px',left: '730px',},
+}
+
+export interface TileTypes {
+    [index: number]: any
+}
+
+export const tileTypes: TileTypes = {
+    1: <TreasureOne />,
+    2: <TreasureTwo />,
+    3: <TreasureThree />,
+    4: <TreasureFour />,
 }
 
 export const tileGenerator = () => {
@@ -57,8 +110,18 @@ export const tileGenerator = () => {
     return tiles;
 }
 
+export interface Players {
+    id: number,
+    name: string,
+    mapPosition: number,
+    treasure: number[],
+    score: number | string,
+    settings: {},
+    color: string,
+}
+
 export const playerGenerator = (totalPlayers: number) => {
-    const botNameArray = ['Claus', 'Stan', 'Francine', 'Hayley', 'Steve', 'Roger', 'Jeff', 'Billy-Bob', 'Lewis', 'Greg', 'Terry', 'Toshi', 'Avery']
+    const botNameArray = ['Klaus', 'Stan', 'Francine', 'Hayley', 'Steve', 'Roger', 'Jeff', 'Reggie', 'Lewis', 'Greg', 'Terry', 'Toshi', 'Avery']
     const botColorArray = ['#FF1616', '#FFDE59', '#008037', '#5E17EB', '#000000'];
     let newPlayersArray = [];
     let nameArrayIndex = 0;
@@ -67,6 +130,7 @@ export const playerGenerator = (totalPlayers: number) => {
         nameArrayIndex = (Math.floor(Math.random() * botNameArray.length));
         colorArrayIndex = (Math.floor(Math.random() * botColorArray.length));
         newPlayersArray.push({
+            id: i+2,
             name: botNameArray[nameArrayIndex],
             mapPosition: 0,
             treasure: [],
@@ -78,6 +142,17 @@ export const playerGenerator = (totalPlayers: number) => {
         botNameArray.splice(nameArrayIndex, 1)
     }
     return (newPlayersArray)
+}
+
+export interface GameState {
+    currentRound: number,
+    currentPlayer: number,
+    totalPlayers: number,
+    currentStep: string,
+    dice: number[],
+    players: Players[],
+    round: number,
+    tiles: any[],
 }
 
 export const DefaultGameState: GameState = {
@@ -130,6 +205,7 @@ export const GameContextReducer: Reducer<
                 ...state,
                 players: [ 
                 {
+                    id: 1,
                     name: action.payload.userName,
                     mapPosition: 0,
                     treasure: [],
@@ -160,19 +236,3 @@ export const GameContextReducer: Reducer<
 export const GameContext = React.createContext<
     [GameState, React.Dispatch<GameAction>]
 >([DefaultGameState, () => {}]);
-
-// return {
-//                 ...state,
-//                 players: [
-//                     {
-//                         name: 'action.payload.userName',
-//                         mapPosition: 0,
-//                         treasure: [],
-//                         score: 0,
-//                         settings: {},
-//                         color: '#FFFFFF',
-//                     },
-
-//                 ...state.players,
-//             ]
-//             };

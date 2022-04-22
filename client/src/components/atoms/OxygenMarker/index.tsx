@@ -1,5 +1,3 @@
-import './OxygenMarker.css'
-
 const OxygenMarker = ({style}: any) => {
     return(
         <div style={style}>
