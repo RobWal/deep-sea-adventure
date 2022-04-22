@@ -1,7 +1,6 @@
 import './PlayerToken.css'
 
 const PlayerToken = ({style, fill}: any) => {
-    console.log(style)
     return (
         <div className='player-token' style={style}>
             <svg xmlns="http://www.w3.org/2000/svg" width='24' height='47' version="1.1" fill={fill} >

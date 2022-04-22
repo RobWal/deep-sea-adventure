@@ -10,7 +10,6 @@ const PlayerTokens = () => {
         <div className="troubleshooting">
             {appState.players.map((player: Players, index) => {
                 if((tileLocations[player.mapPosition]) === undefined){
-                    console.log('we are in here')
                     return (
                             <PlayerToken key={index} style={{top: playerTokenHomeLocations[player.id].top, left: playerTokenHomeLocations[player.id].left}} fill={player.color}/>
                     )

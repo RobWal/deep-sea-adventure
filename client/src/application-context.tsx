@@ -20,6 +20,42 @@ export const playerTokenHomeLocations: PlayerTokenHomeLocations = {
     6: {top: '50px',left: '950px',},
 } 
 
+interface OxygenTokenLocations {
+    [index: number]: {
+        top: string,
+        left: string,
+    }
+}
+
+export const oxygenTokenLocations: OxygenTokenLocations  = {
+    0: {top: '185px',left: '665px',},
+    1: {top: '155px',left: '747px',},
+    2: {top: '155px',left: '715px',},
+    3: {top: '155px', left: '682px',},
+    4: {top: '155px',left: '648px',},
+    5: {top: '155px',left: '615px',},
+    6: {top: '155px',left: '580px',},
+    7: {top: '124px',left: '532px',},
+    8: {top: '124px',left: '565px',},
+    9: {top: '124px',left: '598px',},
+    10: {top: '124px',left: '631px',},
+    11: {top: '124px',left: '664px',},
+    12: {top: '124px',left: '697px',},
+    13: {top: '124px', left: '730px',},
+    14: {top: '124px',left: '763px',},
+    15: {top: '124px',left: '796px',},
+    16: {top: '93px',left: '811px',},
+    17: {top: '93px',left: '778px',},
+    18: {top: '93px',left: '745px',},
+    19: {top: '93px',left: '712px',},
+    20: {top: '93px',left: '679px',},
+    21: {top: '93px',left: '646px',},
+    22: {top: '93px',left: '613px',},
+    23: {top: '93px', left: '580px',},
+    24: {top: '93px',left: '547px',},
+    25: {top: '93px',left: '513px',},
+}
+
 interface TileLocations {
     [index: number]: {
         top: string,
@@ -153,6 +189,7 @@ export interface GameState {
     players: Players[],
     round: number,
     tiles: any[],
+    remainingOxygen: number,
 }
 
 export const DefaultGameState: GameState = {
@@ -164,6 +201,7 @@ export const DefaultGameState: GameState = {
     players: [],
     round: 1,
     tiles: tileGenerator(),
+    remainingOxygen: 25,
 };
 
 export enum ActionType {
