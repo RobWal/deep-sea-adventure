@@ -35,7 +35,6 @@ const NamePlayersContainer = () => {
             }
         })
     }
-
     return (
         <div>
             <div className='name-players-container'>

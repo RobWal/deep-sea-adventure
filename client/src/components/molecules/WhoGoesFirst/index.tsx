@@ -1,33 +1,43 @@
 import { useContext, useEffect, useState } from 'react';
-import { GameContext, Players } from '../../../application-context';
+import { ActionType, GameContext, Players } from '../../../application-context';
 import H1 from '../../atoms/H1';
 import PlayerToken from '../../atoms/PlayerToken';
+import PlayerTokenBig from '../../atoms/PlayerTokenBig';
 import EscapeButton from '../EscapeButton';
 import HelpButton from '../HelpButton';
 import NameForm from '../NameForm';
 import './WhoGoesFirst.css'
 
-
-
 const WhoGoesFirst = ({hidden}: any) => {
     const [appState, appAction] = useContext(GameContext);
-    const [firstDecision, setFirstDecision] = useState(false);
-
-    // TO DO WORK ON SHUFFLER --> NEEDS TO BE MADE INTO A FUNCTION THAT'S CALLED VIA APPACTION, OR DONE IN THE APPSTATE. 
-    // const shufflePlayers = () => {
-    //     let currentIndex = appState.players.length, randomIndex;
-    //     while(currentIndex != 0){
-    //         randomIndex = Math.floor(Math.random() * currentIndex);
-    //         currentIndex--;
-    //         [appState[currentIndex], array[randomIndex]] = [
-    //         array[randomIndex], array[currentIndex]];
-    //     }
-    //     return array;
-    // }
+    const [displayWhoGoesFirst, setDisplayWhoGoesFirst] = useState(false);
+    
+    let arrayForShuffling: Players[] = [];
+    function shuffleArray() {
+        arrayForShuffling = [...appState.players];
+        for (var i = arrayForShuffling.length - 1; i > 0; i--) {
+            var j = Math.floor(Math.random() * (i + 1));
+            var temp = arrayForShuffling[i];
+            arrayForShuffling[i] = arrayForShuffling[j];
+            arrayForShuffling[j] = temp;
+        }
+    }
+    shuffleArray();
+    console.log(arrayForShuffling);
+    const shufflePlayers = (array: Players[]) => {
+        appAction({
+            type: ActionType.SHUFFLE_PLAYERS,
+            payload: {
+                shuffledPlayersArray: array,
+            }
+        })
+    }
+    
     useEffect(() => {
         setTimeout(() => {
-            setFirstDecision(true)
-        }, 1500)
+            setDisplayWhoGoesFirst(true);
+            shufflePlayers(arrayForShuffling);
+        }, 3000)
     }, [])
     if(hidden){
         return (
@@ -37,7 +47,7 @@ const WhoGoesFirst = ({hidden}: any) => {
         return (
             <div>
                 <div className='who-goes-first' >
-                    <H1 style={{display: 'block', textAlign: 'center', color: 'white', fontSize: '45px', margin: '50px 0 10px 0'}} text='Who will go first?'/>
+                    {displayWhoGoesFirst ?  <H1 text={`${appState.players[0].name} is going first!`} style={{display: 'block', textAlign: 'center', color: 'white', fontSize: '45px', margin: '50px 0 10px 0'}}></H1> : <H1 style={{display: 'block', textAlign: 'center', color: 'white', fontSize: '45px', margin: '50px 0 10px 0'}} text='Who will go first?'/>}
                     <div className='player-tokens-container'>
                         {appState.players.map((player: Players, index) => {
                             return (
@@ -45,6 +55,7 @@ const WhoGoesFirst = ({hidden}: any) => {
                             )
                         })}
                     </div>
+                    {displayWhoGoesFirst ? <PlayerTokenBig style={{position: 'absolute', top: '140px'}} fill={appState.players[0].color}/> : <></>}
                 </div>
             </div>
         )

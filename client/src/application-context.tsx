@@ -207,12 +207,13 @@ export const DefaultGameState: GameState = {
 export enum ActionType {
     ADD_PLAYER = "add_player",
     SET_TOTAL_PLAYERS = "set_total_players",
-    GENERATE_PLAYERS = "generate_players"
+    GENERATE_PLAYERS = "generate_players",
+    SHUFFLE_PLAYERS = "shuffle_players"
 }
 
-export type GameAction = AddUserAction | SetTotalPlayersAction | GeneratePlayersAction;
+export type GameAction = AddPlayerAction | SetTotalPlayersAction | GeneratePlayersAction | ShufflePlayers;
 
-export interface AddUserAction {
+export interface AddPlayerAction {
     type: ActionType.ADD_PLAYER;
     payload: {
         userName: Players["name"];
@@ -230,6 +231,13 @@ export interface GeneratePlayersAction {
     type: ActionType.GENERATE_PLAYERS;
     payload: {
         totalPlayers: number;
+    }
+}
+
+export interface ShufflePlayers {
+    type: ActionType.SHUFFLE_PLAYERS;
+    payload: {
+        shuffledPlayersArray: Players[];
     }
 }
 
@@ -253,12 +261,12 @@ export const GameContextReducer: Reducer<
                 },
                 ...state.players,
             ]
-            };
+        };
         case ActionType.SET_TOTAL_PLAYERS:
             return {
                 ...state,
                 totalPlayers: action.payload.totalPlayers,
-            }
+        }
         case ActionType.GENERATE_PLAYERS:
             let playerArray = playerGenerator(action.payload.totalPlayers);
             return {
@@ -267,7 +275,14 @@ export const GameContextReducer: Reducer<
                 ...playerArray,
                 ...state.players,
             ]
-            };
+        }
+        case ActionType.SHUFFLE_PLAYERS:
+            return {
+                ...state, 
+                players: [
+                    ...action.payload.shuffledPlayersArray
+            ]
+        }
     }
 };
 

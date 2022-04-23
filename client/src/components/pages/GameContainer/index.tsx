@@ -29,7 +29,7 @@ const GameContainer = () => {
         }, 1500)
         setTimeout(() => {
             setWhoGoesFirstVisibility(true)
-        }, 4500)
+        }, 9000)
     }, []);
     console.log(appState)
     return (
