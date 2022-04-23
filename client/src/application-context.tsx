@@ -193,10 +193,10 @@ export interface GameState {
 }
 
 export const DefaultGameState: GameState = {
-    currentRound: 1,
-    currentPlayer: 0,
+    currentRound: 0,
+    currentPlayer: -1,
     totalPlayers: 2,
-    currentStep: '',
+    currentStep: 'preStart',
     dice: [1, 3],
     players: [],
     round: 1,
@@ -204,14 +204,29 @@ export const DefaultGameState: GameState = {
     remainingOxygen: 25,
 };
 
+// object with key of currentStep value, value of the string to return 
+
+/*
+isWinner
+oxygen
+Have a useEffect, oxygen in the array to check to see if we can keep playing. 
+Individual use effects to keep track of whatever might end the game, eg oxygen = 0, everybody back on board, 
+*/
+
 export enum ActionType {
     ADD_PLAYER = "add_player",
     SET_TOTAL_PLAYERS = "set_total_players",
     GENERATE_PLAYERS = "generate_players",
-    SHUFFLE_PLAYERS = "shuffle_players"
+    SHUFFLE_PLAYERS = "shuffle_players",
+    START_GAME = "start_game",
+    SET_CURRENT_PLAYER = "set_current_player",
+    ROLL_DICE = "roll_dice",
+    MOVE_PLAYER_TOKEN = "move_player_token",
+    SHOW_DICE_RESULTS = "show_dice_results"
 }
 
-export type GameAction = AddPlayerAction | SetTotalPlayersAction | GeneratePlayersAction | ShufflePlayers;
+
+export type GameAction = AddPlayerAction | SetTotalPlayersAction | GeneratePlayersAction | ShufflePlayers | StartGame | SetCurrentPlayer | RollDice | MovePlayerToken | ShowDiceResults;
 
 export interface AddPlayerAction {
     type: ActionType.ADD_PLAYER;
@@ -239,6 +254,33 @@ export interface ShufflePlayers {
     payload: {
         shuffledPlayersArray: Players[];
     }
+}
+
+export interface StartGame {
+    type: ActionType.START_GAME;
+}
+
+export interface SetCurrentPlayer {
+    type: ActionType.SET_CURRENT_PLAYER;
+    payload: {
+        currentPlayer: number,
+    }
+}
+
+export interface RollDice {
+    type: ActionType.ROLL_DICE;
+}
+
+export interface MovePlayerToken {
+    type: ActionType.MOVE_PLAYER_TOKEN;
+    payload: {
+        newMapPosition: number,
+        playerToMove: number,
+    }
+}
+
+export interface ShowDiceResults {
+    type: ActionType.SHOW_DICE_RESULTS;
 }
 
 export const GameContextReducer: Reducer<
@@ -283,6 +325,41 @@ export const GameContextReducer: Reducer<
                     ...action.payload.shuffledPlayersArray
             ]
         }
+        case ActionType.START_GAME: 
+            return {
+                ...state,
+                currentStep: 'rolling',
+                currentPlayer: 0,
+                currentRound: 1
+            }
+        case ActionType.SET_CURRENT_PLAYER:
+            return {
+                ...state,
+                currentPlayer: action.payload.currentPlayer
+            }
+        case ActionType.ROLL_DICE:
+            let firstDie = (Math.ceil(Math.random() * 3))
+            let secondDie = (Math.ceil(Math.random() * 3))
+            return {
+                ...state,
+                currentStep: 'rolled',
+                dice: [firstDie,secondDie]
+            }
+        case ActionType.MOVE_PLAYER_TOKEN:
+            let updatedPlayers = [...state.players];
+            updatedPlayers[action.payload.playerToMove] = {
+                ...updatedPlayers[action.payload.playerToMove],
+                mapPosition: action.payload.newMapPosition
+            };    
+            return {
+                ...state,
+                players: updatedPlayers,
+            }
+        case ActionType.SHOW_DICE_RESULTS:
+            return {
+                ...state,
+                currentStep: 'moving',
+            }
     }
 };
 

@@ -1,0 +1,13 @@
+.announcer-button {
+    position: relative;
+    width: 200px;
+    height: 65px;
+    top: 20px;
+    left: 65px;
+    background-color: #2ad2c5;
+    border-radius: 5px;
+    border: 0px;
+    color: white;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 22px;
+}

@@ -3,9 +3,6 @@ import { ActionType, GameContext, Players } from '../../../application-context';
 import H1 from '../../atoms/H1';
 import PlayerToken from '../../atoms/PlayerToken';
 import PlayerTokenBig from '../../atoms/PlayerTokenBig';
-import EscapeButton from '../EscapeButton';
-import HelpButton from '../HelpButton';
-import NameForm from '../NameForm';
 import './WhoGoesFirst.css'
 
 const WhoGoesFirst = ({hidden}: any) => {
@@ -21,9 +18,14 @@ const WhoGoesFirst = ({hidden}: any) => {
             arrayForShuffling[i] = arrayForShuffling[j];
             arrayForShuffling[j] = temp;
         }
+        for (var i = arrayForShuffling.length - 1; i > 0; i--) {
+            var j = Math.floor(Math.random() * (i + 1));
+            var temp = arrayForShuffling[i];
+            arrayForShuffling[i] = arrayForShuffling[j];
+            arrayForShuffling[j] = temp;
+        }
     }
     shuffleArray();
-    console.log(arrayForShuffling);
     const shufflePlayers = (array: Players[]) => {
         appAction({
             type: ActionType.SHUFFLE_PLAYERS,
@@ -32,12 +34,11 @@ const WhoGoesFirst = ({hidden}: any) => {
             }
         })
     }
-    
     useEffect(() => {
         setTimeout(() => {
             setDisplayWhoGoesFirst(true);
             shufflePlayers(arrayForShuffling);
-        }, 3000)
+        }, 5000)
     }, [])
     if(hidden){
         return (

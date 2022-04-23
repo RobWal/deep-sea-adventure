@@ -15,7 +15,7 @@ const PlayerTokens = () => {
                     )
                 }
                 return (
-                        <PlayerToken key={index} style={{top: tileLocations[player.mapPosition].top, left: tileLocations[player.mapPosition].left}} fill={player.color}/>
+                        <PlayerToken key={index} style={{top: tileLocations[player.mapPosition].top, left: tileLocations[player.mapPosition].left, paddingTop: '5px', paddingLeft: '16px'}} fill={player.color}/>
                  ) 
                 })} 
         </div>
