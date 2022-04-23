@@ -204,15 +204,6 @@ export const DefaultGameState: GameState = {
     remainingOxygen: 25,
 };
 
-// object with key of currentStep value, value of the string to return 
-
-/*
-isWinner
-oxygen
-Have a useEffect, oxygen in the array to check to see if we can keep playing. 
-Individual use effects to keep track of whatever might end the game, eg oxygen = 0, everybody back on board, 
-*/
-
 export enum ActionType {
     ADD_PLAYER = "add_player",
     SET_TOTAL_PLAYERS = "set_total_players",
@@ -222,11 +213,12 @@ export enum ActionType {
     SET_CURRENT_PLAYER = "set_current_player",
     ROLL_DICE = "roll_dice",
     MOVE_PLAYER_TOKEN = "move_player_token",
-    SHOW_DICE_RESULTS = "show_dice_results"
+    SHOW_DICE_RESULTS = "show_dice_results",
+    TREASURE_PICKUP_DECISION = "treasure_pickup_decision"
 }
 
 
-export type GameAction = AddPlayerAction | SetTotalPlayersAction | GeneratePlayersAction | ShufflePlayers | StartGame | SetCurrentPlayer | RollDice | MovePlayerToken | ShowDiceResults;
+export type GameAction = AddPlayerAction | SetTotalPlayersAction | GeneratePlayersAction | ShufflePlayers | StartGame | SetCurrentPlayer | RollDice | MovePlayerToken | ShowDiceResults | TreasurePickupDecision;
 
 export interface AddPlayerAction {
     type: ActionType.ADD_PLAYER;
@@ -281,6 +273,10 @@ export interface MovePlayerToken {
 
 export interface ShowDiceResults {
     type: ActionType.SHOW_DICE_RESULTS;
+}
+
+export interface TreasurePickupDecision {
+    type: ActionType.TREASURE_PICKUP_DECISION;
 }
 
 export const GameContextReducer: Reducer<
@@ -345,21 +341,27 @@ export const GameContextReducer: Reducer<
                 currentStep: 'rolled',
                 dice: [firstDie,secondDie]
             }
-        case ActionType.MOVE_PLAYER_TOKEN:
-            let updatedPlayers = [...state.players];
-            updatedPlayers[action.payload.playerToMove] = {
-                ...updatedPlayers[action.payload.playerToMove],
-                mapPosition: action.payload.newMapPosition
-            };    
-            return {
-                ...state,
-                players: updatedPlayers,
-            }
-        case ActionType.SHOW_DICE_RESULTS:
-            return {
-                ...state,
+            case ActionType.SHOW_DICE_RESULTS:
+                return {
+                    ...state,
                 currentStep: 'moving',
             }
+            case ActionType.MOVE_PLAYER_TOKEN:
+                let updatedPlayers = [...state.players];
+                updatedPlayers[action.payload.playerToMove] = {
+                    ...updatedPlayers[action.payload.playerToMove],
+                    mapPosition: action.payload.newMapPosition
+                };    
+                return {
+                    ...state,
+                    players: updatedPlayers,
+                    currentStep: 'moved',
+            }
+            case ActionType.TREASURE_PICKUP_DECISION:
+                return {
+                    ...state,
+                    currentStep: 'asdads',
+                }
     }
 };
 

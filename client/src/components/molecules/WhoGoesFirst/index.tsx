@@ -12,18 +12,18 @@ const WhoGoesFirst = ({hidden}: any) => {
     let arrayForShuffling: Players[] = [];
     function shuffleArray() {
         arrayForShuffling = [...appState.players];
-        for (var i = arrayForShuffling.length - 1; i > 0; i--) {
-            var j = Math.floor(Math.random() * (i + 1));
-            var temp = arrayForShuffling[i];
-            arrayForShuffling[i] = arrayForShuffling[j];
-            arrayForShuffling[j] = temp;
-        }
-        for (var i = arrayForShuffling.length - 1; i > 0; i--) {
-            var j = Math.floor(Math.random() * (i + 1));
-            var temp = arrayForShuffling[i];
-            arrayForShuffling[i] = arrayForShuffling[j];
-            arrayForShuffling[j] = temp;
-        }
+        // for (var i = arrayForShuffling.length - 1; i > 0; i--) {
+        //     var j = Math.floor(Math.random() * (i + 1));
+        //     var temp = arrayForShuffling[i];
+        //     arrayForShuffling[i] = arrayForShuffling[j];
+        //     arrayForShuffling[j] = temp;
+        // }
+        // for (var i = arrayForShuffling.length - 1; i > 0; i--) {
+        //     var j = Math.floor(Math.random() * (i + 1));
+        //     var temp = arrayForShuffling[i];
+        //     arrayForShuffling[i] = arrayForShuffling[j];
+        //     arrayForShuffling[j] = temp;
+        // }
     }
     shuffleArray();
     const shufflePlayers = (array: Players[]) => {

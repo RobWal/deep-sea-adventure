@@ -20,6 +20,7 @@ import PlayerTokens from '../../molecules/PlayerTokens';
 import WhoGoesFirst from '../../molecules/WhoGoesFirst';
 import TealOverlay from '../../atoms/TealOverlay';
 import RollTheDiceContainer from '../../molecules/RollTheDiceContainer';
+import PickupTreasureContainer from '../../molecules/PickupTreasureContainer';
 
 const GameContainer = () => {
     const [appState, appAction] = useContext(GameContext);
@@ -71,6 +72,13 @@ const GameContainer = () => {
                 })
             }, 1000)
         }
+        if(appState.currentStep === 'moved' && appState.players[appState.currentPlayer].id !== 1){
+            setTimeout(() => {
+                appAction({
+                    type: ActionType.TREASURE_PICKUP_DECISION,
+                })
+            }, 1000)
+        }
     }, [appState.currentStep])
 
 
@@ -103,6 +111,7 @@ const GameContainer = () => {
             <AnnouncerContainer dice={<DiceContainer />} announcerMessage={<AnnouncerMessage text={announcerInnerText}/>}/>
             <ScoreBoardContainer />
             {appState.currentStep === 'rolling' ? appState.players[appState.currentPlayer].id === 1 ? <RollTheDiceContainer /> : <></> : <></>}
+            {appState.currentStep === 'moved' ? appState.players[appState.currentPlayer].id === 1 ? <PickupTreasureContainer /> : <></> : <></>}
             <TealOverlay hidden={whoGoesFirstVisibility} />
             <WhoGoesFirst hidden={whoGoesFirstVisibility} /> 
         </div>
