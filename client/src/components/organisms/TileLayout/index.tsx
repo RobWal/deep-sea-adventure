@@ -18,7 +18,7 @@ const TileLayout = () => {
             {appState.tiles.map((tile: Tile, index) => {
                 return (
                     <div key={index}>
-                        <Tile style={{top: tileLocations[tile.location].top, left: tileLocations[tile.location].left}} component={tileTypes[tile.type]} />
+                        <Tile style={{top: tileLocations[tile.location].top, left: tileLocations[tile.location].left}} component={tileTypes[tile.type]}/>
                     </div>
                  ) 
                 })} 

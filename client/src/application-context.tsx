@@ -1,8 +1,13 @@
 import React, { Reducer } from "react";
+import NoTreasure from "./components/atoms/VisualAssets/NoTreasure";
 import TreasureFour from "./components/atoms/VisualAssets/TreasureFour";
+import TreasureFourInventory from "./components/atoms/VisualAssets/TreasureFourInventory";
 import TreasureOne from "./components/atoms/VisualAssets/TreasureOne";
+import TreasureOneInventory from "./components/atoms/VisualAssets/TreasureOneInventory";
 import TreasureThree from "./components/atoms/VisualAssets/TreasureThree";
+import TreasureThreeInventory from "./components/atoms/VisualAssets/TreasureThreeInventory";
 import TreasureTwo from "./components/atoms/VisualAssets/TreasureTwo";
+import TreasureTwoInventory from "./components/atoms/VisualAssets/TreasureTwoInventory";
 
 interface PlayerTokenHomeLocations {
     [index: number]: {
@@ -103,10 +108,18 @@ export interface TileTypes {
 }
 
 export const tileTypes: TileTypes = {
+    0: <NoTreasure />,
     1: <TreasureOne />,
     2: <TreasureTwo />,
     3: <TreasureThree />,
     4: <TreasureFour />,
+}
+
+export const inventoryTileTypes: TileTypes = {
+    1: <TreasureOneInventory />,
+    2: <TreasureTwoInventory />,
+    3: <TreasureThreeInventory />,
+    4: <TreasureFourInventory />,
 }
 
 export const tileGenerator = () => {
@@ -150,7 +163,7 @@ export interface Players {
     id: number,
     name: string,
     mapPosition: number,
-    treasure: number[],
+    treasure: any[],
     score: number | string,
     settings: {},
     color: string,
@@ -214,11 +227,15 @@ export enum ActionType {
     ROLL_DICE = "roll_dice",
     MOVE_PLAYER_TOKEN = "move_player_token",
     SHOW_DICE_RESULTS = "show_dice_results",
-    TREASURE_PICKUP_DECISION = "treasure_pickup_decision"
+    TREASURE_PICKUP_DECISION = "treasure_pickup_decision",
+    TREASURE_LEAVE_DECISION = "treasure_leave_decision",
+    TREASURE_DROP_DECISION = "treasure_drop_decision",
+    NEXT_PLAYER_TURN = "next_player_turn",
+    SET_OXYGEN_LEVEL = "set_oxygen_level",
 }
 
 
-export type GameAction = AddPlayerAction | SetTotalPlayersAction | GeneratePlayersAction | ShufflePlayers | StartGame | SetCurrentPlayer | RollDice | MovePlayerToken | ShowDiceResults | TreasurePickupDecision;
+export type GameAction = AddPlayerAction | SetTotalPlayersAction | GeneratePlayersAction | ShufflePlayers | StartGame | SetCurrentPlayer | RollDice | MovePlayerToken | ShowDiceResults | TreasurePickupDecision | TreasureLeaveDecision | TreasureDropDecision | NextPlayerTurn | SetOxygenLevel;
 
 export interface AddPlayerAction {
     type: ActionType.ADD_PLAYER;
@@ -276,7 +293,34 @@ export interface ShowDiceResults {
 }
 
 export interface TreasurePickupDecision {
-    type: ActionType.TREASURE_PICKUP_DECISION;
+    type: ActionType.TREASURE_PICKUP_DECISION,
+    payload: {
+        currentPlayer: number,
+        newPlayerTreasureArray: object[],
+        newTileArray: object[],
+    }
+}
+
+export interface TreasureLeaveDecision {
+    type: ActionType.TREASURE_LEAVE_DECISION;
+}
+
+export interface TreasureDropDecision {
+    type: ActionType.TREASURE_DROP_DECISION;
+}
+
+export interface NextPlayerTurn {
+    type: ActionType.NEXT_PLAYER_TURN;
+    payload: {
+        newCurrentPlayer: number,
+    }
+}
+
+export interface SetOxygenLevel {
+    type: ActionType.SET_OXYGEN_LEVEL;
+    payload: {
+        newOxygenLevel: number,
+    }
 }
 
 export const GameContextReducer: Reducer<
@@ -339,29 +383,57 @@ export const GameContextReducer: Reducer<
             return {
                 ...state,
                 currentStep: 'rolled',
-                dice: [firstDie,secondDie]
+                dice: [firstDie,secondDie],
             }
-            case ActionType.SHOW_DICE_RESULTS:
-                return {
-                    ...state,
+        case ActionType.SHOW_DICE_RESULTS:
+            return {
+                ...state,
                 currentStep: 'moving',
+        }
+        case ActionType.MOVE_PLAYER_TOKEN:
+            let updatedPositionPlayers = [...state.players];
+            updatedPositionPlayers[action.payload.playerToMove] = {
+                ...updatedPositionPlayers[action.payload.playerToMove],
+                mapPosition: action.payload.newMapPosition
+            };    
+            return {
+                ...state,
+                players: updatedPositionPlayers,
+                currentStep: 'moved',
+        }
+        case ActionType.TREASURE_PICKUP_DECISION:
+            let updatedTreasurePlayers = [...state.players];
+            updatedTreasurePlayers[action.payload.currentPlayer] = {
+                ...updatedTreasurePlayers[action.payload.currentPlayer],
+                treasure: action.payload.newPlayerTreasureArray,                
             }
-            case ActionType.MOVE_PLAYER_TOKEN:
-                let updatedPlayers = [...state.players];
-                updatedPlayers[action.payload.playerToMove] = {
-                    ...updatedPlayers[action.payload.playerToMove],
-                    mapPosition: action.payload.newMapPosition
-                };    
-                return {
-                    ...state,
-                    players: updatedPlayers,
-                    currentStep: 'moved',
+            return {
+                ...state,
+                players: updatedTreasurePlayers,
+                currentStep: 'decided_pickup_treasure',
+                tiles: action.payload.newTileArray,
             }
-            case ActionType.TREASURE_PICKUP_DECISION:
-                return {
-                    ...state,
-                    currentStep: 'asdads',
-                }
+        case ActionType.TREASURE_LEAVE_DECISION:
+            return {
+                ...state,
+                currentStep: 'decided_leave_treasure',
+            }
+        case ActionType.TREASURE_DROP_DECISION:
+            return {
+                ...state,
+                currentStep: 'decided_drop_treasure',
+            }
+        case ActionType.NEXT_PLAYER_TURN:
+            return {
+                ...state,
+                currentStep: 'next_players_turn',
+                currentPlayer: action.payload.newCurrentPlayer,
+            }
+        case ActionType.SET_OXYGEN_LEVEL:
+            return {
+                ...state,
+                remainingOxygen: action.payload.newOxygenLevel,
+            }
     }
 };
 
