@@ -1,0 +1,10 @@
+.forwards-or-backwards-container {
+    position: absolute;
+    width: 330px;
+    height: 200px;
+    top: 130px;
+    left: 880px;
+    background-color: #004489;
+    border: #2ad2c5 solid 5px;
+    border-radius: 10px;
+}

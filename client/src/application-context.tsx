@@ -167,6 +167,7 @@ export interface Players {
     score: number | string,
     settings: {},
     color: string,
+    direction: string,
 }
 
 export const playerGenerator = (totalPlayers: number) => {
@@ -186,6 +187,7 @@ export const playerGenerator = (totalPlayers: number) => {
             score: 0,
             settings: {},
             color: botColorArray[colorArrayIndex],
+            direction: 'forwards',
         })
         botColorArray.splice(colorArrayIndex, 1)
         botNameArray.splice(nameArrayIndex, 1)
@@ -232,10 +234,13 @@ export enum ActionType {
     TREASURE_DROP_DECISION = "treasure_drop_decision",
     NEXT_PLAYER_TURN = "next_player_turn",
     SET_OXYGEN_LEVEL = "set_oxygen_level",
+    DEEPER_OR_BACK = "deeper_or_back",
+    PLAYER_GOT_BACK = "player_got_back",
+    SKIP_PLAYERS_GO = "skip_players_go"
 }
 
 
-export type GameAction = AddPlayerAction | SetTotalPlayersAction | GeneratePlayersAction | ShufflePlayers | StartGame | SetCurrentPlayer | RollDice | MovePlayerToken | ShowDiceResults | TreasurePickupDecision | TreasureLeaveDecision | TreasureDropDecision | NextPlayerTurn | SetOxygenLevel;
+export type GameAction = AddPlayerAction | SetTotalPlayersAction | GeneratePlayersAction | ShufflePlayers | StartGame | SetCurrentPlayer | RollDice | MovePlayerToken | ShowDiceResults | TreasurePickupDecision | TreasureLeaveDecision | TreasureDropDecision | NextPlayerTurn | SetOxygenLevel | DeeperOrBack | PlayerGotBack | SkipPlayersGo;
 
 export interface AddPlayerAction {
     type: ActionType.ADD_PLAYER;
@@ -323,6 +328,26 @@ export interface SetOxygenLevel {
     }
 }
 
+export interface DeeperOrBack {
+    type: ActionType.DEEPER_OR_BACK;
+    payload: {
+        currentPlayer: number,
+        direction: string,
+    }
+}
+
+export interface PlayerGotBack {
+    type: ActionType.PLAYER_GOT_BACK;
+    payload: {
+        newMapPosition: number,
+        playerToMove: number,
+    }
+}
+
+export interface SkipPlayersGo {
+    type: ActionType.SKIP_PLAYERS_GO;
+}
+
 export const GameContextReducer: Reducer<
     GameState,
     GameAction
@@ -340,6 +365,7 @@ export const GameContextReducer: Reducer<
                     score: 0,
                     settings: {},
                     color: '#FFFFFF',
+                    direction: 'forwards',
                 },
                 ...state.players,
             ]
@@ -426,13 +452,40 @@ export const GameContextReducer: Reducer<
         case ActionType.NEXT_PLAYER_TURN:
             return {
                 ...state,
-                currentStep: 'next_players_turn',
+                currentStep: 'deciding_direction',
                 currentPlayer: action.payload.newCurrentPlayer,
             }
         case ActionType.SET_OXYGEN_LEVEL:
             return {
                 ...state,
                 remainingOxygen: action.payload.newOxygenLevel,
+            }
+        case ActionType.DEEPER_OR_BACK:
+            let updatedPlayerDirection = [...state.players];
+            updatedPlayerDirection[action.payload.currentPlayer] = {
+                ...updatedPlayerDirection[action.payload.currentPlayer],
+                direction: action.payload.direction
+            }
+            return {
+                ...state,
+                players: updatedPlayerDirection,
+                currentStep: 'rolling'
+            }
+        case ActionType.PLAYER_GOT_BACK:
+            let updatedPositionPlayersArray = [...state.players];
+                updatedPositionPlayersArray[action.payload.playerToMove] = {
+                    ...updatedPositionPlayersArray[action.payload.playerToMove],
+                    mapPosition: action.payload.newMapPosition
+                };    
+                return {
+                    ...state,
+                    players: updatedPositionPlayersArray,
+                    currentStep: 'player_got_back',
+            }
+        case ActionType.SKIP_PLAYERS_GO:
+            return {
+                ...state,
+                currentStep: 'skip_players_turn',
             }
     }
 };
