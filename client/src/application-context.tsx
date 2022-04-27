@@ -236,11 +236,13 @@ export enum ActionType {
     SET_OXYGEN_LEVEL = "set_oxygen_level",
     DEEPER_OR_BACK = "deeper_or_back",
     PLAYER_GOT_BACK = "player_got_back",
-    SKIP_PLAYERS_GO = "skip_players_go"
+    SKIP_PLAYERS_GO = "skip_players_go",
+    END_THE_ROUND = "end_the_round",
+    NEXT_PLAYER_LOGIC = "next_player_logic",
 }
 
 
-export type GameAction = AddPlayerAction | SetTotalPlayersAction | GeneratePlayersAction | ShufflePlayers | StartGame | SetCurrentPlayer | RollDice | MovePlayerToken | ShowDiceResults | TreasurePickupDecision | TreasureLeaveDecision | TreasureDropDecision | NextPlayerTurn | SetOxygenLevel | DeeperOrBack | PlayerGotBack | SkipPlayersGo;
+export type GameAction = AddPlayerAction | SetTotalPlayersAction | GeneratePlayersAction | ShufflePlayers | StartGame | SetCurrentPlayer | RollDice | MovePlayerToken | ShowDiceResults | TreasurePickupDecision | TreasureLeaveDecision | TreasureDropDecision | NextPlayerTurn | SetOxygenLevel | DeeperOrBack | PlayerGotBack | SkipPlayersGo | EndTheRound | NextPlayerLogic;
 
 export interface AddPlayerAction {
     type: ActionType.ADD_PLAYER;
@@ -338,14 +340,22 @@ export interface DeeperOrBack {
 
 export interface PlayerGotBack {
     type: ActionType.PLAYER_GOT_BACK;
-    payload: {
-        newMapPosition: number,
-        playerToMove: number,
-    }
+    // payload: {
+    //     newMapPosition: number,
+    //     playerToMove: number,
+    // }
 }
 
 export interface SkipPlayersGo {
     type: ActionType.SKIP_PLAYERS_GO;
+}
+
+export interface EndTheRound {
+    type: ActionType.END_THE_ROUND;
+}
+
+export interface NextPlayerLogic {
+    type: ActionType.NEXT_PLAYER_LOGIC;
 }
 
 export const GameContextReducer: Reducer<
@@ -452,13 +462,14 @@ export const GameContextReducer: Reducer<
         case ActionType.NEXT_PLAYER_TURN:
             return {
                 ...state,
-                currentStep: 'deciding_direction',
+                currentStep: 'is_player_in_sub',
                 currentPlayer: action.payload.newCurrentPlayer,
             }
         case ActionType.SET_OXYGEN_LEVEL:
             return {
                 ...state,
                 remainingOxygen: action.payload.newOxygenLevel,
+                currentStep: 'direction_logic',
             }
         case ActionType.DEEPER_OR_BACK:
             let updatedPlayerDirection = [...state.players];
@@ -472,20 +483,30 @@ export const GameContextReducer: Reducer<
                 currentStep: 'rolling'
             }
         case ActionType.PLAYER_GOT_BACK:
-            let updatedPositionPlayersArray = [...state.players];
-                updatedPositionPlayersArray[action.payload.playerToMove] = {
-                    ...updatedPositionPlayersArray[action.payload.playerToMove],
-                    mapPosition: action.payload.newMapPosition
-                };    
+            // let updatedPositionPlayersArray = [...state.players];
+            //     updatedPositionPlayersArray[action.payload.playerToMove] = {
+            //         ...updatedPositionPlayersArray[action.payload.playerToMove],
+            //         mapPosition: action.payload.newMapPosition
+            //     };    
                 return {
                     ...state,
-                    players: updatedPositionPlayersArray,
+                    // players: updatedPositionPlayersArray,
                     currentStep: 'player_got_back',
             }
         case ActionType.SKIP_PLAYERS_GO:
             return {
                 ...state,
                 currentStep: 'skip_players_turn',
+            }
+        case ActionType.END_THE_ROUND:
+            return {
+                ...state,
+                currentStep: 'end_of_round'
+            }
+        case ActionType.NEXT_PLAYER_LOGIC:
+            return {
+                ...state,
+                currentStep: 'next_player_logic'
             }
     }
 };
