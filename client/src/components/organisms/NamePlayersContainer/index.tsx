@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import EscapeButton from "../../molecules/EscapeButton";
 import HelpButton from "../../molecules/HelpButton";
 import NameForm from "../../molecules/NameForm";

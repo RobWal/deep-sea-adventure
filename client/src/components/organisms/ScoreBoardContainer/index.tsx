@@ -1,4 +1,4 @@
-import { useContext, useEffect } from 'react';
+import { useContext } from 'react';
 import { GameContext } from '../../../application-context';
 import ScoreBoardCurrentPlayer from '../../atoms/ScoreBoardCurrentPlayer';
 import ScoreBoardScore from '../../atoms/ScoreBoardScore';

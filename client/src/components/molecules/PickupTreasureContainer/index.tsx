@@ -1,6 +1,5 @@
 import { useContext } from 'react';
-import { ActionType, GameContext } from '../../../application-context';
-import AnnouncerButton from '../../atoms/AnnouncerButton';
+import { GameContext } from '../../../application-context';
 import H1 from '../../atoms/H1';
 import AnnouncerButtonContainer from '../AnnouncerButtonContainer';
 import './PickupTreasureContainer.css'

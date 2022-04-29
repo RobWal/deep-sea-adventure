@@ -6,7 +6,6 @@ import './TwoChoicesContainer.css'
 const TwoChoicesContainer = ({style}: any) => {
     const [appState, appAction] = useContext(GameContext);
     let anyTreasureThere = false;
-    // let currentPlayer = appState.players[appState.currentPlayer];
     if(appState.players[appState.currentPlayer].mapPosition <= 0){
         return(
             <div></div>
