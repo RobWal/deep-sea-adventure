@@ -6,7 +6,6 @@ import './RollTheDiceContainer.css'
 
 const RollTheDiceContainer = () => {
     const [appState, appAction] = useContext(GameContext);
-    let newOxygenLevel =  (appState.remainingOxygen) - appState.players[appState.currentPlayer].treasure.length
     return (
         <div className='roll-the-dice-container'>
             <H1 text={'It is your turn to roll!'} style={{display: 'block', textAlign: 'center', color: 'white', fontSize: '27px', margin: '20px 0 10px 0'}} />

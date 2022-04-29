@@ -4,6 +4,22 @@ import TreasureFour from "./components/atoms/VisualAssets/TreasureFour";
 import TreasureFourInventory from "./components/atoms/VisualAssets/TreasureFourInventory";
 import TreasureOne from "./components/atoms/VisualAssets/TreasureOne";
 import TreasureOneInventory from "./components/atoms/VisualAssets/TreasureOneInventory";
+import TreasurePointEight from "./components/atoms/VisualAssets/TreasurePointEight";
+import TreasurePointEleven from "./components/atoms/VisualAssets/TreasurePointEleven";
+import TreasurePointFifteen from "./components/atoms/VisualAssets/TreasurePointFifteen";
+import TreasurePointFive from "./components/atoms/VisualAssets/TreasurePointFive";
+import TreasurePointFour from "./components/atoms/VisualAssets/TreasurePointFour";
+import TreasurePointFourteen from "./components/atoms/VisualAssets/TreasurePointFourteen";
+import TreasurePointNine from "./components/atoms/VisualAssets/TreasurePointNine";
+import TreasurePointOne from "./components/atoms/VisualAssets/TreasurePointOne";
+import TreasurePointSeven from "./components/atoms/VisualAssets/TreasurePointSeven";
+import TreasurePointSix from "./components/atoms/VisualAssets/TreasurePointSix";
+import TreasurePointTen from "./components/atoms/VisualAssets/TreasurePointTen";
+import TreasurePointThirteen from "./components/atoms/VisualAssets/TreasurePointThirteen";
+import TreasurePointThree from "./components/atoms/VisualAssets/TreasurePointThree";
+import TreasurePointTwelve from "./components/atoms/VisualAssets/TreasurePointTwelve";
+import TreasurePointTwo from "./components/atoms/VisualAssets/TreasurePointTwo";
+import TreasurePointZero from "./components/atoms/VisualAssets/TreasurePointZero";
 import TreasureThree from "./components/atoms/VisualAssets/TreasureThree";
 import TreasureThreeInventory from "./components/atoms/VisualAssets/TreasureThreeInventory";
 import TreasureTwo from "./components/atoms/VisualAssets/TreasureTwo";
@@ -122,6 +138,25 @@ export const inventoryTileTypes: TileTypes = {
     4: <TreasureFourInventory />,
 }
 
+export const shownInventoryTileTypes: TileTypes = {
+    0: <TreasurePointZero />,
+    1: <TreasurePointOne />,
+    2: <TreasurePointTwo />,
+    3: <TreasurePointThree />,
+    4: <TreasurePointFour />,
+    5: <TreasurePointFive />,
+    6: <TreasurePointSix />,
+    7: <TreasurePointSeven />,
+    8: <TreasurePointEight />,
+    9: <TreasurePointNine />,
+    10: <TreasurePointTen />,
+    11: <TreasurePointEleven />,
+    12: <TreasurePointTwelve />,
+    13: <TreasurePointThirteen />,
+    14: <TreasurePointFourteen />,
+    15: <TreasurePointFifteen />,
+}
+
 export const tileGenerator = () => {
     const numberOfTiles = 8;
     const tileTypes = [
@@ -164,7 +199,7 @@ export interface Players {
     name: string,
     mapPosition: number,
     treasure: any[],
-    score: number | string,
+    score: number,
     settings: {},
     color: string,
     direction: string,
@@ -239,10 +274,11 @@ export enum ActionType {
     SKIP_PLAYERS_GO = "skip_players_go",
     END_THE_ROUND = "end_the_round",
     NEXT_PLAYER_LOGIC = "next_player_logic",
+    TALLY_SCORES = "tally_scores",
 }
 
 
-export type GameAction = AddPlayerAction | SetTotalPlayersAction | GeneratePlayersAction | ShufflePlayers | StartGame | SetCurrentPlayer | RollDice | MovePlayerToken | ShowDiceResults | TreasurePickupDecision | TreasureLeaveDecision | TreasureDropDecision | NextPlayerTurn | SetOxygenLevel | DeeperOrBack | PlayerGotBack | SkipPlayersGo | EndTheRound | NextPlayerLogic;
+export type GameAction = AddPlayerAction | SetTotalPlayersAction | GeneratePlayersAction | ShufflePlayers | StartGame | SetCurrentPlayer | RollDice | MovePlayerToken | ShowDiceResults | TreasurePickupDecision | TreasureLeaveDecision | TreasureDropDecision | NextPlayerTurn | SetOxygenLevel | DeeperOrBack | PlayerGotBack | SkipPlayersGo | EndTheRound | NextPlayerLogic | TallyScores;
 
 export interface AddPlayerAction {
     type: ActionType.ADD_PLAYER;
@@ -313,7 +349,12 @@ export interface TreasureLeaveDecision {
 }
 
 export interface TreasureDropDecision {
-    type: ActionType.TREASURE_DROP_DECISION;
+    type: ActionType.TREASURE_DROP_DECISION,
+    payload: {
+        currentPlayer: number,
+        newPlayerTreasureArray: object[],
+        newTileArray: object[],
+    }
 }
 
 export interface NextPlayerTurn {
@@ -340,10 +381,6 @@ export interface DeeperOrBack {
 
 export interface PlayerGotBack {
     type: ActionType.PLAYER_GOT_BACK;
-    // payload: {
-    //     newMapPosition: number,
-    //     playerToMove: number,
-    // }
 }
 
 export interface SkipPlayersGo {
@@ -356,6 +393,14 @@ export interface EndTheRound {
 
 export interface NextPlayerLogic {
     type: ActionType.NEXT_PLAYER_LOGIC;
+}
+
+export interface TallyScores {
+    type: ActionType.TALLY_SCORES;
+    payload: {
+        newPlayerScore: number,
+        playerToUpdate: number,
+    }
 }
 
 export const GameContextReducer: Reducer<
@@ -438,14 +483,14 @@ export const GameContextReducer: Reducer<
                 currentStep: 'moved',
         }
         case ActionType.TREASURE_PICKUP_DECISION:
-            let updatedTreasurePlayers = [...state.players];
-            updatedTreasurePlayers[action.payload.currentPlayer] = {
-                ...updatedTreasurePlayers[action.payload.currentPlayer],
+            let updatedTreasurePlayersPickup = [...state.players];
+            updatedTreasurePlayersPickup[action.payload.currentPlayer] = {
+                ...updatedTreasurePlayersPickup[action.payload.currentPlayer],
                 treasure: action.payload.newPlayerTreasureArray,                
             }
             return {
                 ...state,
-                players: updatedTreasurePlayers,
+                players: updatedTreasurePlayersPickup,
                 currentStep: 'decided_pickup_treasure',
                 tiles: action.payload.newTileArray,
             }
@@ -455,9 +500,16 @@ export const GameContextReducer: Reducer<
                 currentStep: 'decided_leave_treasure',
             }
         case ActionType.TREASURE_DROP_DECISION:
+            let updatedTreasurePlayersDrop = [...state.players];
+            updatedTreasurePlayersDrop[action.payload.currentPlayer] = {
+                ...updatedTreasurePlayersDrop[action.payload.currentPlayer],
+                treasure: action.payload.newPlayerTreasureArray,                
+            }
             return {
                 ...state,
+                players: updatedTreasurePlayersDrop,
                 currentStep: 'decided_drop_treasure',
+                tiles: action.payload.newTileArray,
             }
         case ActionType.NEXT_PLAYER_TURN:
             return {
@@ -483,14 +535,8 @@ export const GameContextReducer: Reducer<
                 currentStep: 'rolling'
             }
         case ActionType.PLAYER_GOT_BACK:
-            // let updatedPositionPlayersArray = [...state.players];
-            //     updatedPositionPlayersArray[action.payload.playerToMove] = {
-            //         ...updatedPositionPlayersArray[action.payload.playerToMove],
-            //         mapPosition: action.payload.newMapPosition
-            //     };    
                 return {
                     ...state,
-                    // players: updatedPositionPlayersArray,
                     currentStep: 'player_got_back',
             }
         case ActionType.SKIP_PLAYERS_GO:
@@ -508,6 +554,16 @@ export const GameContextReducer: Reducer<
                 ...state,
                 currentStep: 'next_player_logic'
             }
+        case ActionType.TALLY_SCORES:
+            let updatedScorePlayers = [...state.players];
+            updatedScorePlayers[action.payload.playerToUpdate] = {
+                ...updatedScorePlayers[action.payload.playerToUpdate],
+                score: action.payload.newPlayerScore,
+            };    
+            return {
+                ...state,
+                players: updatedScorePlayers,
+        }
     }
 };
 

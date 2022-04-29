@@ -1,9 +1,10 @@
 import './Tile.css'
 
-const Tile = ({style, component}: any) => {
+const Tile = ({style, component, showComponent}: any) => {
     return (
         <div className='tile' style={style}>
             {component}
+            {showComponent}
         </div>
     )
 }
