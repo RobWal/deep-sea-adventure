@@ -6,13 +6,13 @@ Deep Sea Adventure is an online single player recreation of the table top board 
 
 # The general approach
 
-This project was a large undertaking that required me to push my react boundaries and the approach I took strongly reflects that. The game had a lot of potential when I began brainstorming, from playing a single round on your own against AI, to playing online with friends in real time, complete with logins and customisable features, the scope of the project had no real ceiling.
+This project was a large undertaking for me that required pushing my react boundaries and the approach I took strongly reflects that. The game had a lot of potential when I began brainstorming, from playing a single round on your own against AI's, to playing online with friends in real time, complete with logins and customisable features. The scope of the project had no real ceiling.
 
 While fleshing out what was realistic in the given timeframe, it became quite clear that this would take a large amount of time, so the minimum viable product became a single player single round experience.
 
-The first steps of the project were fleshing out in detail what the game would look like, what each step might be, creating a wireframe to reflect that. This involved creating visual assets for both the wireframe and the game itself, which was done in tandem with the wireframe itself, as the need for images arose.
+The first steps of the project were a deep dive into the details of what the game would look like, what each step might be and creating a wireframe to reflect that. This involved creating visual assets for both the wireframe and the game itself, which was done in tandem with the wireframe itself, as the need for images arose.
 
-From there the major next step was fleshing out the structure of the game, both in terms of what would be required for it to work, as well as how to structure that in a coherent way. After the foundations were there, it became a continual process of iterating over the game cycle, implementing features one by one, finding and fixing edge cases, as well as a lot of refactoring.
+From there the major next step was fleshing out the structure of the game, both in terms of what would be required for it to work, as well as how to structure that in a coherent way. After the foundations were there, it became a continual process of iterating over the game cycle, implementing features one by one, finding and fixing edge cases, as well as refactoring code as additions were made.
 
 # Have a look!
 
@@ -52,11 +52,22 @@ The wireframe was an in depth look at what every step of the game would look lik
 -   As someone who enjoys playing tabletop games with friends, I sometimes find it hard to find a time where everybody is available, sometimes there are months between meetings so I want to be able to scratch my Deep Sea Adventure itch in the meantime so that time between meetings doesn't feel as bad.
 -   As someone who enjoys spending short amounts of time playing games, I want to be able to play Deep Sea Adventure so that I can enjoy my time off more.
 
+# Major hurdles
+
+There were a handful of things that took some time to tackle, they all came from inexperience with react, especially the use of useContext and useReducer, in the context of a game.
+
+Some examples are:
+
+-   Rewriting specific aspects of the useContext game state, especially when deeply nested
+-   Fleshing out the flow of the game so that the right code ran at the right time, even in edge cases
+-   The pacing of the game so that AI turns didn't happen instantly, but rather had a natural flow that the user could easily interpret
+-   Utilising react JSX components in a dynamic way to populate the UI depending on the useContext
+
 # Next steps
 
 As mentioned above, the scope of the project had no real ceiling within reach. Some of the features I would like to implement are:
 
--   Three rounds in total which would include tile reshuffling and drowned diver treasure being added to the trail.
+-   Three rounds in total, which would include tile reorganising and drowned diver treasure being added to the trail.
 -   Functional 'X' and '?' buttons that navigate the user to an options menu and a help menu respectively.
 -   An indicator that makes clear whose turn it is, between the players score and their name.
 -   Animations added to the movement of pieces such as treasure tiles and player tokens to more clearly illustrate the game state.
