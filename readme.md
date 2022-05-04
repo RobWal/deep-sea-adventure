@@ -38,7 +38,6 @@ https://www.canva.com/design/DAE9nxGrJQU/n800FeMsJyuLdoipYZEGMA/edit
 
 -   HTML
 -   CSS
--   Javascript
 -   React
 -   TypeScript
 -   Node.js
