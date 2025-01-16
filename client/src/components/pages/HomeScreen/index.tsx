@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import useSound from 'use-sound';
 import DSALogo from '../../atoms/VisualAssets/DSALogo';
 import H1 from '../../atoms/H1';
 import NoTreasure from '../../atoms/VisualAssets/NoTreasure';
@@ -9,19 +10,16 @@ import TreasureOne from '../../atoms/VisualAssets/TreasureOne';
 import TreasureThree from '../../atoms/VisualAssets/TreasureThree';
 import TreasureTwo from '../../atoms/VisualAssets/TreasureTwo';
 import NamePlayersContainer from '../../organisms/NamePlayersContainer';
-import './HomeScreen.css'
-
+import './HomeScreen.css';
+import bubbleClickSFX from '../../sfx/bubbleClick.mp3';
 
 const playAudio = () => {
-    let audio = new Audio("/bubbleClick.wav");
+    let audio = new Audio(bubbleClickSFX);
+
     audio.play();
 }
 
 const HomeScreen = () => {
-    let audio = new Audio("/bubbleClick.wav");
-    const playAudio = () => {
-        audio.play();
-    }
     const [playerIsReady, setPlayerIsReady] = useState(false);
     return (
         <div>
