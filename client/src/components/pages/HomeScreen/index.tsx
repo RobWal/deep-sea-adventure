@@ -12,11 +12,25 @@ import NamePlayersContainer from '../../organisms/NamePlayersContainer';
 import './HomeScreen.css'
 
 
+const playAudio = () => {
+    let audio = new Audio("/bubbleClick.wav");
+
+    const start = () => {
+        audio.play()
+    }
+}
+
 const HomeScreen = () => {
+    let audio = new Audio("/bubbleClick.wav");
+    const playAudio = () => {
+        audio.play();
+    }
     const [playerIsReady, setPlayerIsReady] = useState(false);
     return (
         <div>
-            <div className="home-screen" onClick={()=>{setPlayerIsReady(true)}}>
+            <div className="home-screen" onClick={()=>{
+                {playAudio()}
+                {setPlayerIsReady(true)}}}>
                 <div className='text-container'>
                     <H1 text={'DEEP SEA ADVENTURE'} style={{marginTop: '20px', fontSize:'82px', color: '#2AD2C5'}}/>
                     <H1 text={'Click to play!'} style={{marginTop: '60px',color: 'white', fontSize: '45px'}}/>
