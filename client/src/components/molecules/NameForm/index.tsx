@@ -27,9 +27,7 @@ const NameForm = ({style, addUser, setTotalPlayers}: any) => {
         navigate("/gamecontainer");
     }
 
-    const ignoreSubmit = (e: any) => {
-        
-    }
+    const ignoreSubmit = (e: any) => {}
 
     return (
         <div className="number-of-players" style={style}>
