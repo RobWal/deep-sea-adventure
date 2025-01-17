@@ -13,7 +13,7 @@ import {
 const NamePlayersContainer = () => {
     const [appState, appAction] = useContext(GameContext);
 
-    const addNewUser = (value: any) => {
+    const addNewUser = (value: string) => {
         appAction({
         type: ActionType.ADD_PLAYER,
         payload: {
