@@ -13,17 +13,18 @@ import NamePlayersContainer from '../../organisms/NamePlayersContainer';
 import './HomeScreen.css';
 import bubbleClickSFX from '../../sfx/bubbleClick.mp3';
 
-const playAudio = () => {
-    let audio = new Audio(bubbleClickSFX);
-
-    audio.play();
-}
-
 const HomeScreen = () => {
+    const soundUrl = bubbleClickSFX;
+    const [play] = useSound(soundUrl, { playbackRate: 1.0});
+
+    const PlayAudio = () => {
+        const newPlaybackRate = 0.5 + Math.random();
+        play({ playbackRate: newPlaybackRate});
+    }
     const [playerIsReady, setPlayerIsReady] = useState(false);
     return (
         <div>
-            <div className="home-screen" onClick={()=>{{playerIsReady ? <></> : playAudio()}{setPlayerIsReady(true)}}}>
+            <div className="home-screen" onClick={()=>{{playerIsReady ? <></> : PlayAudio()}{setPlayerIsReady(true)}}}>
                 <div className='text-container'>
                     <H1 text={'DEEP SEA ADVENTURE'} style={{marginTop: '20px', fontSize:'82px', color: '#2AD2C5'}}/>
                     <H1 text={'Click to play!'} style={{marginTop: '60px',color: 'white', fontSize: '45px'}}/>
