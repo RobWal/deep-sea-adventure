@@ -246,7 +246,7 @@ export const DefaultGameState: GameState = {
     currentRound: 0,
     currentPlayer: -1,
     totalPlayers: 2,
-    currentStep: 'preStart',
+    currentStep: 'returnToHomeScreen',
     dice: [1, 3],
     players: [],
     round: 1,
@@ -255,6 +255,7 @@ export const DefaultGameState: GameState = {
 };
 
 export enum ActionType {
+    RETURN_TO_HOMESCREEN = "return_to_homescreen",
     ADD_PLAYER = "add_player",
     SET_TOTAL_PLAYERS = "set_total_players",
     GENERATE_PLAYERS = "generate_players",
@@ -278,7 +279,11 @@ export enum ActionType {
 }
 
 
-export type GameAction = AddPlayerAction | SetTotalPlayersAction | GeneratePlayersAction | ShufflePlayers | StartGame | SetCurrentPlayer | RollDice | MovePlayerToken | ShowDiceResults | TreasurePickupDecision | TreasureLeaveDecision | TreasureDropDecision | NextPlayerTurn | SetOxygenLevel | DeeperOrBack | PlayerGotBack | SkipPlayersGo | EndTheRound | NextPlayerLogic | TallyScores;
+export type GameAction = ReturnToHomeScreenAction | AddPlayerAction | SetTotalPlayersAction | GeneratePlayersAction | ShufflePlayers | StartGame | SetCurrentPlayer | RollDice | MovePlayerToken | ShowDiceResults | TreasurePickupDecision | TreasureLeaveDecision | TreasureDropDecision | NextPlayerTurn | SetOxygenLevel | DeeperOrBack | PlayerGotBack | SkipPlayersGo | EndTheRound | NextPlayerLogic | TallyScores;
+
+export interface ReturnToHomeScreenAction { 
+    type: ActionType.RETURN_TO_HOMESCREEN;
+}
 
 export interface AddPlayerAction {
     type: ActionType.ADD_PLAYER;
@@ -408,6 +413,11 @@ export const GameContextReducer: Reducer<
     GameAction
 > = (state, action) => {
     switch (action.type) {
+        case ActionType.RETURN_TO_HOMESCREEN: 
+            return {
+                ...state,
+                currentStep: 'returnToHomeScreen',
+            }
         case ActionType.ADD_PLAYER:
             return {
                 ...state,

@@ -1,4 +1,8 @@
-import { useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
+import {
+    ActionType,
+    GameContext,
+} from "../../../application-context";
 import useSound from 'use-sound';
 import DSALogo from '../../atoms/VisualAssets/DSALogo';
 import H1 from '../../atoms/H1';
@@ -14,6 +18,7 @@ import './HomeScreen.css';
 import bubbleClickSFX from '../../sfx/bubbleClick.mp3';
 
 const HomeScreen = () => {
+    const [appState, appAction] = useContext(GameContext);
     const soundUrl = bubbleClickSFX;
     const [play] = useSound(soundUrl, { playbackRate: 1.0});
 
@@ -22,6 +27,16 @@ const HomeScreen = () => {
         play({ playbackRate: newPlaybackRate});
     }
     const [playerIsReady, setPlayerIsReady] = useState(false);
+
+    useEffect (() => {
+        console.log(`We're in the homescreen use effect`)
+        console.log(`The game currentStep is ${appState.currentStep}`)
+        if(appState.currentStep === 'returnToHomeScreen'){
+            setPlayerIsReady(false);
+        };
+    });
+
+
     return (
         <div>
             <div className="home-screen" onClick={()=>{{playerIsReady ? <></> : PlayAudio()}{setPlayerIsReady(true)}}}>
