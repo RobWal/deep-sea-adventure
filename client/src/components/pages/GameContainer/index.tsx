@@ -1,4 +1,5 @@
 import { useContext, useEffect, useState } from 'react';
+import { useNavigate } from "react-router-dom";
 import AnnouncerMessage from '../../atoms/AnnouncerMessage';
 import OxygenSubmarine from '../../atoms/VisualAssets/OxygenSubmarine';
 import DiceContainer from '../../molecules/DiceContainer';
@@ -32,6 +33,13 @@ const GameContainer = () => {
     const [whoGoesFirstVisibility, setWhoGoesFirstVisibility] = useState(true);
     const [announcerInnerText, setAnnouncerInnerText] = useState("");
     const [returnedPlayerIds, setReturnedPlayerIds] = useState <number[]>([]);
+    let navigate = useNavigate();
+    
+    const handleEscapeButtonSubmit = () => {
+        console.log(`We're clicking the button`);
+        navigate("/");
+    }
+
     useEffect(() => {
         if(appState.currentStep === 'preStart'){
             setTimeout(() => {
@@ -53,7 +61,7 @@ const GameContainer = () => {
         if(appState.currentPlayer === -1) { 
             setAnnouncerInnerText('') 
         };
-        
+
         if(appState.currentStep === 'is_player_in_sub'){
             let isPlayerInSub = false;
             returnedPlayerIds.forEach((id) => {
@@ -417,7 +425,7 @@ const GameContainer = () => {
         <div className="game-container">
             <TileLayout />
             <PlayerTokens />
-            <EscapeButton style={{position: 'absolute', top: '15px', right: '0px'}}/>
+            <EscapeButton buttonFunction={handleEscapeButtonSubmit} style={{position: 'absolute', top: '15px', right: '0px'}} text={``}/>
             <HelpButton style={{position: 'absolute', top: '15px', right: '50px'}}/>
             <OxygenSubmarine style={{position: 'absolute', top: '20px', left: '500px'}}/>
             <OxygenMarker style={{position: 'absolute', top: oxygenTokenLocations[appState.remainingOxygen].top, left: oxygenTokenLocations[appState.remainingOxygen].left}}/>
