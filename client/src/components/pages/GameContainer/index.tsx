@@ -36,8 +36,8 @@ const GameContainer = () => {
     let navigate = useNavigate();
 
     const handleEscapeButtonSubmit = () => {
-        console.log(`We're clicking the button`);
-        navigate("/");
+        console.log(`We're clicking the escape button`);
+        //navigate("/");
     }
 
     useEffect(() => {
