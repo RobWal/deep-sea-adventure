@@ -34,7 +34,7 @@ const GameContainer = () => {
     const [announcerInnerText, setAnnouncerInnerText] = useState("");
     const [returnedPlayerIds, setReturnedPlayerIds] = useState <number[]>([]);
     let navigate = useNavigate();
-    
+
     const handleEscapeButtonSubmit = () => {
         console.log(`We're clicking the button`);
         navigate("/");
@@ -292,6 +292,8 @@ const GameContainer = () => {
                                         treasureToBeDropped = newPlayerTreasureArray[i];
                                     }
                                 }
+                                //This needs to be looked at. I think this is the last thing I worked on before the break and I'm not sure
+                                //exactly what this code is supposed to do yet, or why the === {} value is empty. 
                                 if(treasureToBeDropped === {}){
                                     for(let i = 0; i < newPlayerTreasureArray.length; i++){
                                         if(newPlayerTreasureArray[i].type === 2){
@@ -425,7 +427,7 @@ const GameContainer = () => {
         <div className="game-container">
             <TileLayout />
             <PlayerTokens />
-            <EscapeButton buttonFunction={handleEscapeButtonSubmit} style={{position: 'absolute', top: '15px', right: '0px'}} text={``}/>
+            <EscapeButton buttonFunction={handleEscapeButtonSubmit} style={{position: 'absolute', top: '15px', right: '0px'}} text={`X`}/>
             <HelpButton style={{position: 'absolute', top: '15px', right: '50px'}}/>
             <OxygenSubmarine style={{position: 'absolute', top: '20px', left: '500px'}}/>
             <OxygenMarker style={{position: 'absolute', top: oxygenTokenLocations[appState.remainingOxygen].top, left: oxygenTokenLocations[appState.remainingOxygen].left}}/>
