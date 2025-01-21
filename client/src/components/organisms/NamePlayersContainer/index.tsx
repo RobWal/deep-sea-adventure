@@ -1,5 +1,4 @@
 import { useContext } from "react";
-import { useNavigate } from "react-router-dom"
 import EscapeButton from "../../molecules/EscapeButton";
 import HelpButton from "../../molecules/HelpButton";
 import NameForm from "../../molecules/NameForm";
@@ -13,12 +12,12 @@ import {
 
 const NamePlayersContainer = () => {
     const [appState, appAction] = useContext(GameContext);
-    let navigate = useNavigate();
 
     const handleEscapeButtonSubmit = () => {
         console.log(`We're clicking the button`);
-        
-        //navigate("/");
+        appAction({
+            type: ActionType.RETURN_TO_HOMESCREEN
+        })
     }
 
     const addNewUser = (value: string) => {

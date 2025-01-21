@@ -21,43 +21,23 @@ const HomeScreen = () => {
     const [appState, appAction] = useContext(GameContext);
     const soundUrl = bubbleClickSFX;
     const [play] = useSound(soundUrl, { playbackRate: 1.0});
-    //const [playerIsReady, setPlayerIsReady] = useState(false);
 
     const playAudio = () => {
         const newPlaybackRate = 0.5 + Math.random();
         play({ playbackRate: newPlaybackRate});
     };
 
-    const selectNamePlayers = () => {
-        //playAudio();
-        //setPlayerIsReady(true)
-        
+    const selectNamePlayers = () => {        
         if(appState.currentStep === 'returnToHomeScreen'){
             playAudio();
             console.log(`We're inside the if false code`);
             appAction({
-            type: ActionType.SELECT_NAME_PLAYERS,
-          });
+                type: ActionType.SELECT_NAME_PLAYERS,
+            });
         } else if(appState.currentStep === 'selectNamePlayers'){
-            //playAudio();
+            //Currently does nothing
         }
-        // if(playerIsReady === false){
-        //     playAudio();
-        //     console.log(`We're inside the if false code`);
-        //     appAction({
-        //     type: ActionType.SELECT_NAME_PLAYERS,
-        //   });
-        // } else if(playerIsReady === true){
-        //     //playAudio();
-        // }
     }
-
-    // useEffect (() => {
-    //     console.log(`The game currentStep is ${appState.currentStep}`)
-    //     if(appState.currentStep === 'returnToHomeScreen'){
-    //         setPlayerIsReady(false);
-    //     };
-    // });
 
     return (
         <div>
