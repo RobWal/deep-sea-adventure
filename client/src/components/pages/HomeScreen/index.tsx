@@ -21,7 +21,7 @@ const HomeScreen = () => {
     const [appState, appAction] = useContext(GameContext);
     const soundUrl = bubbleClickSFX;
     const [play] = useSound(soundUrl, { playbackRate: 1.0});
-    const [playerIsReady, setPlayerIsReady] = useState(false);
+    //const [playerIsReady, setPlayerIsReady] = useState(false);
 
     const playAudio = () => {
         const newPlaybackRate = 0.5 + Math.random();
@@ -30,24 +30,34 @@ const HomeScreen = () => {
 
     const selectNamePlayers = () => {
         //playAudio();
-        setPlayerIsReady(true)
-        if(playerIsReady === false){
+        //setPlayerIsReady(true)
+        
+        if(appState.currentStep === 'returnToHomeScreen'){
             playAudio();
             console.log(`We're inside the if false code`);
             appAction({
             type: ActionType.SELECT_NAME_PLAYERS,
           });
-        } else if(playerIsReady === true){
+        } else if(appState.currentStep === 'selectNamePlayers'){
             //playAudio();
         }
+        // if(playerIsReady === false){
+        //     playAudio();
+        //     console.log(`We're inside the if false code`);
+        //     appAction({
+        //     type: ActionType.SELECT_NAME_PLAYERS,
+        //   });
+        // } else if(playerIsReady === true){
+        //     //playAudio();
+        // }
     }
 
-    useEffect (() => {
-        console.log(`The game currentStep is ${appState.currentStep}`)
-        if(appState.currentStep === 'returnToHomeScreen'){
-            setPlayerIsReady(false);
-        };
-    });
+    // useEffect (() => {
+    //     console.log(`The game currentStep is ${appState.currentStep}`)
+    //     if(appState.currentStep === 'returnToHomeScreen'){
+    //         setPlayerIsReady(false);
+    //     };
+    // });
 
     return (
         <div>
@@ -73,8 +83,8 @@ const HomeScreen = () => {
                     <TreasureFour style={{position: 'absolute', top: '400px', left: '410px'}}/>
                     <TreasureFour style={{position: 'absolute', top: '450px', left: '330px'}}/>
                 </div>
-                {playerIsReady ? <TealOverlay /> : <></>}
-                {playerIsReady ? <NamePlayersContainer /> : <></>}
+                {appState.currentStep === 'selectNamePlayers' ? <TealOverlay /> : <></>}
+                {appState.currentStep === 'selectNamePlayers' ? <NamePlayersContainer /> : <></>}
             </div>
         </div>
     )
