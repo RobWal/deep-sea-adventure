@@ -20,8 +20,8 @@ const NamePlayersContainer = () => {
         navigate("/");
     }
 
-
     const addNewUser = (value: string) => {
+        console.log(`We're running the addNewUser Code`);
         appAction({
         type: ActionType.ADD_PLAYER,
         payload: {
@@ -31,6 +31,7 @@ const NamePlayersContainer = () => {
     }
 
     const setTotalPlayers = (value: number) => {
+        console.log(`We're running the setTotalPlayers Code`);
         appAction({
         type: ActionType.SET_TOTAL_PLAYERS,
         payload: {
@@ -43,12 +44,20 @@ const NamePlayersContainer = () => {
             }
         })
     }
+
+    const beginPrestart = () => {
+        console.log(`We're running the beginPrestart Code`);
+        appAction({
+        type: ActionType.BEGIN_PRESTART,
+      })
+    }
+
     return (
         <div>
             <div className='name-players-container'>
                 <HelpButton style={{position: 'absolute', top:'15px', right:'0px'}}/>
                 <EscapeButton buttonFunction={handleEscapeButtonSubmit} style={{position: 'absolute', top:'15px', left:'15px'}} text={'X'}/>
-                <NameForm setTotalPlayers={setTotalPlayers} addUser={addNewUser} style={{position: 'absolute', top:'50px'}}/>
+                <NameForm setTotalPlayers={setTotalPlayers} addUser={addNewUser} beginPrestart={beginPrestart} style={{position: 'absolute', top:'50px'}}/>
             </div>
         </div>
     )

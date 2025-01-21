@@ -261,6 +261,7 @@ export enum ActionType {
     SET_TOTAL_PLAYERS = "set_total_players",
     GENERATE_PLAYERS = "generate_players",
     SHUFFLE_PLAYERS = "shuffle_players",
+    BEGIN_PRESTART = "begin_prestart",
     START_GAME = "start_game",
     SET_CURRENT_PLAYER = "set_current_player",
     ROLL_DICE = "roll_dice",
@@ -280,7 +281,7 @@ export enum ActionType {
 }
 
 
-export type GameAction = ReturnToHomeScreenAction | SelectNamePlayers | AddPlayerAction | SetTotalPlayersAction | GeneratePlayersAction | ShufflePlayers | StartGame | SetCurrentPlayer | RollDice | MovePlayerToken | ShowDiceResults | TreasurePickupDecision | TreasureLeaveDecision | TreasureDropDecision | NextPlayerTurn | SetOxygenLevel | DeeperOrBack | PlayerGotBack | SkipPlayersGo | EndTheRound | NextPlayerLogic | TallyScores;
+export type GameAction = ReturnToHomeScreenAction | SelectNamePlayers | AddPlayerAction | SetTotalPlayersAction | GeneratePlayersAction | ShufflePlayers | BeginPrestart | StartGame | SetCurrentPlayer | RollDice | MovePlayerToken | ShowDiceResults | TreasurePickupDecision | TreasureLeaveDecision | TreasureDropDecision | NextPlayerTurn | SetOxygenLevel | DeeperOrBack | PlayerGotBack | SkipPlayersGo | EndTheRound | NextPlayerLogic | TallyScores;
 
 export interface ReturnToHomeScreenAction { 
     type: ActionType.RETURN_TO_HOMESCREEN;
@@ -316,6 +317,10 @@ export interface ShufflePlayers {
     payload: {
         shuffledPlayersArray: Players[];
     }
+}
+
+export interface BeginPrestart {
+    type: ActionType.BEGIN_PRESTART;
 }
 
 export interface StartGame {
@@ -467,6 +472,11 @@ export const GameContextReducer: Reducer<
                     ...action.payload.shuffledPlayersArray
             ]
         }
+        case ActionType.BEGIN_PRESTART: 
+            return {
+                ...state,
+                currentStep: 'preStart',
+            }
         case ActionType.START_GAME: 
             return {
                 ...state,

@@ -21,17 +21,23 @@ const HomeScreen = () => {
     const [appState, appAction] = useContext(GameContext);
     const soundUrl = bubbleClickSFX;
     const [play] = useSound(soundUrl, { playbackRate: 1.0});
+    const [playerIsReady, setPlayerIsReady] = useState(false);
 
     const PlayAudio = () => {
         const newPlaybackRate = 0.5 + Math.random();
         play({ playbackRate: newPlaybackRate});
     }
-    const [playerIsReady, setPlayerIsReady] = useState(false);
 
     const selectNamePlayers = () => {
-        appAction({
-        type: ActionType.SELECT_NAME_PLAYERS,
-      })
+        console.log(`We're running the SELECT_NAME_PLAYERS code, and playerIsReady === ${playerIsReady}`);
+        if(playerIsReady === false){
+            console.log(`FIRST IF - We're running the SELECT_NAME_PLAYERS code, and playerIsReady === ${playerIsReady}`);
+            appAction({
+            type: ActionType.SELECT_NAME_PLAYERS,
+          })
+        } else if (playerIsReady === true){
+            console.log(`SECOND IF - We're running the SELECT_NAME_PLAYERS code, and playerIsReady === ${playerIsReady}`);
+        }
     }
 
     useEffect (() => {

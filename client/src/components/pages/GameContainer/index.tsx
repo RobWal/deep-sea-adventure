@@ -58,7 +58,7 @@ const GameContainer = () => {
 
     useEffect(() => {
         console.log(`The current appState.currentStep is - ${appState.currentStep}`);
-        console.log(announcerInnerText);
+        console.log(`The current announceInnextText is - ${announcerInnerText}`);
         if(appState.currentPlayer === -1) { 
             setAnnouncerInnerText('') 
         };
