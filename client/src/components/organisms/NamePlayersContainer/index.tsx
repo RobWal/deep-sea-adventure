@@ -9,12 +9,22 @@ import {
     GameContextReducer,
     DefaultGameState,
 } from "../../../application-context";
+import useSound from 'use-sound';
+import bubbleClickSFX from '../../sfx/bubbleClick.mp3';
 
 const NamePlayersContainer = () => {
     const [appState, appAction] = useContext(GameContext);
+    const soundUrl = bubbleClickSFX;
+    const [play] = useSound(soundUrl, { playbackRate: 1.0});
+    
+    const playAudio = () => {
+        const newPlaybackRate = 0.5 + Math.random();
+        play({ playbackRate: newPlaybackRate});
+    };
 
     const handleEscapeButtonSubmit = () => {
         console.log(`We're clicking the button`);
+        playAudio();
         appAction({
             type: ActionType.RETURN_TO_HOMESCREEN
         })
