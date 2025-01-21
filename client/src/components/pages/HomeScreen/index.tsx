@@ -23,20 +23,22 @@ const HomeScreen = () => {
     const [play] = useSound(soundUrl, { playbackRate: 1.0});
     const [playerIsReady, setPlayerIsReady] = useState(false);
 
-    const PlayAudio = () => {
+    const playAudio = () => {
         const newPlaybackRate = 0.5 + Math.random();
         play({ playbackRate: newPlaybackRate});
-    }
+    };
 
     const selectNamePlayers = () => {
-        console.log(`We're running the SELECT_NAME_PLAYERS code, and playerIsReady === ${playerIsReady}`);
+        //playAudio();
+        setPlayerIsReady(true)
         if(playerIsReady === false){
-            console.log(`FIRST IF - We're running the SELECT_NAME_PLAYERS code, and playerIsReady === ${playerIsReady}`);
+            playAudio();
+            console.log(`We're inside the if false code`);
             appAction({
             type: ActionType.SELECT_NAME_PLAYERS,
-          })
-        } else if (playerIsReady === true){
-            console.log(`SECOND IF - We're running the SELECT_NAME_PLAYERS code, and playerIsReady === ${playerIsReady}`);
+          });
+        } else if(playerIsReady === true){
+            //playAudio();
         }
     }
 
@@ -49,7 +51,7 @@ const HomeScreen = () => {
 
     return (
         <div>
-            <div className="home-screen" onClick={()=>{{playerIsReady ? <></> : PlayAudio()}{setPlayerIsReady(true)}{selectNamePlayers()}}}>
+            <div className="home-screen" onClick={()=>selectNamePlayers()}>
                 <div className='text-container'>
                     <H1 text={'DEEP SEA ADVENTURE'} style={{marginTop: '20px', fontSize:'82px', color: '#2AD2C5'}}/>
                     <H1 text={'Click to play!'} style={{marginTop: '60px',color: 'white', fontSize: '45px'}}/>

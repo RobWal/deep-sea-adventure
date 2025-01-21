@@ -17,11 +17,11 @@ const NamePlayersContainer = () => {
 
     const handleEscapeButtonSubmit = () => {
         console.log(`We're clicking the button`);
-        navigate("/");
+        
+        //navigate("/");
     }
 
     const addNewUser = (value: string) => {
-        console.log(`We're running the addNewUser Code`);
         appAction({
         type: ActionType.ADD_PLAYER,
         payload: {
@@ -31,7 +31,6 @@ const NamePlayersContainer = () => {
     }
 
     const setTotalPlayers = (value: number) => {
-        console.log(`We're running the setTotalPlayers Code`);
         appAction({
         type: ActionType.SET_TOTAL_PLAYERS,
         payload: {
@@ -46,7 +45,6 @@ const NamePlayersContainer = () => {
     }
 
     const beginPrestart = () => {
-        console.log(`We're running the beginPrestart Code`);
         appAction({
         type: ActionType.BEGIN_PRESTART,
       })
