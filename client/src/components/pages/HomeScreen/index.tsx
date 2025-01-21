@@ -3,7 +3,6 @@ import {
     ActionType,
     GameContext,
 } from "../../../application-context";
-import useSound from 'use-sound';
 import DSALogo from '../../atoms/VisualAssets/DSALogo';
 import H1 from '../../atoms/H1';
 import NoTreasure from '../../atoms/VisualAssets/NoTreasure';
@@ -15,6 +14,7 @@ import TreasureThree from '../../atoms/VisualAssets/TreasureThree';
 import TreasureTwo from '../../atoms/VisualAssets/TreasureTwo';
 import NamePlayersContainer from '../../organisms/NamePlayersContainer';
 import './HomeScreen.css';
+import useSound from 'use-sound';
 import bubbleClickSFX from '../../sfx/bubbleClick.mp3';
 
 const HomeScreen = () => {
