@@ -20,6 +20,7 @@ const NamePlayersContainer = () => {
         navigate("/");
     }
 
+
     const addNewUser = (value: string) => {
         appAction({
         type: ActionType.ADD_PLAYER,

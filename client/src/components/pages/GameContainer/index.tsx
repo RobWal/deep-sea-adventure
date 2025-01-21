@@ -41,6 +41,7 @@ const GameContainer = () => {
     }
 
     useEffect(() => {
+        console.log(`The current appState.currentStep is - ${appState.currentStep}`);
         if(appState.currentStep === 'preStart'){
             setTimeout(() => {
                 setWhoGoesFirstVisibility(false)
@@ -56,7 +57,7 @@ const GameContainer = () => {
     }, [appState.currentStep]);
 
     useEffect(() => {
-        console.log(appState.currentStep);
+        console.log(`The current appState.currentStep is - ${appState.currentStep}`);
         console.log(announcerInnerText);
         if(appState.currentPlayer === -1) { 
             setAnnouncerInnerText('') 

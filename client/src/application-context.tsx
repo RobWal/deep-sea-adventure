@@ -256,6 +256,7 @@ export const DefaultGameState: GameState = {
 
 export enum ActionType {
     RETURN_TO_HOMESCREEN = "return_to_homescreen",
+    SELECT_NAME_PLAYERS = "select_name_players",
     ADD_PLAYER = "add_player",
     SET_TOTAL_PLAYERS = "set_total_players",
     GENERATE_PLAYERS = "generate_players",
@@ -279,10 +280,14 @@ export enum ActionType {
 }
 
 
-export type GameAction = ReturnToHomeScreenAction | AddPlayerAction | SetTotalPlayersAction | GeneratePlayersAction | ShufflePlayers | StartGame | SetCurrentPlayer | RollDice | MovePlayerToken | ShowDiceResults | TreasurePickupDecision | TreasureLeaveDecision | TreasureDropDecision | NextPlayerTurn | SetOxygenLevel | DeeperOrBack | PlayerGotBack | SkipPlayersGo | EndTheRound | NextPlayerLogic | TallyScores;
+export type GameAction = ReturnToHomeScreenAction | SelectNamePlayers | AddPlayerAction | SetTotalPlayersAction | GeneratePlayersAction | ShufflePlayers | StartGame | SetCurrentPlayer | RollDice | MovePlayerToken | ShowDiceResults | TreasurePickupDecision | TreasureLeaveDecision | TreasureDropDecision | NextPlayerTurn | SetOxygenLevel | DeeperOrBack | PlayerGotBack | SkipPlayersGo | EndTheRound | NextPlayerLogic | TallyScores;
 
 export interface ReturnToHomeScreenAction { 
     type: ActionType.RETURN_TO_HOMESCREEN;
+}
+
+export interface SelectNamePlayers { 
+    type: ActionType.SELECT_NAME_PLAYERS;
 }
 
 export interface AddPlayerAction {
@@ -418,6 +423,12 @@ export const GameContextReducer: Reducer<
                 ...state,
                 currentStep: 'returnToHomeScreen',
             }
+        case ActionType.SELECT_NAME_PLAYERS: 
+            return {
+                ...state,
+                currentStep: 'selectNamePlayers',
+            }
+
         case ActionType.ADD_PLAYER:
             return {
                 ...state,

@@ -28,18 +28,22 @@ const HomeScreen = () => {
     }
     const [playerIsReady, setPlayerIsReady] = useState(false);
 
+    const selectNamePlayers = () => {
+        appAction({
+        type: ActionType.SELECT_NAME_PLAYERS,
+      })
+    }
+
     useEffect (() => {
-        console.log(`We're in the homescreen use effect`)
         console.log(`The game currentStep is ${appState.currentStep}`)
         if(appState.currentStep === 'returnToHomeScreen'){
             setPlayerIsReady(false);
         };
     });
 
-
     return (
         <div>
-            <div className="home-screen" onClick={()=>{{playerIsReady ? <></> : PlayAudio()}{setPlayerIsReady(true)}}}>
+            <div className="home-screen" onClick={()=>{{playerIsReady ? <></> : PlayAudio()}{setPlayerIsReady(true)}{selectNamePlayers()}}}>
                 <div className='text-container'>
                     <H1 text={'DEEP SEA ADVENTURE'} style={{marginTop: '20px', fontSize:'82px', color: '#2AD2C5'}}/>
                     <H1 text={'Click to play!'} style={{marginTop: '60px',color: 'white', fontSize: '45px'}}/>
