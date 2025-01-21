@@ -62,8 +62,8 @@ const NamePlayersContainer = () => {
     return (
         <div>
             <div className='name-players-container'>
-                <HelpButton style={{position: 'absolute', top:'15px', right:'0px'}}/>
-                <EscapeButton buttonFunction={handleEscapeButtonSubmit} style={{position: 'absolute', top:'15px', left:'15px'}} text={'X'}/>
+                <HelpButton style={{position: 'absolute', top:'15px', right:'15px', margin:'15px', zIndex:'1'}}/>
+                <EscapeButton buttonFunction={handleEscapeButtonSubmit} style={{position: 'absolute', top:'15px', left:'15px', margin:'15px', zIndex:'1'}} text={'X'}/>
                 <NameForm setTotalPlayers={setTotalPlayers} addUser={addNewUser} beginPrestart={beginPrestart} style={{position: 'absolute', top:'50px'}}/>
             </div>
         </div>

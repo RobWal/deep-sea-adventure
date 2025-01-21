@@ -9,7 +9,7 @@ type EscapeButton = {
 
 const EscapeButton = ({buttonFunction, style, text}: EscapeButton) => {
     return (
-        <div onClick={buttonFunction} style={style}>
+        <div className='IMRIGHTHERE' onClick={buttonFunction} style={style}>
             <h2 className="escape-button-text">{text}</h2>
             <ButtonCircle />
         </div>
