@@ -62,12 +62,16 @@ const HomeScreen = () => {
                     <TreasureFour style={{position: 'absolute', top: '400px', left: '410px'}}/>
                     <TreasureFour style={{position: 'absolute', top: '450px', left: '330px'}}/>
                 </div>
-                {/*appState.currentStep === 'selectNamePlayers' || 'homescreenHelpButton' ? <TealOverlay /> : <></>*/}
-                {/*appState.currentStep === 'selectNamePlayers' || 'homescreenHelpButton' ? <NamePlayersContainer /> : <></>*/}
-                {appState.currentStep === 'selectNamePlayers' ? <TealOverlay /> : <></>}
+                
+                {/* TEST CODE #2 TO COMBINE THE CURRENTSTEP CHECKS USING NESTED TERNARY OPERATORS - */}
+                {appState.currentStep === 'selectNamePlayers' ? <TealOverlay /> : appState.currentStep === 'homescreenHelpButton' ? <TealOverlay /> : <></>}
+                {appState.currentStep === 'selectNamePlayers' ? <NamePlayersContainer /> : appState.currentStep === 'homescreenHelpButton' ? <NamePlayersContainer /> : <></>}
+
+                {/* ALTERNATIVE CODE THAT WORKS TO SHOW <TEALOVERLAY/> AND <NAMEPLAYERSCONTAINER/> */}
+                {/* {appState.currentStep === 'selectNamePlayers' ? <TealOverlay /> : <></>}
                 {appState.currentStep === 'selectNamePlayers' ? <NamePlayersContainer /> : <></>}
                 {appState.currentStep === 'homescreenHelpButton' ? <TealOverlay /> : <></>}
-                {appState.currentStep === 'homescreenHelpButton' ? <NamePlayersContainer /> : <></>}
+                {appState.currentStep === 'homescreenHelpButton' ? <NamePlayersContainer /> : <></>} */}
             </div>
         </div>
     )
