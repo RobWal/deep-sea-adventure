@@ -23,10 +23,17 @@ const NamePlayersContainer = () => {
     };
 
     const handleEscapeButtonSubmit = () => {
-        console.log(`We're clicking the button`);
         playAudio();
         appAction({
             type: ActionType.RETURN_TO_HOMESCREEN
+        })
+    }
+
+    const handleHelpButtonSubmit = () => {
+        console.log(`We're clicking the help button`);
+        playAudio();
+        appAction({
+            type: ActionType.HOMESCREEN_HELP_BUTTON
         })
     }
 
@@ -62,8 +69,8 @@ const NamePlayersContainer = () => {
     return (
         <div>
             <div className='name-players-container'>
-                <HelpButton style={{position: 'absolute', top:'15px', right:'15px', margin:'15px', zIndex:'1'}}/>
-                <EscapeButton buttonFunction={handleEscapeButtonSubmit} style={{position: 'absolute', top:'15px', left:'15px', margin:'15px', zIndex:'1'}} text={'X'}/>
+                <HelpButton text={'?'} buttonFunction={handleHelpButtonSubmit} style={{position: 'absolute', top:'15px', right:'15px', margin:'15px', zIndex:'1'}}/>
+                <EscapeButton text={'X'} buttonFunction={handleEscapeButtonSubmit} style={{position: 'absolute', top:'15px', left:'15px', margin:'15px', zIndex:'1'}}/>
                 <NameForm setTotalPlayers={setTotalPlayers} addUser={addNewUser} beginPrestart={beginPrestart} style={{position: 'absolute', top:'50px'}}/>
             </div>
         </div>

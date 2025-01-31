@@ -30,14 +30,13 @@ const HomeScreen = () => {
     const selectNamePlayers = () => {        
         if(appState.currentStep === 'returnToHomeScreen'){
             playAudio();
-            console.log(`We're inside the if false code`);
             appAction({
                 type: ActionType.SELECT_NAME_PLAYERS,
             });
         } else if(appState.currentStep === 'selectNamePlayers'){
             //Currently does nothing
-        }
-    }
+        };
+    };
 
     return (
         <div>
@@ -63,11 +62,15 @@ const HomeScreen = () => {
                     <TreasureFour style={{position: 'absolute', top: '400px', left: '410px'}}/>
                     <TreasureFour style={{position: 'absolute', top: '450px', left: '330px'}}/>
                 </div>
+                {/*appState.currentStep === 'selectNamePlayers' || 'homescreenHelpButton' ? <TealOverlay /> : <></>*/}
+                {/*appState.currentStep === 'selectNamePlayers' || 'homescreenHelpButton' ? <NamePlayersContainer /> : <></>*/}
                 {appState.currentStep === 'selectNamePlayers' ? <TealOverlay /> : <></>}
                 {appState.currentStep === 'selectNamePlayers' ? <NamePlayersContainer /> : <></>}
+                {appState.currentStep === 'homescreenHelpButton' ? <TealOverlay /> : <></>}
+                {appState.currentStep === 'homescreenHelpButton' ? <NamePlayersContainer /> : <></>}
             </div>
         </div>
     )
-}
+};
 
 export default HomeScreen;

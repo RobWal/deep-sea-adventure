@@ -1,10 +1,16 @@
 import ButtonCircle from "../../atoms/ButtonCircle";
 import './HelpButton.css'
 
-const HelpButton = ({style}: any) => {
+type HelpButton = {
+    buttonFunction: any,
+    style: object,
+    text: string,
+}
+
+const HelpButton = ({buttonFunction, style, text}: any) => {
     return (
-        <div style={style}>
-            <h2 className="help-button-text">?</h2>
+        <div onClick={buttonFunction} style={style}>
+            <h2 className="help-button-text">{text}</h2>
             <ButtonCircle />
         </div>
     )

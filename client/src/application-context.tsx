@@ -206,7 +206,7 @@ export interface Players {
 }
 
 export const playerGenerator = (totalPlayers: number) => {
-    const botNameArray = ['Klaus', 'Stan', 'Francine', 'Hayley', 'Steve', 'Roger', 'Jeff', 'Reggie', 'Lewis', 'Greg', 'Terry', 'Toshi', 'Avery']
+    const botNameArray = ['Klaus', 'Stan', 'Francine', 'Hayley', 'Steve', 'Roger', 'Jeff', 'Reggie', 'Lewis', 'Greg', 'Terry', 'Toshi', 'Avery', 'Barry', 'Snot']
     const botColorArray = ['#FF1616', '#FFDE59', '#008037', '#5E17EB', '#000000'];
     let newPlayersArray = [];
     let nameArrayIndex = 0;
@@ -257,6 +257,7 @@ export const DefaultGameState: GameState = {
 export enum ActionType {
     RETURN_TO_HOMESCREEN = "return_to_homescreen",
     SELECT_NAME_PLAYERS = "select_name_players",
+    HOMESCREEN_HELP_BUTTON = "homescreen_help_button",
     ADD_PLAYER = "add_player",
     SET_TOTAL_PLAYERS = "set_total_players",
     GENERATE_PLAYERS = "generate_players",
@@ -281,7 +282,7 @@ export enum ActionType {
 }
 
 
-export type GameAction = ReturnToHomeScreenAction | SelectNamePlayers | AddPlayerAction | SetTotalPlayersAction | GeneratePlayersAction | ShufflePlayers | BeginPrestart | StartGame | SetCurrentPlayer | RollDice | MovePlayerToken | ShowDiceResults | TreasurePickupDecision | TreasureLeaveDecision | TreasureDropDecision | NextPlayerTurn | SetOxygenLevel | DeeperOrBack | PlayerGotBack | SkipPlayersGo | EndTheRound | NextPlayerLogic | TallyScores;
+export type GameAction = ReturnToHomeScreenAction | SelectNamePlayers | HomescreenHelpButton | AddPlayerAction | SetTotalPlayersAction | GeneratePlayersAction | ShufflePlayers | BeginPrestart | StartGame | SetCurrentPlayer | RollDice | MovePlayerToken | ShowDiceResults | TreasurePickupDecision | TreasureLeaveDecision | TreasureDropDecision | NextPlayerTurn | SetOxygenLevel | DeeperOrBack | PlayerGotBack | SkipPlayersGo | EndTheRound | NextPlayerLogic | TallyScores;
 
 export interface ReturnToHomeScreenAction { 
     type: ActionType.RETURN_TO_HOMESCREEN;
@@ -289,6 +290,10 @@ export interface ReturnToHomeScreenAction {
 
 export interface SelectNamePlayers { 
     type: ActionType.SELECT_NAME_PLAYERS;
+}
+
+export interface HomescreenHelpButton { 
+    type: ActionType.HOMESCREEN_HELP_BUTTON;
 }
 
 export interface AddPlayerAction {
@@ -433,7 +438,11 @@ export const GameContextReducer: Reducer<
                 ...state,
                 currentStep: 'selectNamePlayers',
             }
-
+        case ActionType.HOMESCREEN_HELP_BUTTON: 
+            return {
+                ...state,
+                currentStep: 'homescreenHelpButton',
+            }
         case ActionType.ADD_PLAYER:
             return {
                 ...state,
