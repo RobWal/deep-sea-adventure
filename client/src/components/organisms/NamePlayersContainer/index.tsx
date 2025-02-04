@@ -30,7 +30,6 @@ const NamePlayersContainer = () => {
     }
 
     const handleHelpButtonSubmit = () => {
-        console.log(`We're clicking the help button`);
         playAudio();
         appAction({
             type: ActionType.HOMESCREEN_HELP_BUTTON

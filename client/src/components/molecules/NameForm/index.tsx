@@ -7,21 +7,17 @@ import useSound from 'use-sound';
 import bubbleClickSFX from '../../sfx/bubbleClick.mp3';
 
 const NameForm = ({style, addUser, setTotalPlayers, beginPrestart}: any) => {
-    
     const [nameIsValid, setNameIsValid] = useState(false);
     let navigate = useNavigate();
     const [playerName, setPlayerName] = useState("");
-    // PLACEHOLDER SOUND EFFECT - I WANT TO REPLACE IT WITH A NEW SOUND TO SIGNAL 'WE'RE ENTERING THE GAME'
     const soundUrl = bubbleClickSFX;
     const [play] = useSound(soundUrl, { playbackRate: 1.0});
-        
+
     const playAudio = () => {
-        // PLACEHOLDER PLAYBACK RATE - WILL BE TWEAKED WITH NEW SOUND EFFECT
-        const newPlaybackRate = 0.5 + Math.random();
+        const newPlaybackRate = 0.5;
         play({ playbackRate: newPlaybackRate});
     };
     
-
     const handleChange = (event: any) => {
         setPlayerName(event.target.value);
     }
