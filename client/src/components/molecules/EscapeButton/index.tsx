@@ -1,17 +1,15 @@
-import ButtonCircle from "../../atoms/ButtonCircle";
+import EscapeCircle from "../../atoms/VisualAssets/EscapeCircle";
 import './EscapeButton.css'
 
 type EscapeButton = {
     buttonFunction: any,
     style: object,
-    text: string,
 }
 
-const EscapeButton = ({buttonFunction, style, text}: EscapeButton) => {
+const EscapeButton = ({buttonFunction, style}: EscapeButton) => {
     return (
         <div onClick={buttonFunction} style={style}>
-            <h2 className="escape-button-text">{text}</h2>
-            <ButtonCircle />
+            <EscapeCircle />
         </div>
     )
 }
