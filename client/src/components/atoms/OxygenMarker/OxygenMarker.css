@@ -1,0 +1,4 @@
+.oxygen-marker {
+    transition-property: top, left;
+    transition-duration: 500ms;
+}
