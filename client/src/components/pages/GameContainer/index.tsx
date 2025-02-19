@@ -23,6 +23,7 @@ import TealOverlay from '../../atoms/TealOverlay';
 import RollTheDiceContainer from '../../molecules/RollTheDiceContainer';
 import PickupTreasureContainer from '../../molecules/PickupTreasureContainer';
 import ForwardsOrBackwardsContainer from '../../molecules/ForwardsOrBackwardsContainer';
+const util = require('util');
 
 export interface PlayerMapPositions {
     [index: number]: number
@@ -56,6 +57,7 @@ const GameContainer = () => {
     }, [appState.currentStep]);
 
     useEffect(() => {
+        console.log(util.inspect(appState, {showHidden: false, depth: null, colors: false}));
         if(appState.currentPlayer === -1) { 
             setAnnouncerInnerText('') 
         };
@@ -181,11 +183,13 @@ const GameContainer = () => {
         if(appState.currentStep === 'moving'){
             setTimeout(() => {
                 let playerMapPositions: PlayerMapPositions = {};
+                // 
                 for(let i = 0; i < appState.players.length; i++){
-                    playerMapPositions[appState.players[i].mapPosition] = appState.players[i].id
+                    playerMapPositions[appState.players[i].mapPosition] = appState.players[i].id;
                 }
                 let totalPlacesToMove = (appState.dice[0] + appState.dice[1]) - appState.players[appState.currentPlayer].treasure.length;
                 let simulatedPlayerPosition = appState.players[appState.currentPlayer].mapPosition;
+                console.log(playerMapPositions);
                 if(appState.players[appState.currentPlayer].direction === 'forwards'){
                     if(totalPlacesToMove < 0){
                         totalPlacesToMove = 0;
@@ -210,8 +214,7 @@ const GameContainer = () => {
                 } else if(appState.players[appState.currentPlayer].direction === 'backwards'){
                     if(totalPlacesToMove < 0) {
                         totalPlacesToMove = 0;
-                    } 
-                    console.log(playerMapPositions);
+                    }
                     for(let i = 0; i < totalPlacesToMove; i++){
                         if(playerMapPositions[simulatedPlayerPosition-1] !== undefined && playerMapPositions[simulatedPlayerPosition-1] !== appState.players[appState.currentPlayer].id){
                             totalPlacesToMove++;

@@ -19,5 +19,8 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "description": ""
+  "description": "",
+  "dependencies": {
+    "util": "^0.12.5"
+  }
 }
