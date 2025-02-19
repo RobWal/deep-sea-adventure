@@ -25,6 +25,8 @@ import TreasureThreeInventory from "./components/atoms/VisualAssets/TreasureThre
 import TreasureTwo from "./components/atoms/VisualAssets/TreasureTwo";
 import TreasureTwoInventory from "./components/atoms/VisualAssets/TreasureTwoInventory";
 
+const util = require('util');
+
 interface PlayerTokenHomeLocations {
     [index: number]: {
         top: string,
@@ -157,6 +159,9 @@ export const shownInventoryTileTypes: TileTypes = {
     15: <TreasurePointFifteen />,
 }
 
+
+// The purpose of this function is to declare the default unshuffled tiles ([0,0,1,etc. --> ,14,15,15]), shuffle those values, to be run  
+// by the DefaultGameState initiator, prior to declaring gameStates. 
 export const tileGenerator = () => {
     const numberOfTiles = 8;
     const tileTypes = [
@@ -177,11 +182,20 @@ export const tileGenerator = () => {
             treasureValues: [12,12,13,13,14,14,15,15]
         }
     ]
+    // This code initiates the tiles array, which will be used to store the current state of the tiles on the board. 
     const tiles: any[] = [];
+    // This loop iterates through the tileTypes array, with the primary purpose of shuffling the tiles of each type.
     tileTypes.forEach((type, index) => {
+        console.log(`I'm logging type: ${util.inspect(type, {showHidden: false, depth: null, colors: false})}`);
+        console.log(`I'm logging index: ${index}`);
+        // As the main loop goes through tile types, this code takes the values from the current tile type array, and generates a shuffled version.
+        // E.g tileTypes[0].treasureValues: [0,0,1,1,2,2,3,3] ---> tileTypes[0].treasureValues: [3,2,0,1,2,0,1,3]
         const treasureValues = type.treasureValues.sort((a: any,b: any)=>{
             return Math.random()-0.5
         });
+        console.log(`I'm logging treasureValues: ${treasureValues}`);
+        // The newly generated treasureValues array from the above code (e.g. tileTypes[1].treasureValues: [4,4,7,5,5,6,6,7]) is then pushed into the tiles array
+        // one at a time, as numberOfTiles is 8, the number of tiles in each tile type. 
         for(let i = 0; i < numberOfTiles; i++){
             tiles.push({
                 type: type.type,
@@ -443,6 +457,21 @@ export const GameContextReducer: Reducer<
                 ...state,
                 currentStep: 'homescreenHelpButton',
             }
+        case ActionType.SET_TOTAL_PLAYERS:
+            return {
+                ...state,
+                totalPlayers: action.payload.totalPlayers,
+            };
+        case ActionType.GENERATE_PLAYERS:
+            let playerArray = playerGenerator(action.payload.totalPlayers);
+            return {
+                ...state,
+                players: [
+                ...playerArray,
+                ...state.players,
+            ]};
+        // This code is run after the 'SET_TOTAL_PLAYERS' and 'GENERATE_PLAYERS' ActionTypes, in the 'NamePlayersContainer' Organism., once the player enters a valid 
+        // name. It takes the input value 'playerName' and adds them as player 1 (id: 1). This is immediately followed by the 'BEGIN_PRESTART' ActionType.
         case ActionType.ADD_PLAYER:
             return {
                 ...state,
@@ -458,46 +487,30 @@ export const GameContextReducer: Reducer<
                     direction: 'forwards',
                 },
                 ...state.players,
-            ]
-        };
-        case ActionType.SET_TOTAL_PLAYERS:
-            return {
-                ...state,
-                totalPlayers: action.payload.totalPlayers,
-        }
-        case ActionType.GENERATE_PLAYERS:
-            let playerArray = playerGenerator(action.payload.totalPlayers);
-            return {
-                ...state,
-                players: [
-                ...playerArray,
-                ...state.players,
-            ]
-        }
+            ]};
         case ActionType.SHUFFLE_PLAYERS:
             return {
                 ...state, 
                 players: [
                     ...action.payload.shuffledPlayersArray
-            ]
-        }
+            ]};
         case ActionType.BEGIN_PRESTART: 
             return {
                 ...state,
                 currentStep: 'preStart',
-            }
+            };
         case ActionType.START_GAME: 
             return {
                 ...state,
                 currentStep: 'rolling',
                 currentPlayer: 0,
                 currentRound: 1
-            }
+            };
         case ActionType.SET_CURRENT_PLAYER:
             return {
                 ...state,
                 currentPlayer: action.payload.currentPlayer
-            }
+            };
         case ActionType.ROLL_DICE:
             let firstDie = (Math.ceil(Math.random() * 3))
             let secondDie = (Math.ceil(Math.random() * 3))
@@ -505,12 +518,12 @@ export const GameContextReducer: Reducer<
                 ...state,
                 currentStep: 'rolled',
                 dice: [firstDie,secondDie],
-            }
+            };
         case ActionType.SHOW_DICE_RESULTS:
             return {
                 ...state,
                 currentStep: 'moving',
-        }
+            };
         case ActionType.MOVE_PLAYER_TOKEN:
             let updatedPositionPlayers = [...state.players];
             updatedPositionPlayers[action.payload.playerToMove] = {

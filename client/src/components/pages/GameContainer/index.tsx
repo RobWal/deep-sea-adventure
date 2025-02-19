@@ -23,6 +23,7 @@ import TealOverlay from '../../atoms/TealOverlay';
 import RollTheDiceContainer from '../../molecules/RollTheDiceContainer';
 import PickupTreasureContainer from '../../molecules/PickupTreasureContainer';
 import ForwardsOrBackwardsContainer from '../../molecules/ForwardsOrBackwardsContainer';
+
 const util = require('util');
 
 export interface PlayerMapPositions {
@@ -57,7 +58,10 @@ const GameContainer = () => {
     }, [appState.currentStep]);
 
     useEffect(() => {
-        console.log(util.inspect(appState, {showHidden: false, depth: null, colors: false}));
+        // INCREDIBLY HELPFUL CODE TO LET ME SEE THE ENTIRE APPSTATE IN A CONSOLE LOG. 
+        // console.log(util.inspect(appState, {showHidden: false, depth: null, colors: false}));
+
+
         if(appState.currentPlayer === -1) { 
             setAnnouncerInnerText('') 
         };
