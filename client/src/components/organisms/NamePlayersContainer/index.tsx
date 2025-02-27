@@ -1,4 +1,5 @@
 import { useContext } from "react";
+import { useNavigate } from "react-router-dom";
 import EscapeButton from "../../molecules/EscapeButton";
 import HelpButton from "../../molecules/HelpButton";
 import NameForm from "../../molecules/NameForm";
@@ -12,7 +13,12 @@ import {
 import useSound from 'use-sound';
 import bubbleClickSFX from '../../sfx/bubbleClick.mp3';
 
+// util allows us to read nested objects in the console in a user friendly way, i.e. instead of '[object Object]', it will log '{Tiles:[type:1, value:2]}'.
+const util = require('util');
+
+
 const NamePlayersContainer = () => {
+    let navigate = useNavigate();
     const [appState, appAction] = useContext(GameContext);
     const soundUrl = bubbleClickSFX;
     const [play] = useSound(soundUrl, { playbackRate: 1.0});
@@ -29,12 +35,16 @@ const NamePlayersContainer = () => {
         })
     }
 
+    // This is a function for a temporary button, to test and see if we can load the game state from Local Storage. 
     const handleLoadButtonSubmit = () => {
         console.log(`We're clicking the load button.`);
-        playAudio();
+        playAudio();  
+        console.log(localStorage.getItem('currentGame'));
         appAction({
             type: ActionType.HOMESCREEN_LOAD_BUTTON
-        })
+        });
+        console.log(`I'm logging type: ${util.inspect(appState, {showHidden: false, depth: null, colors: false})}`);
+        navigate("/gamecontainer");
     }
 
     const handleHelpButtonSubmit = () => {

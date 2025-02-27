@@ -24,7 +24,7 @@ import TreasureThree from "./components/atoms/VisualAssets/TreasureThree";
 import TreasureThreeInventory from "./components/atoms/VisualAssets/TreasureThreeInventory";
 import TreasureTwo from "./components/atoms/VisualAssets/TreasureTwo";
 import TreasureTwoInventory from "./components/atoms/VisualAssets/TreasureTwoInventory";
-
+// util allows us to read nested objects in the console in a user friendly way, i.e. instead of '[object Object]', it will log '{Tiles:[type:1, value:2]}'.
 const util = require('util');
 
 interface PlayerTokenHomeLocations {
@@ -463,11 +463,30 @@ export const GameContextReducer: Reducer<
                 currentStep: 'homescreenHelpButton',
             }
         case ActionType.HOMESCREEN_LOAD_BUTTON: 
-            console.log(`${util.inspect(state, {showHidden: false, depth: null, colors: false})}`);
-            return {
-                ...state,
-                currentStep: 'homescreenLoadButton',
-            }
+            //console.log(`${util.inspect(state, {showHidden: false, depth: null, colors: false})}`);
+            //let state = localStorage.getItem('currentGame');
+            //const translateCurrentSaveGame = localStorage.getItem("currentGame") || "{}".replace(/&quot;/ig,'"');
+            //const currentSaveGame: GameState = JSON.parse(translateCurrentSaveGame);
+            // console.log(`We are testing what currentGame looks like`);
+            // console.log(`${localStorage.getItem("currentGame")}`);
+            const currentSaveGame: GameState = JSON.parse(localStorage.getItem("currentGame") || "{}");
+            // const currentSaveGame = localStorage.getItem("currentGame") || "{}";
+            // console.log(`We are testing what currentSaveGame looks like`);
+            // console.log(currentSaveGame);
+            // I tried to implement the code in a cleaner more concise way 
+            // return { state: [currentSaveGame] }
+            // But it kept throwing errors due to typing, including an initial 'may return null' error which I solved with the || '{}' addition to the above const. 
+            return { 
+                ...state, 
+                currentRound: currentSaveGame.currentRound,
+                currentPlayer: currentSaveGame.currentPlayer,
+                totalPlayers: currentSaveGame.totalPlayers,
+                currentStep: currentSaveGame.currentStep,
+                dice: currentSaveGame.dice,
+                players: currentSaveGame.players,
+                round: currentSaveGame.round,
+                tiles: currentSaveGame.tiles,
+            };
         case ActionType.SET_TOTAL_PLAYERS:
             return {
                 ...state,

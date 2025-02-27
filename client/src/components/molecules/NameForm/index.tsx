@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom"
+import { useNavigate } from "react-router-dom";
 import ButtonNumberOfPlayers from "../../atoms/ButtonNumberOfPlayers";
 import H1 from "../../atoms/H1";
 import './NameForm.css';

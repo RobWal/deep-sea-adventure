@@ -26,7 +26,7 @@ import ForwardsOrBackwardsContainer from '../../molecules/ForwardsOrBackwardsCon
 import useSound from 'use-sound';
 import bubbleClickSFX from '../../sfx/bubbleClick.mp3';
 
-
+// util allows us to read nested objects in the console in a user friendly way, i.e. instead of '[object Object]', it will log '{Tiles:[type:1, value:2]}'.
 const util = require('util');
 
 export interface PlayerMapPositions {
@@ -57,7 +57,10 @@ const GameContainer = () => {
         console.log(`We're clicking the help button`);
         console.log(`This button is being temporarily used to communicate the game state via console.log(), for game save potential.`);
         console.log(`I'm logging type: ${util.inspect(appState, {showHidden: false, depth: null, colors: false})}`);
-        localStorage.setItem(`currentGame`, `${appState}`);
+        const currentGameSaveState = JSON.stringify(util.inspect(appState, {showHidden: false, depth: null, colors: false}));
+        //const currentGameSaveState = (util.inspect(appState, {showHidden: false, depth: null, colors: false})).replaceAll("\"", "&quot;").replaceAll("'","\"");
+        //console.log(currentGameSaveState);
+        localStorage.setItem(`currentGame`, `${currentGameSaveState}`);
         playAudio();
         //navigate("/");
     }
