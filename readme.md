@@ -60,15 +60,21 @@ Some examples are:
 -   The pacing of the game so that AI turns didn't happen instantly, but rather had a natural flow that the user could easily interpret
 -   Utilising react JSX components in a dynamic way to populate the UI depending on the useContext
 
-# Next steps
+# What I'm working towards now
 
-There were lots of potential features that could've been implemented, some of the features I was hoping to implement were:
+-   Implementing a way to load a game from a particular state, by allowing people to save the game state and load it.
 
--   Three rounds in total, which would include tile reorganising and drowned diver treasure being added to the trail.
+# Ongoing improvements
+
+-   Adding readability to the code, primarily by adding comments, as well as revising function and variable names. 
+
+# Potential future improvements
+
 -   Functional 'X' and '?' buttons that navigate the user to an options menu and a help menu respectively.
--   An indicator that makes clear whose turn it is, between the players score and their name.
--   Animations added to the movement of pieces such as treasure tiles and player tokens to more clearly illustrate the game state.
 -   Sound effects for a more immersive experience.
+-   Animations added to the movement of pieces such as treasure tiles and player tokens to more clearly illustrate the game state.
+-   Three rounds in total, which would include tile reorganising and drowned diver treasure being added to the trail.
+-   An indicator that makes clear whose turn it is, between the players score and their name.
 -   The ability to 'rewind' the game in order to see 'what if' a user had done something else.
 -   Allowing for multiple local users to play against each other, or AI.
 -   Allowing for multiple users to play online against each other, or AI, by utilising web sockets.

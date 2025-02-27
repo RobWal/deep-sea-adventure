@@ -29,7 +29,16 @@ const NamePlayersContainer = () => {
         })
     }
 
+    const handleLoadButtonSubmit = () => {
+        console.log(`We're clicking the load button.`);
+        playAudio();
+        appAction({
+            type: ActionType.HOMESCREEN_LOAD_BUTTON
+        })
+    }
+
     const handleHelpButtonSubmit = () => {
+        console.log(`We're clicking the help button.`);
         playAudio();
         appAction({
             type: ActionType.HOMESCREEN_HELP_BUTTON
@@ -71,6 +80,7 @@ const NamePlayersContainer = () => {
                 <HelpButton buttonFunction={handleHelpButtonSubmit} style={{position: 'absolute', top:'15px', right:'15px', margin:'15px', zIndex:'1'}}/>
                 <EscapeButton buttonFunction={handleEscapeButtonSubmit} style={{position: 'absolute', top:'15px', left:'15px', margin:'15px', zIndex:'1'}}/>
                 <NameForm setTotalPlayers={setTotalPlayers} addUser={addNewUser} beginPrestart={beginPrestart} style={{position: 'absolute', top:'50px'}}/>
+                <HelpButton buttonFunction={handleLoadButtonSubmit} style={{position: 'absolute', top:'5px', right:'245px', margin:'15px', zIndex:'1'}}/>
             </div>
         </div>
     )

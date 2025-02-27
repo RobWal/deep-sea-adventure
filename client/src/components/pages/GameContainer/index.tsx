@@ -23,6 +23,9 @@ import TealOverlay from '../../atoms/TealOverlay';
 import RollTheDiceContainer from '../../molecules/RollTheDiceContainer';
 import PickupTreasureContainer from '../../molecules/PickupTreasureContainer';
 import ForwardsOrBackwardsContainer from '../../molecules/ForwardsOrBackwardsContainer';
+import useSound from 'use-sound';
+import bubbleClickSFX from '../../sfx/bubbleClick.mp3';
+
 
 const util = require('util');
 
@@ -36,9 +39,23 @@ const GameContainer = () => {
     const [announcerInnerText, setAnnouncerInnerText] = useState("");
     const [returnedPlayerIds, setReturnedPlayerIds] = useState <number[]>([]);
     let navigate = useNavigate();
+    const soundUrl = bubbleClickSFX;
+    const [play] = useSound(soundUrl, { playbackRate: 1.0});
+
+    const playAudio = () => {
+        const newPlaybackRate = 0.5 + Math.random();
+        play({ playbackRate: newPlaybackRate});
+    };
 
     const handleEscapeButtonSubmit = () => {
         console.log(`We're clicking the escape button`);
+        playAudio();
+        //navigate("/");
+    }
+
+    const handleHelpButtonSubmit = () => {
+        console.log(`We're clicking the help button`);
+        playAudio();
         //navigate("/");
     }
 
@@ -433,7 +450,8 @@ const GameContainer = () => {
             <TileLayout />
             <PlayerTokens />
             <EscapeButton buttonFunction={handleEscapeButtonSubmit} style={{position: 'absolute', top: '15px', right: '0px'}}/>
-            <HelpButton style={{position: 'absolute', top: '15px', right: '50px'}}/>
+            {/* <HelpButton buttonFunction={handleLoadButtonSubmit} style={{position: 'absolute', top:'5px', right:'245px', margin:'15px', zIndex:'1'}}/> */}
+            <HelpButton buttonFunction={handleHelpButtonSubmit} style={{position: 'absolute', top: '15px', right: '50px'}}/>
             <OxygenSubmarine style={{position: 'absolute', top: '20px', left: '500px'}}/>
             <OxygenMarker style={{position: 'absolute', top: oxygenTokenLocations[appState.remainingOxygen].top, left: oxygenTokenLocations[appState.remainingOxygen].left}}/>
             <AnnouncerContainer dice={<DiceContainer />} announcerMessage={<AnnouncerMessage text={announcerInnerText}/>}/>
