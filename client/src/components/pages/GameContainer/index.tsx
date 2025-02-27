@@ -55,6 +55,9 @@ const GameContainer = () => {
 
     const handleHelpButtonSubmit = () => {
         console.log(`We're clicking the help button`);
+        console.log(`This button is being temporarily used to communicate the game state via console.log(), for game save potential.`);
+        console.log(`I'm logging type: ${util.inspect(appState, {showHidden: false, depth: null, colors: false})}`);
+        localStorage.setItem(`currentGame`, `${appState}`);
         playAudio();
         //navigate("/");
     }
