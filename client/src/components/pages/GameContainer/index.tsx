@@ -57,10 +57,16 @@ const GameContainer = () => {
         console.log(`We're clicking the help button`);
         console.log(`This button is being temporarily used to communicate the game state via console.log(), for game save potential.`);
         console.log(`I'm logging type: ${util.inspect(appState, {showHidden: false, depth: null, colors: false})}`);
-        const currentGameSaveState = JSON.stringify(util.inspect(appState, {showHidden: false, depth: null, colors: false}));
-        //const currentGameSaveState = (util.inspect(appState, {showHidden: false, depth: null, colors: false})).replaceAll("\"", "&quot;").replaceAll("'","\"");
-        //console.log(currentGameSaveState);
+        // This is old code for submitting the current appState to Local Storage. Unfortunately, it stored the data incorrectly. Trying new variations now. 
+        // const currentGameSaveState = JSON.stringify(util.inspect(appState, {showHidden: false, depth: null, colors: false}));
+        const currentGameSaveState = JSON.stringify(appState);
+        // const currentGameSaveState = (util.inspect(appState, {showHidden: false, depth: null, colors: false})).replaceAll("\"", "&quot;").replaceAll("'","\"");
+        // console.log(currentGameSaveState);
         localStorage.setItem(`currentGame`, `${currentGameSaveState}`);
+        // for(const [key, value] of Object.entries(appState)){
+        //     console.log(`I am storing the key: ${key}, and value: ${value} pair into storage.`);
+        //     localStorage.setItem(`${key}`, `${value}`);
+        // };
         playAudio();
         //navigate("/");
     }
@@ -450,7 +456,9 @@ const GameContainer = () => {
             }, 2000)
         }, 2000)
     }
-    }, [appState.currentStep])
+    }, [appState.currentStep]);
+    // console.log(`Rendering the game container now.`);
+    // console.log(`We're logging the appState.remainingOxygen: ${appState.remainingOxygen}`);
     return (
         <div className="game-container">
             <TileLayout />

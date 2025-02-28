@@ -78,3 +78,7 @@ Some examples are:
 -   The ability to 'rewind' the game in order to see 'what if' a user had done something else.
 -   Allowing for multiple local users to play against each other, or AI.
 -   Allowing for multiple users to play online against each other, or AI, by utilising web sockets.
+
+# Bugs
+
+-   The player tokens waiting area in the top right don't shuffle into the correct order after determining who goes first. 

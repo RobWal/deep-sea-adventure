@@ -186,14 +186,14 @@ export const tileGenerator = () => {
     const tiles: any[] = [];
     // This loop iterates through the tileTypes array, with the primary purpose of shuffling the tiles of each type.
     tileTypes.forEach((type, index) => {
-        console.log(`I'm logging type: ${util.inspect(type, {showHidden: false, depth: null, colors: false})}`);
-        console.log(`I'm logging index: ${index}`);
+        // console.log(`I'm logging type: ${util.inspect(type, {showHidden: false, depth: null, colors: false})}`);
+        // console.log(`I'm logging index: ${index}`);
         // As the main loop goes through tile types, this code takes the values from the current tile type array, and generates a shuffled version.
         // E.g tileTypes[0].treasureValues: [0,0,1,1,2,2,3,3] ---> tileTypes[0].treasureValues: [3,2,0,1,2,0,1,3]
         const treasureValues = type.treasureValues.sort((a: any,b: any)=>{
             return Math.random()-0.5
         });
-        console.log(`I'm logging treasureValues: ${treasureValues}`);
+        // console.log(`I'm logging treasureValues: ${treasureValues}`);
         // The newly generated treasureValues array from the above code (e.g. tileTypes[1].treasureValues: [4,4,7,5,5,6,6,7]) is then pushed into the tiles array
         // one at a time, as numberOfTiles is 8, the number of tiles in each tile type. 
         for(let i = 0; i < numberOfTiles; i++){
@@ -461,23 +461,45 @@ export const GameContextReducer: Reducer<
             return {
                 ...state,
                 currentStep: 'homescreenHelpButton',
-            }
+            }              
         case ActionType.HOMESCREEN_LOAD_BUTTON: 
-            //console.log(`${util.inspect(state, {showHidden: false, depth: null, colors: false})}`);
-            //let state = localStorage.getItem('currentGame');
-            //const translateCurrentSaveGame = localStorage.getItem("currentGame") || "{}".replace(/&quot;/ig,'"');
-            //const currentSaveGame: GameState = JSON.parse(translateCurrentSaveGame);
-            // console.log(`We are testing what currentGame looks like`);
-            // console.log(`${localStorage.getItem("currentGame")}`);
             const currentSaveGame: GameState = JSON.parse(localStorage.getItem("currentGame") || "{}");
-            // const currentSaveGame = localStorage.getItem("currentGame") || "{}";
-            // console.log(`We are testing what currentSaveGame looks like`);
-            // console.log(currentSaveGame);
-            // I tried to implement the code in a cleaner more concise way 
-            // return { state: [currentSaveGame] }
-            // But it kept throwing errors due to typing, including an initial 'may return null' error which I solved with the || '{}' addition to the above const. 
+            console.log(`We're trying to load the data in the currentSaveGame variable, but it's returning undefined.`);
+            console.log(`Below is the currentSaveGame`);
+            console.log(`${currentSaveGame}`);
+            // console.log(`Below is the state`);
+            // console.log(`${util.inspect(state, {showHidden: false, depth: null, colors: false})}}`);
+
+            // for(const property in currentSaveGame){
+            //     console.log(`${property}`)
+            // };
+            
+            // for(const [key, value] of Object.entries(currentSaveGame)){
+            //      console.log(`${key}: ${value}`)
+            //  }
+            console.log(`\n`);
+            console.log(`\n`);
+
+            console.log(`Below are the individual currentSaveGame properties:`);
+            console.log(`currentRound: ${currentSaveGame.currentRound}`);
+            console.log(`currentPlayer: ${currentSaveGame.currentPlayer}`);
+            console.log(`totalPlayers: ${currentSaveGame.totalPlayers}`);
+            console.log(`currentStep: ${currentSaveGame.currentStep}`);
+            console.log(`dice: ${currentSaveGame.dice}`);
+            console.log(`players: ${currentSaveGame.players}`);
+            console.log(`round: ${currentSaveGame.round}`);
+            console.log(`tiles: ${currentSaveGame.tiles}`);
+            console.log(`remainingOxygen: ${currentSaveGame.remainingOxygen}`);
+            // console.log(`\n`);
+            // console.log(`\n`);
+            // const testVariable = currentSaveGame.remainingOxygen;
+            // console.log(`Testing a new variable: ${testVariable}`);
+            // console.log(`Testing reading from JSON data as an array: ${currentSaveGame['currentPlayer']}`);
+            // console.log(`Testing whether the value exists on the object: ${currentSaveGame.remainingOxygen ? "True" : "False"}`)
+            console.log(`\n`);
+            console.log(`\n`);
             return { 
-                ...state, 
+                ...state,
                 currentRound: currentSaveGame.currentRound,
                 currentPlayer: currentSaveGame.currentPlayer,
                 totalPlayers: currentSaveGame.totalPlayers,
@@ -486,6 +508,7 @@ export const GameContextReducer: Reducer<
                 players: currentSaveGame.players,
                 round: currentSaveGame.round,
                 tiles: currentSaveGame.tiles,
+                remainingOxygen: currentSaveGame.remainingOxygen, 
             };
         case ActionType.SET_TOTAL_PLAYERS:
             return {

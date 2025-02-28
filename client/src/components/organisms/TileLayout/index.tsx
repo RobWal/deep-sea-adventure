@@ -1,7 +1,11 @@
 import { useContext } from 'react';
-import { GameContext, tileLocations, tileTypes } from '../../../application-context';
+import { 
+    GameContext, 
+    tileLocations, 
+    tileTypes,
+} from '../../../application-context';
 import Tile from '../../atoms/Tile';
-import './TileLayout.css'
+import './TileLayout.css';
 
 interface Tile {
     type: number,
@@ -12,7 +16,6 @@ interface Tile {
 
 const TileLayout = () => {
     const [appState, appAction] = useContext(GameContext);
-        
     return (
         <div className='tile-layout'>
             {appState.tiles.map((tile: Tile, index) => {

@@ -37,13 +37,13 @@ const NamePlayersContainer = () => {
 
     // This is a function for a temporary button, to test and see if we can load the game state from Local Storage. 
     const handleLoadButtonSubmit = () => {
-        console.log(`We're clicking the load button.`);
+        // console.log(`We're clicking the load button.`);
         playAudio();  
-        console.log(localStorage.getItem('currentGame'));
+        // console.log(localStorage.getItem('currentGame'));
         appAction({
             type: ActionType.HOMESCREEN_LOAD_BUTTON
         });
-        console.log(`I'm logging type: ${util.inspect(appState, {showHidden: false, depth: null, colors: false})}`);
+        // console.log(`I'm logging type: ${util.inspect(appState, {showHidden: false, depth: null, colors: false})}`);
         navigate("/gamecontainer");
     }
 
