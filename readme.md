@@ -62,7 +62,7 @@ Some examples are:
 
 # What I'm working towards now
 
--   Implementing a way to load a game from a particular state, by allowing people to save the game state and load it.
+-   Implementing a way to load a game from a particular state, by allowing people to save the game state and load it. Addressing bug #2.
 
 # Ongoing improvements
 
@@ -81,4 +81,5 @@ Some examples are:
 
 # Bugs
 
--   The player tokens waiting area in the top right don't shuffle into the correct order after determining who goes first. 
+-   1) The player tokens waiting area in the top right don't shuffle into the correct order after determining who goes first. 
+-   2) Loading the game from a previous save is currently bugged - It allows the game to continue, but shuffles player turn order for some reason. 
