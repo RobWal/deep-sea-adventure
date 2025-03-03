@@ -269,7 +269,6 @@ export const DefaultGameState: GameState = {
 };
 
 export enum ActionType {
-    START_LOADED_GAME = "start_loaded_game",
     RETURN_TO_HOMESCREEN = "return_to_homescreen",
     SELECT_NAME_PLAYERS = "select_name_players",
     HOMESCREEN_HELP_BUTTON = "homescreen_help_button",
@@ -298,11 +297,7 @@ export enum ActionType {
 }
 
 
-export type GameAction = StartLoadedGame | ReturnToHomeScreenAction | SelectNamePlayers | HomescreenHelpButton | HomescreenLoadButton | AddPlayerAction | SetTotalPlayersAction | GeneratePlayersAction | ShufflePlayers | BeginPrestart | StartGame | SetCurrentPlayer | RollDice | MovePlayerToken | ShowDiceResults | TreasurePickupDecision | TreasureLeaveDecision | TreasureDropDecision | NextPlayerTurn | SetOxygenLevel | DeeperOrBack | PlayerGotBack | SkipPlayersGo | EndTheRound | NextPlayerLogic | TallyScores;
-
-export interface StartLoadedGame { 
-    type: ActionType.START_LOADED_GAME;
-}
+export type GameAction = ReturnToHomeScreenAction | SelectNamePlayers | HomescreenHelpButton | HomescreenLoadButton | AddPlayerAction | SetTotalPlayersAction | GeneratePlayersAction | ShufflePlayers | BeginPrestart | StartGame | SetCurrentPlayer | RollDice | MovePlayerToken | ShowDiceResults | TreasurePickupDecision | TreasureLeaveDecision | TreasureDropDecision | NextPlayerTurn | SetOxygenLevel | DeeperOrBack | PlayerGotBack | SkipPlayersGo | EndTheRound | NextPlayerLogic | TallyScores;
 
 export interface ReturnToHomeScreenAction { 
     type: ActionType.RETURN_TO_HOMESCREEN;
@@ -452,12 +447,6 @@ export const GameContextReducer: Reducer<
     GameAction
 > = (state, action) => {
     switch (action.type) {
-        case ActionType.START_LOADED_GAME: 
-            const loadingSaveGameCurrentStep: GameState = JSON.parse(localStorage.getItem("currentGame") || "{}");
-            return {
-                ...state,
-                currentStep: `${loadingSaveGameCurrentStep.currentStep}`,
-            }
         case ActionType.RETURN_TO_HOMESCREEN: 
             return {
                 ...state,
@@ -493,7 +482,7 @@ export const GameContextReducer: Reducer<
                 currentRound: currentSaveGameData.currentRound,
                 currentPlayer: currentSaveGameData.currentPlayer,
                 totalPlayers: currentSaveGameData.totalPlayers,
-                currentStep: 'loading_game',
+                currentStep: currentSaveGameData.currentStep,
                 dice: currentSaveGameData.dice,
                 players: currentSaveGameData.players,
                 round: currentSaveGameData.round,

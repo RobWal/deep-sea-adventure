@@ -101,12 +101,7 @@ const GameContainer = () => {
             console.log(`\n`);
             setAnnouncerInnerText('') 
         };
-
-        if(appState.currentStep === 'loading_game'){
-            appAction({
-                type: ActionType.START_LOADED_GAME,
-            })
-        }
+        
         if(appState.currentStep === 'is_player_in_sub'){
             console.log(`\n`);
             console.log(`We're in the is_player_in_sub`);
@@ -136,9 +131,6 @@ const GameContainer = () => {
         };
 
         if(appState.currentStep === 'direction_logic'){
-            console.log(`\n`);
-            console.log(`We're in the direction_logic`);
-            console.log(`\n`);
             setTimeout(() => {
                 if(appState.players[appState.currentPlayer].direction === 'backwards'){
                     appAction({
@@ -208,9 +200,6 @@ const GameContainer = () => {
         };
 
         if(appState.currentStep === 'rolling'){
-            console.log(`\n`);
-            console.log(`We're in the rolling`);
-            console.log(`\n`);
             if(appState.players[appState.currentPlayer].id === 1){
                 setAnnouncerInnerText('') 
             } else if(appState.players[appState.currentPlayer].id !== 1){
@@ -224,9 +213,6 @@ const GameContainer = () => {
         };
 
         if(appState.currentStep === 'rolled'){
-            console.log(`\n`);
-            console.log(`We're in the rolled`);
-            console.log(`\n`);
             setTimeout(() => {
                 setAnnouncerInnerText(`${appState.players[appState.currentPlayer].name} ${appState.currentStep} a ${appState.dice[0] + appState.dice[1]}!`);
                 setTimeout(() => {
@@ -238,18 +224,13 @@ const GameContainer = () => {
         };
         
         if(appState.currentStep === 'moving'){
-            console.log(`\n`);
-            console.log(`We're in the moving`);
-            console.log(`\n`);
             setTimeout(() => {
                 let playerMapPositions: PlayerMapPositions = {};
-                // 
                 for(let i = 0; i < appState.players.length; i++){
                     playerMapPositions[appState.players[i].mapPosition] = appState.players[i].id;
                 }
                 let totalPlacesToMove = (appState.dice[0] + appState.dice[1]) - appState.players[appState.currentPlayer].treasure.length;
                 let simulatedPlayerPosition = appState.players[appState.currentPlayer].mapPosition;
-                // console.log(playerMapPositions);
                 if(appState.players[appState.currentPlayer].direction === 'forwards'){
                     if(totalPlacesToMove < 0){
                         totalPlacesToMove = 0;
@@ -298,9 +279,6 @@ const GameContainer = () => {
         };
         
         if(appState.currentStep === 'moved'){
-            console.log(`\n`);
-            console.log(`We're in the moved`);
-            console.log(`\n`);
             setTimeout(() => {
             if(appState.players[appState.currentPlayer].id === 1){
                 if(appState.players[appState.currentPlayer].mapPosition === 0){
@@ -409,9 +387,6 @@ const GameContainer = () => {
         }
         
         if(appState.currentStep === 'decided_leave_treasure' || appState.currentStep === 'decided_pickup_treasure' || appState.currentStep === 'decided_drop_treasure' || appState.currentStep === 'player_got_back'){
-            console.log(`\n`);
-            console.log(`We're in the leave_treasure || pickup_treasure etc.`);
-            console.log(`\n`);
             if(appState.currentStep === 'decided_pickup_treasure'){
                 setAnnouncerInnerText(`${appState.players[appState.currentPlayer].name} picked up the treasure!`);
             };
@@ -439,9 +414,6 @@ const GameContainer = () => {
         }
 
         if(appState.currentStep === 'next_player_logic'){
-            console.log(`\n`);
-            console.log(`We're in the next_player_logic`);
-            console.log(`\n`);
             if(appState.currentPlayer+1 === appState.players.length){
                 appAction({
                     type: ActionType.NEXT_PLAYER_TURN,
@@ -461,9 +433,6 @@ const GameContainer = () => {
         }
        
         if(appState.currentStep === 'end_of_round'){
-            console.log(`\n`);
-            console.log(`We're in the end_of_round`);
-            console.log(`\n`);
             setAnnouncerInnerText(`The round is over!`);
             setTimeout(() => {
                 setAnnouncerInnerText(`Calculating who won the round!`);
@@ -496,11 +465,7 @@ const GameContainer = () => {
             }, 2000)
         }
     }, [appState.currentStep]);
-    // console.log(`Rendering the game container now.`);
-    // console.log(`We're logging the appState.remainingOxygen: ${appState.remainingOxygen}`);
-    // console.log(`\n`);
-    // console.log(`We're at the point we render the components in /GameContainer.tsx`);
-    // console.log(`\n`);
+
     return (
         <div className="game-container">
             <TileLayout />
