@@ -63,6 +63,7 @@ Some examples are:
 # What I'm working towards now
 
 - Bug #1 - The player tokens in the waiting area aren't being shuffled into the correct (sequential) order. 
+- Now that the save game and load game features are working, user friendly buttons need to be added to replace the currently unhelpful ? buttons. 
 
 # Ongoing improvements
 
