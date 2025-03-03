@@ -73,6 +73,9 @@ const GameContainer = () => {
 
     useEffect(() => {
         if(appState.currentStep === 'preStart'){
+            console.log(`\n`);
+            console.log(`We're in the 'preStart' useEffect`);
+            console.log(`\n`);
             setTimeout(() => {
                 setWhoGoesFirstVisibility(false)
             }, 2000);
@@ -89,13 +92,25 @@ const GameContainer = () => {
     useEffect(() => {
         // INCREDIBLY HELPFUL CODE TO LET ME SEE THE ENTIRE APPSTATE IN A CONSOLE LOG. 
         // console.log(util.inspect(appState, {showHidden: false, depth: null, colors: false}));
-
-
+        console.log(`\n`);
+        console.log(`This console log is to track appState.currentStep and what might be causing re-shuffling. Behold, appState.currentStep: ${appState.currentStep}`);
+        console.log(`\n`);
         if(appState.currentPlayer === -1) { 
+            console.log(`\n`);
+            console.log(`We're in the currentPlayer === -1`);
+            console.log(`\n`);
             setAnnouncerInnerText('') 
         };
 
+        if(appState.currentStep === 'loading_game'){
+            appAction({
+                type: ActionType.START_LOADED_GAME,
+            })
+        }
         if(appState.currentStep === 'is_player_in_sub'){
+            console.log(`\n`);
+            console.log(`We're in the is_player_in_sub`);
+            console.log(`\n`);
             let isPlayerInSub = false;
             returnedPlayerIds.forEach((id) => {
                 if(id === appState.players[appState.currentPlayer].id){
@@ -121,6 +136,9 @@ const GameContainer = () => {
         };
 
         if(appState.currentStep === 'direction_logic'){
+            console.log(`\n`);
+            console.log(`We're in the direction_logic`);
+            console.log(`\n`);
             setTimeout(() => {
                 if(appState.players[appState.currentPlayer].direction === 'backwards'){
                     appAction({
@@ -190,6 +208,9 @@ const GameContainer = () => {
         };
 
         if(appState.currentStep === 'rolling'){
+            console.log(`\n`);
+            console.log(`We're in the rolling`);
+            console.log(`\n`);
             if(appState.players[appState.currentPlayer].id === 1){
                 setAnnouncerInnerText('') 
             } else if(appState.players[appState.currentPlayer].id !== 1){
@@ -203,6 +224,9 @@ const GameContainer = () => {
         };
 
         if(appState.currentStep === 'rolled'){
+            console.log(`\n`);
+            console.log(`We're in the rolled`);
+            console.log(`\n`);
             setTimeout(() => {
                 setAnnouncerInnerText(`${appState.players[appState.currentPlayer].name} ${appState.currentStep} a ${appState.dice[0] + appState.dice[1]}!`);
                 setTimeout(() => {
@@ -214,6 +238,9 @@ const GameContainer = () => {
         };
         
         if(appState.currentStep === 'moving'){
+            console.log(`\n`);
+            console.log(`We're in the moving`);
+            console.log(`\n`);
             setTimeout(() => {
                 let playerMapPositions: PlayerMapPositions = {};
                 // 
@@ -271,6 +298,9 @@ const GameContainer = () => {
         };
         
         if(appState.currentStep === 'moved'){
+            console.log(`\n`);
+            console.log(`We're in the moved`);
+            console.log(`\n`);
             setTimeout(() => {
             if(appState.players[appState.currentPlayer].id === 1){
                 if(appState.players[appState.currentPlayer].mapPosition === 0){
@@ -379,24 +409,27 @@ const GameContainer = () => {
         }
         
         if(appState.currentStep === 'decided_leave_treasure' || appState.currentStep === 'decided_pickup_treasure' || appState.currentStep === 'decided_drop_treasure' || appState.currentStep === 'player_got_back'){
-                if(appState.currentStep === 'decided_pickup_treasure'){
-                    setAnnouncerInnerText(`${appState.players[appState.currentPlayer].name} picked up the treasure!`);
-                };
-                if(appState.currentStep === 'decided_leave_treasure'){
-                    setAnnouncerInnerText(``);
-                };
-                if(appState.currentStep === 'decided_drop_treasure'){
-                    setAnnouncerInnerText(`${appState.players[appState.currentPlayer].name} dropped a treasure!`);
-                };
-                if(appState.currentStep === 'player_got_back'){
-                    setAnnouncerInnerText(`${appState.players[appState.currentPlayer].name} made it back!`);
-                };
-                
-                setTimeout(() => {
-                if(appState.remainingOxygen === 0 || returnedPlayerIds.length === appState.players.length){
-                appAction({
-                    type: ActionType.END_THE_ROUND
-                })
+            console.log(`\n`);
+            console.log(`We're in the leave_treasure || pickup_treasure etc.`);
+            console.log(`\n`);
+            if(appState.currentStep === 'decided_pickup_treasure'){
+                setAnnouncerInnerText(`${appState.players[appState.currentPlayer].name} picked up the treasure!`);
+            };
+            if(appState.currentStep === 'decided_leave_treasure'){
+                setAnnouncerInnerText(``);
+            };
+            if(appState.currentStep === 'decided_drop_treasure'){
+                setAnnouncerInnerText(`${appState.players[appState.currentPlayer].name} dropped a treasure!`);
+            };
+            if(appState.currentStep === 'player_got_back'){
+                setAnnouncerInnerText(`${appState.players[appState.currentPlayer].name} made it back!`);
+            };
+            
+            setTimeout(() => {
+            if(appState.remainingOxygen === 0 || returnedPlayerIds.length === appState.players.length){
+            appAction({
+                type: ActionType.END_THE_ROUND
+            })
             } else if(appState.remainingOxygen > 0 && returnedPlayerIds.length < appState.players.length){
                 appAction({
                     type: ActionType.NEXT_PLAYER_LOGIC
@@ -406,6 +439,9 @@ const GameContainer = () => {
         }
 
         if(appState.currentStep === 'next_player_logic'){
+            console.log(`\n`);
+            console.log(`We're in the next_player_logic`);
+            console.log(`\n`);
             if(appState.currentPlayer+1 === appState.players.length){
                 appAction({
                     type: ActionType.NEXT_PLAYER_TURN,
@@ -424,41 +460,47 @@ const GameContainer = () => {
             }
         }
        
-    if(appState.currentStep === 'end_of_round'){
-        setAnnouncerInnerText(`The round is over!`);
-        setTimeout(() => {
-            setAnnouncerInnerText(`Calculating who won the round!`);
-            let roundHighScore = 0;
-            let roundWinner = '';
-            for(let i = 0; i < appState.players.length; i++){
-                if(appState.players[i].mapPosition === 0){
-                    let newPlayerScore = appState.players[i].score;
-                    appState.players[i].treasure.forEach((item) => {
-                        newPlayerScore += item.value;
-                    })
-                    if(newPlayerScore > roundHighScore){
-                        roundHighScore = newPlayerScore;
-                        roundWinner = `${appState.players[i].name}`;
-                    } else if (newPlayerScore === roundHighScore && roundHighScore !== 0){
-                        roundWinner += ` and ${appState.players[i].name}`;
-                    }
-                    appAction({
-                        type: ActionType.TALLY_SCORES,
-                        payload: {
-                            newPlayerScore: newPlayerScore,
-                            playerToUpdate: i,
-                        }
-                    })
-                }
-            }
+        if(appState.currentStep === 'end_of_round'){
+            console.log(`\n`);
+            console.log(`We're in the end_of_round`);
+            console.log(`\n`);
+            setAnnouncerInnerText(`The round is over!`);
             setTimeout(() => {
-                setAnnouncerInnerText(`${roundWinner} won the round!`);
+                setAnnouncerInnerText(`Calculating who won the round!`);
+                let roundHighScore = 0;
+                let roundWinner = '';
+                for(let i = 0; i < appState.players.length; i++){
+                    if(appState.players[i].mapPosition === 0){
+                        let newPlayerScore = appState.players[i].score;
+                        appState.players[i].treasure.forEach((item) => {
+                            newPlayerScore += item.value;
+                        })
+                        if(newPlayerScore > roundHighScore){
+                            roundHighScore = newPlayerScore;
+                            roundWinner = `${appState.players[i].name}`;
+                        } else if (newPlayerScore === roundHighScore && roundHighScore !== 0){
+                            roundWinner += ` and ${appState.players[i].name}`;
+                        }
+                        appAction({
+                            type: ActionType.TALLY_SCORES,
+                            payload: {
+                                newPlayerScore: newPlayerScore,
+                                playerToUpdate: i,
+                            }
+                        })
+                    }
+                }
+                setTimeout(() => {
+                    setAnnouncerInnerText(`${roundWinner} won the round!`);
+                }, 2000)
             }, 2000)
-        }, 2000)
-    }
+        }
     }, [appState.currentStep]);
     // console.log(`Rendering the game container now.`);
     // console.log(`We're logging the appState.remainingOxygen: ${appState.remainingOxygen}`);
+    // console.log(`\n`);
+    // console.log(`We're at the point we render the components in /GameContainer.tsx`);
+    // console.log(`\n`);
     return (
         <div className="game-container">
             <TileLayout />

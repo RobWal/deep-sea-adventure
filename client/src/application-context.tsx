@@ -269,6 +269,7 @@ export const DefaultGameState: GameState = {
 };
 
 export enum ActionType {
+    START_LOADED_GAME = "start_loaded_game",
     RETURN_TO_HOMESCREEN = "return_to_homescreen",
     SELECT_NAME_PLAYERS = "select_name_players",
     HOMESCREEN_HELP_BUTTON = "homescreen_help_button",
@@ -297,7 +298,11 @@ export enum ActionType {
 }
 
 
-export type GameAction = ReturnToHomeScreenAction | SelectNamePlayers | HomescreenHelpButton | HomescreenLoadButton | AddPlayerAction | SetTotalPlayersAction | GeneratePlayersAction | ShufflePlayers | BeginPrestart | StartGame | SetCurrentPlayer | RollDice | MovePlayerToken | ShowDiceResults | TreasurePickupDecision | TreasureLeaveDecision | TreasureDropDecision | NextPlayerTurn | SetOxygenLevel | DeeperOrBack | PlayerGotBack | SkipPlayersGo | EndTheRound | NextPlayerLogic | TallyScores;
+export type GameAction = StartLoadedGame | ReturnToHomeScreenAction | SelectNamePlayers | HomescreenHelpButton | HomescreenLoadButton | AddPlayerAction | SetTotalPlayersAction | GeneratePlayersAction | ShufflePlayers | BeginPrestart | StartGame | SetCurrentPlayer | RollDice | MovePlayerToken | ShowDiceResults | TreasurePickupDecision | TreasureLeaveDecision | TreasureDropDecision | NextPlayerTurn | SetOxygenLevel | DeeperOrBack | PlayerGotBack | SkipPlayersGo | EndTheRound | NextPlayerLogic | TallyScores;
+
+export interface StartLoadedGame { 
+    type: ActionType.START_LOADED_GAME;
+}
 
 export interface ReturnToHomeScreenAction { 
     type: ActionType.RETURN_TO_HOMESCREEN;
@@ -447,6 +452,12 @@ export const GameContextReducer: Reducer<
     GameAction
 > = (state, action) => {
     switch (action.type) {
+        case ActionType.START_LOADED_GAME: 
+            const loadingSaveGameCurrentStep: GameState = JSON.parse(localStorage.getItem("currentGame") || "{}");
+            return {
+                ...state,
+                currentStep: `${loadingSaveGameCurrentStep.currentStep}`,
+            }
         case ActionType.RETURN_TO_HOMESCREEN: 
             return {
                 ...state,
@@ -463,31 +474,31 @@ export const GameContextReducer: Reducer<
                 currentStep: 'homescreenHelpButton',
             }              
         case ActionType.HOMESCREEN_LOAD_BUTTON: 
-            const currentSaveGame: GameState = JSON.parse(localStorage.getItem("currentGame") || "{}");
+            const currentSaveGameData: GameState = JSON.parse(localStorage.getItem("currentGame") || "{}");
             // This code is to help troubleshoot implementation of save files. 
-            console.log(`\n`);
-            console.log(`Below are the individual currentSaveGame properties:`);
-            console.log(`currentPlayer: ${currentSaveGame.currentPlayer}`);
-            console.log(`currentRound: ${currentSaveGame.currentRound}`);
-            console.log(`currentStep: ${currentSaveGame.currentStep}`);
-            console.log(`dice: ${currentSaveGame.dice}`);
-            console.log(`players: ${util.inspect(currentSaveGame.players, {showHidden: false, depth: null, colors: false})}`);
-            console.log(`remainingOxygen: ${currentSaveGame.remainingOxygen}`);
-            console.log(`round: ${currentSaveGame.round}`);
-            console.log(`tiles: ${util.inspect(currentSaveGame.tiles, {showHidden: false, depth: null, colors: false})}`);
-            console.log(`totalPlayers: ${currentSaveGame.totalPlayers}`);
-            console.log(`\n`);
+            // console.log(`\n`);
+            // console.log(`Below are the individual currentSaveGameData properties:`);
+            // console.log(`currentPlayer: ${currentSaveGameData.currentPlayer}`);
+            // console.log(`currentRound: ${currentSaveGameData.currentRound}`);
+            // console.log(`currentStep: ${currentSaveGameData.currentStep}`);
+            // console.log(`dice: ${currentSaveGameData.dice}`);
+            // console.log(`players: ${util.inspect(currentSaveGameData.players, {showHidden: false, depth: null, colors: false})}`);
+            // console.log(`remainingOxygen: ${currentSaveGameData.remainingOxygen}`);
+            // console.log(`round: ${currentSaveGameData.round}`);
+            // console.log(`tiles: ${util.inspect(currentSaveGameData.tiles, {showHidden: false, depth: null, colors: false})}`);
+            // console.log(`totalPlayers: ${currentSaveGameData.totalPlayers}`);
+            // console.log(`\n`);
             return { 
                 ...state,
-                currentRound: currentSaveGame.currentRound,
-                currentPlayer: currentSaveGame.currentPlayer,
-                totalPlayers: currentSaveGame.totalPlayers,
-                currentStep: currentSaveGame.currentStep,
-                dice: currentSaveGame.dice,
-                players: currentSaveGame.players,
-                round: currentSaveGame.round,
-                tiles: currentSaveGame.tiles,
-                remainingOxygen: currentSaveGame.remainingOxygen, 
+                currentRound: currentSaveGameData.currentRound,
+                currentPlayer: currentSaveGameData.currentPlayer,
+                totalPlayers: currentSaveGameData.totalPlayers,
+                currentStep: 'loading_game',
+                dice: currentSaveGameData.dice,
+                players: currentSaveGameData.players,
+                round: currentSaveGameData.round,
+                tiles: currentSaveGameData.tiles,
+                remainingOxygen: currentSaveGameData.remainingOxygen, 
             };
         case ActionType.SET_TOTAL_PLAYERS:
             return {
