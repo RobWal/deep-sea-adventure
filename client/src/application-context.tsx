@@ -464,39 +464,18 @@ export const GameContextReducer: Reducer<
             }              
         case ActionType.HOMESCREEN_LOAD_BUTTON: 
             const currentSaveGame: GameState = JSON.parse(localStorage.getItem("currentGame") || "{}");
-            console.log(`We're trying to load the data in the currentSaveGame variable, but it's returning undefined.`);
-            console.log(`Below is the currentSaveGame`);
-            console.log(`${currentSaveGame}`);
-            // console.log(`Below is the state`);
-            // console.log(`${util.inspect(state, {showHidden: false, depth: null, colors: false})}}`);
-
-            // for(const property in currentSaveGame){
-            //     console.log(`${property}`)
-            // };
-            
-            // for(const [key, value] of Object.entries(currentSaveGame)){
-            //      console.log(`${key}: ${value}`)
-            //  }
+            // This code is to help troubleshoot implementation of save files. 
             console.log(`\n`);
-            console.log(`\n`);
-
             console.log(`Below are the individual currentSaveGame properties:`);
-            console.log(`currentRound: ${currentSaveGame.currentRound}`);
             console.log(`currentPlayer: ${currentSaveGame.currentPlayer}`);
-            console.log(`totalPlayers: ${currentSaveGame.totalPlayers}`);
+            console.log(`currentRound: ${currentSaveGame.currentRound}`);
             console.log(`currentStep: ${currentSaveGame.currentStep}`);
             console.log(`dice: ${currentSaveGame.dice}`);
-            console.log(`players: ${currentSaveGame.players}`);
-            console.log(`round: ${currentSaveGame.round}`);
-            console.log(`tiles: ${currentSaveGame.tiles}`);
+            console.log(`players: ${util.inspect(currentSaveGame.players, {showHidden: false, depth: null, colors: false})}`);
             console.log(`remainingOxygen: ${currentSaveGame.remainingOxygen}`);
-            // console.log(`\n`);
-            // console.log(`\n`);
-            // const testVariable = currentSaveGame.remainingOxygen;
-            // console.log(`Testing a new variable: ${testVariable}`);
-            // console.log(`Testing reading from JSON data as an array: ${currentSaveGame['currentPlayer']}`);
-            // console.log(`Testing whether the value exists on the object: ${currentSaveGame.remainingOxygen ? "True" : "False"}`)
-            console.log(`\n`);
+            console.log(`round: ${currentSaveGame.round}`);
+            console.log(`tiles: ${util.inspect(currentSaveGame.tiles, {showHidden: false, depth: null, colors: false})}`);
+            console.log(`totalPlayers: ${currentSaveGame.totalPlayers}`);
             console.log(`\n`);
             return { 
                 ...state,

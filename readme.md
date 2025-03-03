@@ -70,6 +70,7 @@ Some examples are:
 
 # Potential future improvements
 
+-   Add a speed function, first and foremost for easier testing, secondly for users who want a quicker game. 
 -   Functional 'X' and '?' buttons that navigate the user to an options menu and a help menu respectively.
 -   Sound effects for a more immersive experience.
 -   Animations added to the movement of pieces such as treasure tiles and player tokens to more clearly illustrate the game state.
@@ -83,3 +84,4 @@ Some examples are:
 
 -   1) The player tokens waiting area in the top right don't shuffle into the correct order after determining who goes first. 
 -   2) Loading the game from a previous save is currently bugged - It allows the game to continue, but shuffles player turn order for some reason. 
+-   3) There seems to be a bug that causes one of the zero pip tiles to have no score value, will require further investigation. 

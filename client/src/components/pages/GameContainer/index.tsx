@@ -222,7 +222,7 @@ const GameContainer = () => {
                 }
                 let totalPlacesToMove = (appState.dice[0] + appState.dice[1]) - appState.players[appState.currentPlayer].treasure.length;
                 let simulatedPlayerPosition = appState.players[appState.currentPlayer].mapPosition;
-                console.log(playerMapPositions);
+                // console.log(playerMapPositions);
                 if(appState.players[appState.currentPlayer].direction === 'forwards'){
                     if(totalPlacesToMove < 0){
                         totalPlacesToMove = 0;
