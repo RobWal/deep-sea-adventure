@@ -62,7 +62,7 @@ Some examples are:
 
 # What I'm working towards now
 
--   Add a speed function, first and foremost for easier testing, secondly for users who want a quicker game. 
+-   User friendly buttons need to be added to replace the currently unhelpful ? buttons used to save and load the game. This will likely require the addition of a menu, to also add the ability for users to change the game speed in game, leave the current game, etc.." 
 
 # Ongoing improvements
 
@@ -70,7 +70,6 @@ Some examples are:
 
 # Potential future improvements
 
--   User friendly buttons need to be added to replace the currently unhelpful ? buttons. 
 -   Functional 'X' and '?' buttons that navigate the user to an options menu and a help menu respectively.
 -   Sound effects for a more immersive experience.
 -   Animations added to the movement of pieces such as treasure tiles and player tokens to more clearly illustrate the game state.
@@ -84,3 +83,4 @@ Some examples are:
 
 -   1) There seems to be a bug that causes one of the zero pip tiles to have no score value, will require further investigation. 
 -   1) Cont. After some investigation, I may have misinterpreted the bug I was seeing, as I cannot find the erroneous tile. 
+-   2) While using the game speed feature, player tile animations using the style={style} syntax aren't sped up, causing a disconnect between player tokens and potential player decisions. 
