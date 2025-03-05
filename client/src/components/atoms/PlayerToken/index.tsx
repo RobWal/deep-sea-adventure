@@ -1,4 +1,4 @@
-import './PlayerToken.css'
+import './PlayerToken.css';
 
 const PlayerToken = ({style, fill}: any) => {
     return (

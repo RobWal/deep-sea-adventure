@@ -10,8 +10,6 @@ const PlayerTokens = () => {
         <div className="player-tokens">
             {/* This code maps through the appState.players array, in order to render each player token at the correct location */}
             {appState.players.map((player: Players, index) => {
-                console.log(appState.players);
-                console.log(index);
                 // This if checks to see whether the player is out on a tile, or home in the submarine. Being on the submarine is considered mapPosition 0,
                 // which is not in the tileLocations object, and therefore returns undefined. 
                 if((tileLocations[player.mapPosition]) === undefined){

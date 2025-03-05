@@ -18,7 +18,6 @@ const TealOverlay = ({hidden}: any) => {
         play({ playbackRate: newPlaybackRate});
     };
     const handleTealClick = () => {
-        console.log(`We're clicking the teal overlay`);
         playAudio();
         appAction({
             type: ActionType.RETURN_TO_HOMESCREEN

@@ -39,11 +39,12 @@ const GameContainer = () => {
     const [announcerInnerText, setAnnouncerInnerText] = useState("");
     const [returnedPlayerIds, setReturnedPlayerIds] = useState <number[]>([]);
     let navigate = useNavigate();
+    const gameSpeed = appState.gameSpeed;
     const soundUrl = bubbleClickSFX;
     const [play] = useSound(soundUrl, { playbackRate: 1.0});
 
     const playAudio = () => {
-        const newPlaybackRate = 0.5 + Math.random();
+        const newPlaybackRate = (0.5 + Math.random())/gameSpeed;
         play({ playbackRate: newPlaybackRate});
     };
 
@@ -73,14 +74,14 @@ const GameContainer = () => {
         if(appState.currentStep === 'preStart'){
             setTimeout(() => {
                 setWhoGoesFirstVisibility(false)
-            }, 2000);
+            }, 2000/gameSpeed);
             setTimeout(() => {
                 setWhoGoesFirstVisibility(true)
                 
                 appAction({
                     type: ActionType.START_GAME
                 });
-            }, 7000)
+            }, 7000/gameSpeed)
         }
     }, [appState.currentStep]);
 
@@ -177,11 +178,11 @@ const GameContainer = () => {
                                         direction: playerDecision,
                                     }
                                 })
-                            }, 2000);
+                            }, 2000/gameSpeed);
                         }
                     }
                 }
-            }, 2000);
+            }, 2000/gameSpeed);
         };
 
         if(appState.currentStep === 'rolling'){
@@ -193,7 +194,7 @@ const GameContainer = () => {
                     appAction({
                         type: ActionType.ROLL_DICE,
                     })
-                }, 2000);
+                }, 2000/gameSpeed);
             }
         };
 
@@ -204,8 +205,8 @@ const GameContainer = () => {
                     appAction({
                         type: ActionType.SHOW_DICE_RESULTS,
                     })
-                }, 2000);
-            }, 2000);
+                }, 2000/gameSpeed);
+            }, 2000/gameSpeed);
         };
         
         if(appState.currentStep === 'moving'){
@@ -260,7 +261,7 @@ const GameContainer = () => {
                     })
                 }
                 playerMapPositions = {100: 100};
-            }, 2000);
+            }, 2000/gameSpeed);
         };
         
         if(appState.currentStep === 'moved'){
@@ -368,7 +369,7 @@ const GameContainer = () => {
                         }
                     }
                 }
-            }, 2000)
+            }, 2000/gameSpeed)
         }
         
         if(appState.currentStep === 'decided_leave_treasure' || appState.currentStep === 'decided_pickup_treasure' || appState.currentStep === 'decided_drop_treasure' || appState.currentStep === 'player_got_back'){
@@ -395,7 +396,7 @@ const GameContainer = () => {
                     type: ActionType.NEXT_PLAYER_LOGIC
                 })
             }
-            }, 2000);
+            }, 2000/gameSpeed);
         }
 
         if(appState.currentStep === 'next_player_logic'){
@@ -446,8 +447,8 @@ const GameContainer = () => {
                 }
                 setTimeout(() => {
                     setAnnouncerInnerText(`${roundWinner} won the round!`);
-                }, 2000)
-            }, 2000)
+                }, 2000/gameSpeed)
+            }, 2000/gameSpeed)
         }
     }, [appState.currentStep]);
 

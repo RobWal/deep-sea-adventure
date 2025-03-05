@@ -252,6 +252,7 @@ export interface GameState {
     round: number,
     tiles: any[],
     remainingOxygen: number,
+    gameSpeed: number,
 }
 
 export const DefaultGameState: GameState = {
@@ -264,6 +265,7 @@ export const DefaultGameState: GameState = {
     round: 1,
     tiles: tileGenerator(),
     remainingOxygen: 25,
+    gameSpeed: 9,
 };
 
 export enum ActionType {

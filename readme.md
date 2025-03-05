@@ -62,8 +62,7 @@ Some examples are:
 
 # What I'm working towards now
 
-- Bug #1 - The player tokens in the waiting area aren't being shuffled into the correct (sequential) order. 
-- Now that the save game and load game features are working, user friendly buttons need to be added to replace the currently unhelpful ? buttons. 
+-   Add a speed function, first and foremost for easier testing, secondly for users who want a quicker game. 
 
 # Ongoing improvements
 
@@ -71,7 +70,7 @@ Some examples are:
 
 # Potential future improvements
 
--   Add a speed function, first and foremost for easier testing, secondly for users who want a quicker game. 
+-   User friendly buttons need to be added to replace the currently unhelpful ? buttons. 
 -   Functional 'X' and '?' buttons that navigate the user to an options menu and a help menu respectively.
 -   Sound effects for a more immersive experience.
 -   Animations added to the movement of pieces such as treasure tiles and player tokens to more clearly illustrate the game state.
@@ -83,5 +82,5 @@ Some examples are:
 
 # Bugs
 
--   1) The player tokens waiting area in the top right don't shuffle into the correct order after determining who goes first. 
--   2) There seems to be a bug that causes one of the zero pip tiles to have no score value, will require further investigation. 
+-   1) There seems to be a bug that causes one of the zero pip tiles to have no score value, will require further investigation. 
+-   1) Cont. After some investigation, I may have misinterpreted the bug I was seeing, as I cannot find the erroneous tile. 

@@ -8,6 +8,7 @@ import './WhoGoesFirst.css'
 const WhoGoesFirst = ({hidden}: any) => {
     const [appState, appAction] = useContext(GameContext);
     const [displayWhoGoesFirst, setDisplayWhoGoesFirst] = useState(false);
+    const gameSpeed = appState.gameSpeed;
     let arrayForShuffling: Players[] = [];
 
     // This function shuffles the appState.players array by mapping it onto a new array 'arrayForShuffling'.
@@ -37,7 +38,7 @@ const WhoGoesFirst = ({hidden}: any) => {
             setTimeout(() => {
                 setDisplayWhoGoesFirst(true);
                 shufflePlayers(arrayForShuffling);
-            }, 5000)
+            }, 5000/gameSpeed)
         };
     }, [])
     if(hidden){
