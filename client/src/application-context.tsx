@@ -186,14 +186,11 @@ export const tileGenerator = () => {
     const tiles: any[] = [];
     // This loop iterates through the tileTypes array, with the primary purpose of shuffling the tiles of each type.
     tileTypes.forEach((type, index) => {
-        // console.log(`I'm logging type: ${util.inspect(type, {showHidden: false, depth: null, colors: false})}`);
-        // console.log(`I'm logging index: ${index}`);
         // As the main loop goes through tile types, this code takes the values from the current tile type array, and generates a shuffled version.
         // E.g tileTypes[0].treasureValues: [0,0,1,1,2,2,3,3] ---> tileTypes[0].treasureValues: [3,2,0,1,2,0,1,3]
         const treasureValues = type.treasureValues.sort((a: any,b: any)=>{
             return Math.random()-0.5
         });
-        // console.log(`I'm logging treasureValues: ${treasureValues}`);
         // The newly generated treasureValues array from the above code (e.g. tileTypes[1].treasureValues: [4,4,7,5,5,6,6,7]) is then pushed into the tiles array
         // one at a time, as numberOfTiles is 8, the number of tiles in each tile type. 
         for(let i = 0; i < numberOfTiles; i++){

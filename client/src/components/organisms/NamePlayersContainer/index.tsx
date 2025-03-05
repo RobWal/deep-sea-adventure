@@ -9,6 +9,7 @@ import {
     GameContext,
     GameContextReducer,
     DefaultGameState,
+    oxygenTokenLocations,
 } from "../../../application-context";
 import useSound from 'use-sound';
 import bubbleClickSFX from '../../sfx/bubbleClick.mp3';
@@ -37,13 +38,24 @@ const NamePlayersContainer = () => {
 
     // This is a function for a temporary button, to test and see if we can load the game state from Local Storage. 
     const handleLoadButtonSubmit = () => {
-        playAudio();  
-        appAction({
-            type: ActionType.HOMESCREEN_LOAD_BUTTON
-        });
-        navigate("/gamecontainer");
+        // This checks to see if there is a save file, running an error message if there is no file.
+        if(localStorage.getItem("currentGame") === null){
+            // Placeholder message, need to imlpement a user friendly error message.
+            console.log(`There is no save file`);
+        } 
+        // If there is a save file, the game will load the save file and continue the game. 
+        else if(localStorage.getItem("currentGame") !== null){
+            playAudio();
+            appAction({
+                type: ActionType.HOMESCREEN_LOAD_BUTTON
+            });
+            navigate("/gamecontainer");
+        }
     }
 
+    // This is a currently useless button that only plays audio and console logs that it's being clicked.
+    // This will be turned into a button that explains this menu - That You must enter a name of at least one character, and
+    // select the amount of opponents you want to play with. 
     const handleHelpButtonSubmit = () => {
         console.log(`We're clicking the help button.`);
         playAudio();
@@ -52,6 +64,8 @@ const NamePlayersContainer = () => {
         })
     }
 
+    // This function runs when the user has clicked the number of players they want their game to have, after putting in a valid name. 
+    // It adds the players to the players[] array in the appState (or simply state in the appliaction-context.tsx).  
     const addNewUser = (value: string) => {
         appAction({
         type: ActionType.ADD_PLAYER,
