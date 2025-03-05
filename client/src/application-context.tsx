@@ -34,6 +34,7 @@ interface PlayerTokenHomeLocations {
     }
 }
 
+// These locations are what the game considers each players 'home' location, i.e. when they're on the submarine. 
 export const playerTokenHomeLocations: PlayerTokenHomeLocations = {
     1: {top: '50px', left: '1100px',},
     2: {top: '50px',left: '1070px',},

@@ -1,5 +1,20 @@
 /*
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 Testing save game functionality. 
 
 The current step seems to trigger twice regardless of what it is, e.g. 'rolling' 'rolled' 'moving' etc. 
@@ -13,14 +28,6 @@ I'll try to find the source of the shuffle and what might be causing it, it may 
 I really hope it's not tied to the logic of the display.. really, really hope. 
 
 As it turns out, it looks like an enormous amount of code is running every single time anything changes, potentially the whole
- game. This includes the code that shuffles the player tokens in /WhoGoesFirst. 
-
-
-
-
-
-
-
-
+game. This includes the code that shuffles the player tokens in /WhoGoesFirst. 
 
 */

@@ -54,9 +54,7 @@ const GameContainer = () => {
     }
 
     const handleHelpButtonSubmit = () => {
-        console.log(`We're clicking the help button`);
-        console.log(`This button is being temporarily used to communicate the game state via console.log(), for game save potential.`);
-        console.log(`I'm logging type: ${util.inspect(appState, {showHidden: false, depth: null, colors: false})}`);
+        console.log(`You're clicking the help button`);
         // This is old code for submitting the current appState to Local Storage. Unfortunately, it stored the data incorrectly. Trying new variations now. 
         // const currentGameSaveState = JSON.stringify(util.inspect(appState, {showHidden: false, depth: null, colors: false}));
         const currentGameSaveState = JSON.stringify(appState);
@@ -73,9 +71,6 @@ const GameContainer = () => {
 
     useEffect(() => {
         if(appState.currentStep === 'preStart'){
-            console.log(`\n`);
-            console.log(`We're in the 'preStart' useEffect`);
-            console.log(`\n`);
             setTimeout(() => {
                 setWhoGoesFirstVisibility(false)
             }, 2000);
@@ -92,20 +87,10 @@ const GameContainer = () => {
     useEffect(() => {
         // INCREDIBLY HELPFUL CODE TO LET ME SEE THE ENTIRE APPSTATE IN A CONSOLE LOG. 
         // console.log(util.inspect(appState, {showHidden: false, depth: null, colors: false}));
-        console.log(`\n`);
-        console.log(`This console log is to track appState.currentStep and what might be causing re-shuffling. Behold, appState.currentStep: ${appState.currentStep}`);
-        console.log(`\n`);
         if(appState.currentPlayer === -1) { 
-            console.log(`\n`);
-            console.log(`We're in the currentPlayer === -1`);
-            console.log(`\n`);
             setAnnouncerInnerText('') 
         };
-        
         if(appState.currentStep === 'is_player_in_sub'){
-            console.log(`\n`);
-            console.log(`We're in the is_player_in_sub`);
-            console.log(`\n`);
             let isPlayerInSub = false;
             returnedPlayerIds.forEach((id) => {
                 if(id === appState.players[appState.currentPlayer].id){
