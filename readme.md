@@ -70,7 +70,6 @@ Some examples are:
 
 # Potential future improvements
 
--   Functional 'X' and '?' buttons that navigate the user to an options menu and a help menu respectively.
 -   Sound effects for a more immersive experience.
 -   Animations added to the movement of pieces such as treasure tiles and player tokens to more clearly illustrate the game state.
 -   Three rounds in total, which would include tile reorganising and drowned diver treasure being added to the trail.
