@@ -62,8 +62,15 @@ Some examples are:
 
 # What I'm working towards now
 
--   Abroad - Add a second round to the game. 
--   At home - User friendly buttons need to be added to replace the currently unhelpful ? buttons used to save and load the game. This will likely require the addition of a menu, to also add the ability for users to change the game speed in game, leave the current game, etc.." 
+-   Abroad (primarily)
+    1. Add a second round to the game. 
+        1. Prevent tokens from being flipped over until the end of the third round. 
+        1. Prevent tokens from being added to the score until the end of the third round. 
+        1. Tokens picked up by players that didn't make it to the submarine need to be added to the tail end of the tokens array. 
+        1. Bring the player tokens back to their starting locations. 
+        1. Research what determines who goes first in the second and third rounds. 
+        1. Ensure the turn order is correctly implemented according to the above research.
+-   At home (primarily) - User friendly buttons need to be added to replace the currently unhelpful ? buttons used to save and load the game. This will likely require the addition of a menu, to also add the ability for users to change the game speed in game, leave the current game, etc.." 
 
 # Ongoing improvements
 
@@ -71,16 +78,16 @@ Some examples are:
 
 # Potential future improvements
 
--   Sound effects for a more immersive experience.
--   Animations added to the movement of pieces such as treasure tiles and player tokens to more clearly illustrate the game state.
--   Three rounds in total, which would include tile reorganising and drowned diver treasure being added to the trail.
--   An indicator that makes clear whose turn it is, between the players score and their name.
--   The ability to 'rewind' the game in order to see 'what if' a user had done something else.
--   Allowing for multiple local users to play against each other, or AI.
--   Allowing for multiple users to play online against each other, or AI, by utilising web sockets.
+1. Sound effects for a more immersive experience.
+1. Animations added to the movement of pieces such as treasure tiles and player tokens to more clearly illustrate the game state.
+1. Three rounds in total, which would include tile reorganising and drowned diver treasure being added to the trail.
+1. An indicator that makes clear whose turn it is, between the players score and their name.
+1. The ability to 'rewind' the game in order to see 'what if' a user had done something else.
+1. Allowing for multiple local users to play against each other, or AI.
+1. Allowing for multiple users to play online against each other, or AI, by utilising web sockets.
 
 # Bugs
 
 1. There seems to be a bug that causes one of the zero pip tiles to have no score value, will require further investigation. 
-    1. Cont. After some investigation, I may have misinterpreted the bug I was seeing, as I cannot find the erroneous tile. 
+    1. Cont. After some investigation, I may have misinterpreted the bug I was seeing, as I cannot find the erroneous tile. I'll keep this on the bug list for the time being. 
 1. While using the game speed feature, player tile animations using the style={style} syntax aren't sped up, causing a disconnect between player tokens and potential player decisions. 
