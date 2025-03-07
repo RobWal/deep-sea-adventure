@@ -36,6 +36,7 @@ export interface PlayerMapPositions {
 const GameContainer = () => {
     const [appState, appAction] = useContext(GameContext);
     const [whoGoesFirstVisibility, setWhoGoesFirstVisibility] = useState(true);
+    const [tealOverlayVisibility, setTealOverlayVisibility] = useState(true);
     const [announcerInnerText, setAnnouncerInnerText] = useState("");
     const [returnedPlayerIds, setReturnedPlayerIds] = useState <number[]>([]);
     let navigate = useNavigate();
@@ -73,11 +74,12 @@ const GameContainer = () => {
     useEffect(() => {
         if(appState.currentStep === 'preStart'){
             setTimeout(() => {
-                setWhoGoesFirstVisibility(false)
+                setWhoGoesFirstVisibility(false);
+                setTealOverlayVisibility(false);
             }, 2000/gameSpeed);
             setTimeout(() => {
-                setWhoGoesFirstVisibility(true)
-                
+                setWhoGoesFirstVisibility(true);
+                setTealOverlayVisibility(true);
                 appAction({
                     type: ActionType.START_GAME
                 });
@@ -466,7 +468,7 @@ const GameContainer = () => {
             {(appState.currentStep === 'direction_logic' && appState.players[appState.currentPlayer].id === 1 && appState.players[appState.currentPlayer].mapPosition !== 0 && appState.players[appState.currentPlayer].direction === 'forwards') ? <ForwardsOrBackwardsContainer /> : <></>}
             {(appState.currentStep === 'rolling' || appState.currentStep === 'next_players_turn') && appState.players[appState.currentPlayer].id === 1 ? <RollTheDiceContainer /> : <></>}
             {appState.currentStep === 'moved' && appState.players[appState.currentPlayer].id === 1 && appState.players[appState.currentPlayer].mapPosition !== 0? <PickupTreasureContainer /> : <></>}
-            <TealOverlay hidden={whoGoesFirstVisibility} />
+            <TealOverlay hidden={tealOverlayVisibility} />
             <WhoGoesFirst hidden={whoGoesFirstVisibility} /> 
         </div>
     )
