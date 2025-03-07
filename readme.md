@@ -16,7 +16,7 @@ From there the major next step was fleshing out the structure of the game, both 
 
 # Have a look!
 
-https://deep-see-adventure.herokuapp.com/
+https://deep-sea-adventure.onrender.com/
 
 ## What a user is greeted with when first loading the application:
 
