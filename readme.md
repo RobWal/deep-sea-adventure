@@ -81,6 +81,6 @@ Some examples are:
 
 # Bugs
 
--   * 1. There seems to be a bug that causes one of the zero pip tiles to have no score value, will require further investigation. 
--   1. Cont. After some investigation, I may have misinterpreted the bug I was seeing, as I cannot find the erroneous tile. 
--   * 1. While using the game speed feature, player tile animations using the style={style} syntax aren't sped up, causing a disconnect between player tokens and potential player decisions. 
+1. There seems to be a bug that causes one of the zero pip tiles to have no score value, will require further investigation. 
+    1. Cont. After some investigation, I may have misinterpreted the bug I was seeing, as I cannot find the erroneous tile. 
+1. While using the game speed feature, player tile animations using the style={style} syntax aren't sped up, causing a disconnect between player tokens and potential player decisions. 
