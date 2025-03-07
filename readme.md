@@ -64,8 +64,8 @@ Some examples are:
 
 -   Abroad (primarily)
     1. Add a second round to the game. 
-        1. Prevent tokens from being flipped over until the end of the third round. 
-        1. Prevent tokens from being added to the score until the end of the third round. 
+        1. ~~Prevent tokens from being flipped over until the end of the third round.~~
+        1. ~~Prevent tokens from being added to the score~~ until the end of the third round. 
         1. Tokens picked up by players that didn't make it to the submarine need to be added to the tail end of the tokens array. 
         1. Bring the player tokens back to their starting locations. 
         1. Research what determines who goes first in the second and third rounds. 
