@@ -419,38 +419,90 @@ const GameContainer = () => {
                 })
             }
         }
-       
+        // THIS IS CURRENTLY COMMENTED OUT TO TRY AND IMPLEMENT A THREE ROUND GAME. 
+        // if(appState.currentStep === 'end_of_round'){
+        //     setAnnouncerInnerText(`The round is over!`);
+        //     // This setTimeout allows 'The round is over!' to briefly display before moving on
+        //     setTimeout(() => {
+        //         setAnnouncerInnerText(`Calculating who won the round!`);
+        //         // 'roundHighScore' is used to determined who won in a single round version of the game.
+        //         let roundHighScore = 0;
+        //         // 'roundWinner' allows us to assign the highest scorer as the winner in a single round version of the game.
+        //         let roundWinner = '';
+        //         // Loop through the players in the game. 
+        //         for(let i = 0; i < appState.players.length; i++){
+        //             // If the player made it back to the submarine.
+        //             if(appState.players[i].mapPosition === 0){
+        //                 // 'newPlayerScore' acts as a place to store the total points of each player as we loop through the player array.
+        //                 let newPlayerScore = appState.players[i].score;
+        //                 // Loop through the loops current players current tokens and add it to their score. 
+        //                 appState.players[i].treasure.forEach((item) => {
+        //                     newPlayerScore += item.value;
+        //                 })
+        //                 // Check if the loops current player beats the high score, if so, make it the high score. 
+        //                 if(newPlayerScore > roundHighScore){
+        //                     roundHighScore = newPlayerScore;
+        //                     roundWinner = `${appState.players[i].name}`;
+        //                 } else if (newPlayerScore === roundHighScore && roundHighScore !== 0){
+        //                     roundWinner += ` and ${appState.players[i].name}`;
+        //                 }
+        //                 // TALLY_SCORES triggers for each player in the player array, with the playerToUpdate communicating
+        //                 // which is the correct player to update. 
+        //                 appAction({
+        //                     type: ActionType.TALLY_SCORES,
+        //                     payload: {
+        //                         newPlayerScore: newPlayerScore,
+        //                         playerToUpdate: i,
+        //                     }
+        //                 })
+        //             }
+        //         }
+        //         setTimeout(() => {
+        //             setAnnouncerInnerText(`${roundWinner} won the round!`);
+        //         }, 2000/gameSpeed)
+        //     }, 2000/gameSpeed)
+        // };
         if(appState.currentStep === 'end_of_round'){
             setAnnouncerInnerText(`The round is over!`);
-            setTimeout(() => {
-                setAnnouncerInnerText(`Calculating who won the round!`);
-                let roundHighScore = 0;
-                let roundWinner = '';
-                for(let i = 0; i < appState.players.length; i++){
-                    if(appState.players[i].mapPosition === 0){
-                        let newPlayerScore = appState.players[i].score;
-                        appState.players[i].treasure.forEach((item) => {
-                            newPlayerScore += item.value;
-                        })
-                        if(newPlayerScore > roundHighScore){
-                            roundHighScore = newPlayerScore;
-                            roundWinner = `${appState.players[i].name}`;
-                        } else if (newPlayerScore === roundHighScore && roundHighScore !== 0){
-                            roundWinner += ` and ${appState.players[i].name}`;
-                        }
-                        appAction({
-                            type: ActionType.TALLY_SCORES,
-                            payload: {
-                                newPlayerScore: newPlayerScore,
-                                playerToUpdate: i,
-                            }
-                        })
-                    }
-                }
-                setTimeout(() => {
-                    setAnnouncerInnerText(`${roundWinner} won the round!`);
-                }, 2000/gameSpeed)
-            }, 2000/gameSpeed)
+            // // This setTimeout allows 'The round is over!' to briefly display before moving on
+            // setTimeout(() => {
+            //     setAnnouncerInnerText(`Calculating who won the round!`);
+            //     // 'roundHighScore' is used to determined who won in a single round version of the game.
+            //     let roundHighScore = 0;
+            //     // 'roundWinner' allows us to assign the highest scorer as the winner in a single round version of the game.
+            //     let roundWinner = '';
+            //     // Loop through the players in the game. 
+            //     for(let i = 0; i < appState.players.length; i++){
+            //         // If the player made it back to the submarine.
+            //         if(appState.players[i].mapPosition === 0){
+            //             // 'newPlayerScore' acts as a place to store the total points of each player as we loop through the player array.
+            //             let newPlayerScore = appState.players[i].score;
+            //             // Loop through the loops current players current tokens and add it to their score. 
+            //             appState.players[i].treasure.forEach((item) => {
+            //                 newPlayerScore += item.value;
+            //             })
+            //             // Check if the loops current player beats the high score, if so, make it the high score. 
+            //             if(newPlayerScore > roundHighScore){
+            //                 roundHighScore = newPlayerScore;
+            //                 roundWinner = `${appState.players[i].name}`;
+            //             } else if (newPlayerScore === roundHighScore && roundHighScore !== 0){
+            //                 roundWinner += ` and ${appState.players[i].name}`;
+            //             }
+            //             // TALLY_SCORES triggers for each player in the player array, with the playerToUpdate communicating
+            //             // which is the correct player to update. 
+            //             appAction({
+            //                 type: ActionType.TALLY_SCORES,
+            //                 payload: {
+            //                     newPlayerScore: newPlayerScore,
+            //                     playerToUpdate: i,
+            //                 }
+            //             })
+            //         }
+            //     }
+            //     setTimeout(() => {
+            //         setAnnouncerInnerText(`${roundWinner} won the round!`);
+            //     }, 2000/gameSpeed)
+            // }, 2000/gameSpeed)
         }
     }, [appState.currentStep]);
 

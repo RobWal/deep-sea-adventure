@@ -640,7 +640,10 @@ export const GameContextReducer: Reducer<
                 currentStep: 'next_player_logic'
             }
         case ActionType.TALLY_SCORES:
+            // updatedScorePlayers takes the existing players array.
             let updatedScorePlayers = [...state.players];
+            // As the loop in GameContainer calling TALLY_SCORES executes, it assigns payload.playerToUpdate 
+            // the variable 'i' as it loops through. 
             updatedScorePlayers[action.payload.playerToUpdate] = {
                 ...updatedScorePlayers[action.payload.playerToUpdate],
                 score: action.payload.newPlayerScore,
