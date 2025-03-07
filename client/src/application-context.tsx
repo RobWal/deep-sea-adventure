@@ -244,6 +244,7 @@ export const playerGenerator = (totalPlayers: number) => {
 
 export interface GameState {
     currentRound: number,
+    totalRounds: number,
     currentPlayer: number,
     totalPlayers: number,
     currentStep: string,
@@ -257,6 +258,7 @@ export interface GameState {
 
 export const DefaultGameState: GameState = {
     currentRound: 0,
+    totalRounds: 3,
     currentPlayer: -1,
     totalPlayers: 2,
     currentStep: 'returnToHomeScreen',

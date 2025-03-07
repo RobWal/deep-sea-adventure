@@ -80,6 +80,7 @@ const GameContainer = () => {
             setTimeout(() => {
                 setWhoGoesFirstVisibility(true);
                 setTealOverlayVisibility(true);
+                // This sets appState.currentRound: 1, currentPlayer: 0, and currentStep: 'rolling'. 
                 appAction({
                     type: ActionType.START_GAME
                 });
@@ -389,15 +390,16 @@ const GameContainer = () => {
             };
             
             setTimeout(() => {
-            if(appState.remainingOxygen === 0 || returnedPlayerIds.length === appState.players.length){
-            appAction({
-                type: ActionType.END_THE_ROUND
-            })
-            } else if(appState.remainingOxygen > 0 && returnedPlayerIds.length < appState.players.length){
+                // This code checks to see whether it's the end of the round (SEO END_THE_ROUND end_of_round)
+                if(appState.remainingOxygen === 0 || returnedPlayerIds.length === appState.players.length){
                 appAction({
-                    type: ActionType.NEXT_PLAYER_LOGIC
+                    type: ActionType.END_THE_ROUND
                 })
-            }
+                } else if(appState.remainingOxygen > 0 && returnedPlayerIds.length < appState.players.length){
+                    appAction({
+                        type: ActionType.NEXT_PLAYER_LOGIC
+                    })
+                }
             }, 2000/gameSpeed);
         }
 
@@ -464,8 +466,26 @@ const GameContainer = () => {
         // };
         if(appState.currentStep === 'end_of_round'){
             setAnnouncerInnerText(`The round is over!`);
-            // // This setTimeout allows 'The round is over!' to briefly display before moving on
-            // setTimeout(() => {
+            // This setTimeout allows 'The round is over!' to briefly display before moving on
+            setTimeout(() => {
+                // TO DO - The game needs to check.. I've forgotten what. But there nee.. oh yep, needs to check if it's the last round. 
+                
+                // Checking to see if the game ended due to a lack of oxygen, i.e. not everybody made it back.
+                if(appState.remainingOxygen === 0){
+                    setAnnouncerInnerText(`The oxygen ran out!`);
+                } 
+                // Checking to see if the game ended due to everybody making it back to the submarine. 
+                else if(returnedPlayerIds.length === appState.players.length){
+                    setAnnouncerInnerText(`Everyone made it back!`);
+                }
+                // || returnedPlayerIds.length === appState.players.length){
+                    
+                    // } else if(appState.remainingOxygen > 0 && returnedPlayerIds.length < appState.players.length){
+                    //     appAction({
+                    //         type: ActionType.NEXT_PLAYER_LOGIC
+                    //     })
+                    // }
+            }, 2000/gameSpeed)
             //     setAnnouncerInnerText(`Calculating who won the round!`);
             //     // 'roundHighScore' is used to determined who won in a single round version of the game.
             //     let roundHighScore = 0;
