@@ -268,7 +268,7 @@ export const DefaultGameState: GameState = {
     round: 1,
     tiles: tileGenerator(),
     remainingOxygen: 25,
-    gameSpeed: 9,
+    gameSpeed: 4,
     returnedPlayerIDs: [],
 };
 
@@ -297,11 +297,12 @@ export enum ActionType {
     SKIP_PLAYERS_GO = "skip_players_go",
     END_THE_ROUND = "end_the_round",
     NEXT_PLAYER_LOGIC = "next_player_logic",
+    CLEAN_UP_BOARD_TILES = "clean_up_board_tiles",
     TALLY_SCORES = "tally_scores",
 }
 
 
-export type GameAction = ReturnToHomeScreenAction | SelectNamePlayers | HomescreenHelpButton | HomescreenLoadButton | AddPlayerAction | SetTotalPlayersAction | GeneratePlayersAction | ShufflePlayers | BeginPrestart | StartGame | SetCurrentPlayer | RollDice | MovePlayerToken | ShowDiceResults | TreasurePickupDecision | TreasureLeaveDecision | TreasureDropDecision | NextPlayerTurn | SetOxygenLevel | DeeperOrBack | PlayerGotBack | SkipPlayersGo | EndTheRound | NextPlayerLogic | TallyScores;
+export type GameAction = ReturnToHomeScreenAction | SelectNamePlayers | HomescreenHelpButton | HomescreenLoadButton | AddPlayerAction | SetTotalPlayersAction | GeneratePlayersAction | ShufflePlayers | BeginPrestart | StartGame | SetCurrentPlayer | RollDice | MovePlayerToken | ShowDiceResults | TreasurePickupDecision | TreasureLeaveDecision | TreasureDropDecision | NextPlayerTurn | SetOxygenLevel | DeeperOrBack | PlayerGotBack | SkipPlayersGo | EndTheRound | NextPlayerLogic | CleanUpBoardTiles | TallyScores;
 
 export interface ReturnToHomeScreenAction { 
     type: ActionType.RETURN_TO_HOMESCREEN;
@@ -441,6 +442,10 @@ export interface NextPlayerLogic {
     type: ActionType.NEXT_PLAYER_LOGIC;
 }
 
+export interface CleanUpBoardTiles {
+    type: ActionType.CLEAN_UP_BOARD_TILES;
+}
+
 export interface TallyScores {
     type: ActionType.TALLY_SCORES;
     payload: {
@@ -471,10 +476,7 @@ export const GameContextReducer: Reducer<
             }              
         case ActionType.HOMESCREEN_LOAD_BUTTON: 
             const currentSaveGameData: GameState = JSON.parse(localStorage.getItem("currentGame") || "{}");
-            // This code is to help troubleshoot implementation of save files. 
-            
-            console.log(`players: ${util.inspect(currentSaveGameData, {showHidden: false, depth: null, colors: false})}`);
-            
+            // This code is to help troubleshoot implementation of save files.       
             // console.log(`\n`);
             // console.log(`Below are the individual currentSaveGameData properties:`);
             // console.log(`currentPlayer: ${currentSaveGameData.currentPlayer}`);
@@ -653,6 +655,11 @@ export const GameContextReducer: Reducer<
             return {
                 ...state,
                 currentStep: 'next_player_logic'
+            }
+        case ActionType.CLEAN_UP_BOARD_TILES: 
+            return {
+                ...state,
+                currentStep: 'clean_up_board_tiles'
             }
         case ActionType.TALLY_SCORES:
             // updatedScorePlayers takes the existing players array.

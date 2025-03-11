@@ -38,7 +38,6 @@ const GameContainer = () => {
     const [whoGoesFirstVisibility, setWhoGoesFirstVisibility] = useState(true);
     const [tealOverlayVisibility, setTealOverlayVisibility] = useState(true);
     const [announcerInnerText, setAnnouncerInnerText] = useState("");
-    // const [returnedPlayerIds, setReturnedPlayerIds] = useState <number[]>([]);
     let navigate = useNavigate();
     const gameSpeed = appState.gameSpeed;
     const soundUrl = bubbleClickSFX;
@@ -52,23 +51,13 @@ const GameContainer = () => {
     const handleEscapeButtonSubmit = () => {
         console.log(`We're clicking the escape button`);
         playAudio();
-        //navigate("/");
     }
 
     const handleHelpButtonSubmit = () => {
         console.log(`You're clicking the help button`);
-        // This is old code for submitting the current appState to Local Storage. Unfortunately, it stored the data incorrectly. Trying new variations now. 
-        // const currentGameSaveState = JSON.stringify(util.inspect(appState, {showHidden: false, depth: null, colors: false}));
         const currentGameSaveState = JSON.stringify(appState);
-        // const currentGameSaveState = (util.inspect(appState, {showHidden: false, depth: null, colors: false})).replaceAll("\"", "&quot;").replaceAll("'","\"");
-        // console.log(currentGameSaveState);
         localStorage.setItem(`currentGame`, `${currentGameSaveState}`);
-        // for(const [key, value] of Object.entries(appState)){
-        //     console.log(`I am storing the key: ${key}, and value: ${value} pair into storage.`);
-        //     localStorage.setItem(`${key}`, `${value}`);
-        // };
         playAudio();
-        //navigate("/");
     }
 
     useEffect(() => {
@@ -274,11 +263,6 @@ const GameContainer = () => {
             setTimeout(() => {
             if(appState.players[appState.currentPlayer].id === 1){
                 if(appState.players[appState.currentPlayer].mapPosition === 0){
-                    // This code is the old method of updating the local information on who has returned to the submarine. 
-                    // let newReturnedPlayers = [...appState.returnedPlayerIDs];
-                    // newReturnedPlayers.push(appState.players[appState.currentPlayer].id);
-                    // Ignoring this code to substitute it with an appAction payload.
-                    // setReturnedPlayerIds(newReturnedPlayers);
                     appAction({
                         type: ActionType.PLAYER_GOT_BACK,
                         payload: {
@@ -289,12 +273,8 @@ const GameContainer = () => {
             } else if (appState.players[appState.currentPlayer].id !== 1){
                     let anyTreasureThere = false;
                     if(appState.players[appState.currentPlayer].mapPosition === 0){
-                        // I'm not sure why this code repeats itself. 
-                        // This code is the old method of updating the local information on who has returned to the submarine. 
                         let newReturnedPlayers = [...appState.returnedPlayerIDs];
-                            newReturnedPlayers.push(appState.players[appState.currentPlayer].id);
-                            // Ignoring this code to substitute it with an appAction payload.
-                            // setReturnedPlayerIds(newReturnedPlayers);
+                            newReturnedPlayers.push(appState.players[appState.currentPlayer].id)
                         appAction({
                             type: ActionType.PLAYER_GOT_BACK,
                             payload: {
@@ -337,29 +317,30 @@ const GameContainer = () => {
                                         treasureToBeDropped = newPlayerTreasureArray[i];
                                     }
                                 }
+
                                 //This needs to be looked at. I think this is the last thing I worked on before the break and I'm not sure
                                 //exactly what this code is supposed to do yet, or why the === {} value is empty. 
-                                if(treasureToBeDropped === {}){
-                                    for(let i = 0; i < newPlayerTreasureArray.length; i++){
-                                        if(newPlayerTreasureArray[i].type === 2){
-                                            treasureToBeDropped = newPlayerTreasureArray[i];
-                                        }
-                                    }
-                                }
-                                if(treasureToBeDropped === {}){
-                                    for(let i = 0; i < newPlayerTreasureArray.length; i++){
-                                        if(newPlayerTreasureArray[i].type === 3){
-                                            treasureToBeDropped = newPlayerTreasureArray[i];
-                                        }
-                                    }
-                                }
-                                if(treasureToBeDropped === {}){
-                                    for(let i = 0; i < newPlayerTreasureArray.length; i++){
-                                        if(newPlayerTreasureArray[i].type === 4){
-                                            treasureToBeDropped = newPlayerTreasureArray[i];
-                                        }
-                                    }
-                                }
+                                // if(treasureToBeDropped === {}){
+                                //     for(let i = 0; i < newPlayerTreasureArray.length; i++){
+                                //         if(newPlayerTreasureArray[i].type === 2){
+                                //             treasureToBeDropped = newPlayerTreasureArray[i];
+                                //         }
+                                //     }
+                                // }
+                                // if(treasureToBeDropped === {}){
+                                //     for(let i = 0; i < newPlayerTreasureArray.length; i++){
+                                //         if(newPlayerTreasureArray[i].type === 3){
+                                //             treasureToBeDropped = newPlayerTreasureArray[i];
+                                //         }
+                                //     }
+                                // }
+                                // if(treasureToBeDropped === {}){
+                                //     for(let i = 0; i < newPlayerTreasureArray.length; i++){
+                                //         if(newPlayerTreasureArray[i].type === 4){
+                                //             treasureToBeDropped = newPlayerTreasureArray[i];
+                                //         }
+                                //     }
+                                // }
                                 newTileArray[appState.players[appState.currentPlayer].mapPosition-1] = {
                                     type: treasureToBeDropped.type,
                                     id: treasureToBeDropped.id,
@@ -435,7 +416,50 @@ const GameContainer = () => {
                 })
             }
         }
-        // THIS IS CURRENTLY COMMENTED OUT TO TRY AND IMPLEMENT A THREE ROUND GAME. 
+
+        if(appState.currentStep === 'end_of_round'){
+            setAnnouncerInnerText(`The round is over!`);
+            // This setTimeout allows 'The round is over!' to briefly display before moving on
+            setTimeout(() => {
+                // TO DO - The game needs to check.. I've forgotten what. But there nee.. oh yep, needs to check if it's the last round. 
+                
+                // Checking to see if the game ended due to a lack of oxygen, i.e. not everybody made it back.
+                if(appState.remainingOxygen === 0){
+                    setAnnouncerInnerText(`The oxygen ran out!`);
+                } 
+                // Checking to see if the game ended due to everybody making it back to the submarine. 
+                else if(appState.returnedPlayerIDs.length === appState.players.length){
+                    setAnnouncerInnerText(`Everyone made it back!`);
+                }
+                // || returnedPlayerIds.length === appState.players.length){
+                    
+                    // } else if(appState.remainingOxygen > 0 && returnedPlayerIds.length < appState.players.length){
+                    //     appAction({
+                    //         type: ActionType.NEXT_PLAYER_LOGIC
+                    //     })
+                    // }
+                setTimeout(() => {
+                    setAnnouncerInnerText(`Let's prepare the board for round ${appState.currentRound+1}!`);
+                    appAction({
+                        type: ActionType.CLEAN_UP_BOARD_TILES,
+                    });
+                }, 2000/gameSpeed);
+            }, 2000/gameSpeed);
+        };
+
+        if(appState.currentStep === 'clean_up_board_tiles'){
+            setTimeout(() => {
+                setAnnouncerInnerText(`testinsdfi !`);
+            }, 2000/gameSpeed);
+            
+
+        }
+
+
+
+        // THIS IS CURRENTLY COMMENTED OUT TO TRY AND IMPLEMENT A THREE ROUND GAME. AN ADJUSTED COPY OF THIS OLD CODE IS BEING USED ABOVE FOR THE EXTRA ROUNDS FEATURE.  
+        // THE CODE BELOW CAN BE USED LATER WHEN DETERMINING WHO WON AT THE END OF THE GAME.
+
         // if(appState.currentStep === 'end_of_round'){
         //     setAnnouncerInnerText(`The round is over!`);
         //     // This setTimeout allows 'The round is over!' to briefly display before moving on
@@ -478,66 +502,6 @@ const GameContainer = () => {
         //         }, 2000/gameSpeed)
         //     }, 2000/gameSpeed)
         // };
-        if(appState.currentStep === 'end_of_round'){
-            setAnnouncerInnerText(`The round is over!`);
-            // This setTimeout allows 'The round is over!' to briefly display before moving on
-            setTimeout(() => {
-                // TO DO - The game needs to check.. I've forgotten what. But there nee.. oh yep, needs to check if it's the last round. 
-                
-                // Checking to see if the game ended due to a lack of oxygen, i.e. not everybody made it back.
-                if(appState.remainingOxygen === 0){
-                    setAnnouncerInnerText(`The oxygen ran out!`);
-                } 
-                // Checking to see if the game ended due to everybody making it back to the submarine. 
-                else if(appState.returnedPlayerIDs.length === appState.players.length){
-                    setAnnouncerInnerText(`Everyone made it back!`);
-                }
-                // || returnedPlayerIds.length === appState.players.length){
-                    
-                    // } else if(appState.remainingOxygen > 0 && returnedPlayerIds.length < appState.players.length){
-                    //     appAction({
-                    //         type: ActionType.NEXT_PLAYER_LOGIC
-                    //     })
-                    // }
-            }, 2000/gameSpeed)
-            //     setAnnouncerInnerText(`Calculating who won the round!`);
-            //     // 'roundHighScore' is used to determined who won in a single round version of the game.
-            //     let roundHighScore = 0;
-            //     // 'roundWinner' allows us to assign the highest scorer as the winner in a single round version of the game.
-            //     let roundWinner = '';
-            //     // Loop through the players in the game. 
-            //     for(let i = 0; i < appState.players.length; i++){
-            //         // If the player made it back to the submarine.
-            //         if(appState.players[i].mapPosition === 0){
-            //             // 'newPlayerScore' acts as a place to store the total points of each player as we loop through the player array.
-            //             let newPlayerScore = appState.players[i].score;
-            //             // Loop through the loops current players current tokens and add it to their score. 
-            //             appState.players[i].treasure.forEach((item) => {
-            //                 newPlayerScore += item.value;
-            //             })
-            //             // Check if the loops current player beats the high score, if so, make it the high score. 
-            //             if(newPlayerScore > roundHighScore){
-            //                 roundHighScore = newPlayerScore;
-            //                 roundWinner = `${appState.players[i].name}`;
-            //             } else if (newPlayerScore === roundHighScore && roundHighScore !== 0){
-            //                 roundWinner += ` and ${appState.players[i].name}`;
-            //             }
-            //             // TALLY_SCORES triggers for each player in the player array, with the playerToUpdate communicating
-            //             // which is the correct player to update. 
-            //             appAction({
-            //                 type: ActionType.TALLY_SCORES,
-            //                 payload: {
-            //                     newPlayerScore: newPlayerScore,
-            //                     playerToUpdate: i,
-            //                 }
-            //             })
-            //         }
-            //     }
-            //     setTimeout(() => {
-            //         setAnnouncerInnerText(`${roundWinner} won the round!`);
-            //     }, 2000/gameSpeed)
-            // }, 2000/gameSpeed)
-        }
     }, [appState.currentStep]);
 
     return (
