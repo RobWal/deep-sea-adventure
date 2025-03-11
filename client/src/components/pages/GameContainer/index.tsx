@@ -45,7 +45,7 @@ const GameContainer = () => {
     const [play] = useSound(soundUrl, { playbackRate: 1.0});
 
     const playAudio = () => {
-        const newPlaybackRate = (0.5 + Math.random())/gameSpeed;
+        const newPlaybackRate = (0.5 + Math.random());
         play({ playbackRate: newPlaybackRate});
     };
 
