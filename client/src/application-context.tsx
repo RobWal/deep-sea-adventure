@@ -467,6 +467,9 @@ export const GameContextReducer: Reducer<
         case ActionType.HOMESCREEN_LOAD_BUTTON: 
             const currentSaveGameData: GameState = JSON.parse(localStorage.getItem("currentGame") || "{}");
             // This code is to help troubleshoot implementation of save files. 
+            
+            console.log(`players: ${util.inspect(currentSaveGameData, {showHidden: false, depth: null, colors: false})}`);
+            
             // console.log(`\n`);
             // console.log(`Below are the individual currentSaveGameData properties:`);
             // console.log(`currentPlayer: ${currentSaveGameData.currentPlayer}`);
@@ -632,6 +635,7 @@ export const GameContextReducer: Reducer<
                 currentStep: 'skip_players_turn',
             }
         case ActionType.END_THE_ROUND:
+            console.log(`players: ${util.inspect(state.tiles, {showHidden: false, depth: null, colors: false})}`);
             return {
                 ...state,
                 currentStep: 'end_of_round'

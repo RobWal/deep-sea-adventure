@@ -94,7 +94,10 @@ const GameContainer = () => {
         if(appState.currentPlayer === -1) { 
             setAnnouncerInnerText('') 
         };
+        // This code checks to see if a player is in the submarine.
         if(appState.currentStep === 'is_player_in_sub'){
+            console.log(`We're checking to see if the player is in the submarine for player ${appState.currentPlayer}`);
+            console.log(`returnedPlayerID's: ${appState.currentPlayer}`);
             let isPlayerInSub = false;
             returnedPlayerIds.forEach((id) => {
                 if(id === appState.players[appState.currentPlayer].id){
