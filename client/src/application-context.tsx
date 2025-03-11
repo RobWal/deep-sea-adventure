@@ -254,6 +254,7 @@ export interface GameState {
     tiles: any[],
     remainingOxygen: number,
     gameSpeed: number,
+    returnedPlayerIDs: number[],
 }
 
 export const DefaultGameState: GameState = {
@@ -268,6 +269,7 @@ export const DefaultGameState: GameState = {
     tiles: tileGenerator(),
     remainingOxygen: 25,
     gameSpeed: 9,
+    returnedPlayerIDs: [],
 };
 
 export enum ActionType {
@@ -422,6 +424,9 @@ export interface DeeperOrBack {
 
 export interface PlayerGotBack {
     type: ActionType.PLAYER_GOT_BACK;
+    payload: {
+        returnedPlayerID: number,
+    }
 }
 
 export interface SkipPlayersGo {
@@ -492,7 +497,8 @@ export const GameContextReducer: Reducer<
                 players: currentSaveGameData.players,
                 round: currentSaveGameData.round,
                 tiles: currentSaveGameData.tiles,
-                remainingOxygen: currentSaveGameData.remainingOxygen, 
+                remainingOxygen: currentSaveGameData.remainingOxygen,
+                returnedPlayerIDs: currentSaveGameData.returnedPlayerIDs, 
             };
         case ActionType.SET_TOTAL_PLAYERS:
             return {
@@ -625,8 +631,11 @@ export const GameContextReducer: Reducer<
                 currentStep: 'rolling'
             }
         case ActionType.PLAYER_GOT_BACK:
+            let updatedReturnedPlayerIDs = [...state.returnedPlayerIDs];
+            updatedReturnedPlayerIDs.push(action.payload.returnedPlayerID);
                 return {
                     ...state,
+                    returnedPlayerIDs: updatedReturnedPlayerIDs,
                     currentStep: 'player_got_back',
             }
         case ActionType.SKIP_PLAYERS_GO:

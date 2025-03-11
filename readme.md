@@ -73,7 +73,7 @@ Some examples are:
         1. Ensure the turn order is correctly implemented according to the above research.
 -   ** At home (primarily)
     1. User friendly buttons need to be added to replace the currently unhelpful ? buttons used to save and load the game. This will likely require the addition of a menu, to also add the ability for users to change the game speed in game, leave the current game, etc..". **Please note that I have decided I don't want to do this yet, to all my adoring fans, please sit tightly for these updates and enjoy the weird load/save buttons for now.
--   1. What I'm actually working on - Bug #1 - Prompted to roll dice when already in submarine when loading the game from that position.  
+-   1. ~~What I'm actually working on - Bug #1 - Prompted to roll dice when already in submarine when loading the game from that position.~~  
 
 # Ongoing improvements
 
@@ -91,5 +91,5 @@ Some examples are:
 
 # Bugs
 
-1. When loading a save file and your token is already back in the submarine, you are still prompted to roll the dice on your turn.  
+1. ~~When loading a save file and your token is already back in the submarine, you are still prompted to roll the dice on your turn.~~
 1. While using the game speed feature, player tile animations using the style={style} syntax aren't sped up, causing a disconnect between player tokens and potential player decisions. 

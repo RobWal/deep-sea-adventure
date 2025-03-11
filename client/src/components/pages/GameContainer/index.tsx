@@ -38,7 +38,7 @@ const GameContainer = () => {
     const [whoGoesFirstVisibility, setWhoGoesFirstVisibility] = useState(true);
     const [tealOverlayVisibility, setTealOverlayVisibility] = useState(true);
     const [announcerInnerText, setAnnouncerInnerText] = useState("");
-    const [returnedPlayerIds, setReturnedPlayerIds] = useState <number[]>([]);
+    // const [returnedPlayerIds, setReturnedPlayerIds] = useState <number[]>([]);
     let navigate = useNavigate();
     const gameSpeed = appState.gameSpeed;
     const soundUrl = bubbleClickSFX;
@@ -99,7 +99,7 @@ const GameContainer = () => {
             console.log(`We're checking to see if the player is in the submarine for player ${appState.currentPlayer}`);
             console.log(`returnedPlayerID's: ${appState.currentPlayer}`);
             let isPlayerInSub = false;
-            returnedPlayerIds.forEach((id) => {
+            appState.returnedPlayerIDs.forEach((id) => {
                 if(id === appState.players[appState.currentPlayer].id){
                     isPlayerInSub = true;
                 }
@@ -274,21 +274,32 @@ const GameContainer = () => {
             setTimeout(() => {
             if(appState.players[appState.currentPlayer].id === 1){
                 if(appState.players[appState.currentPlayer].mapPosition === 0){
-                    let newReturnedPlayers = [...returnedPlayerIds];
-                        newReturnedPlayers.push(appState.players[appState.currentPlayer].id);
-                        setReturnedPlayerIds(newReturnedPlayers);
+                    // This code is the old method of updating the local information on who has returned to the submarine. 
+                    // let newReturnedPlayers = [...appState.returnedPlayerIDs];
+                    // newReturnedPlayers.push(appState.players[appState.currentPlayer].id);
+                    // Ignoring this code to substitute it with an appAction payload.
+                    // setReturnedPlayerIds(newReturnedPlayers);
                     appAction({
-                        type: ActionType.PLAYER_GOT_BACK
+                        type: ActionType.PLAYER_GOT_BACK,
+                        payload: {
+                            returnedPlayerID: appState.players[appState.currentPlayer].id
+                        },
                     })
                 }
             } else if (appState.players[appState.currentPlayer].id !== 1){
                     let anyTreasureThere = false;
                     if(appState.players[appState.currentPlayer].mapPosition === 0){
-                        let newReturnedPlayers = [...returnedPlayerIds];
+                        // I'm not sure why this code repeats itself. 
+                        // This code is the old method of updating the local information on who has returned to the submarine. 
+                        let newReturnedPlayers = [...appState.returnedPlayerIDs];
                             newReturnedPlayers.push(appState.players[appState.currentPlayer].id);
-                            setReturnedPlayerIds(newReturnedPlayers);
+                            // Ignoring this code to substitute it with an appAction payload.
+                            // setReturnedPlayerIds(newReturnedPlayers);
                         appAction({
-                            type: ActionType.PLAYER_GOT_BACK
+                            type: ActionType.PLAYER_GOT_BACK,
+                            payload: {
+                                returnedPlayerID: appState.players[appState.currentPlayer].id
+                            },
                         })
                     } else if(appState.players[appState.currentPlayer].mapPosition !== 0){
                         if(appState.tiles[appState.players[appState.currentPlayer].mapPosition-1].type !== 0){
@@ -394,11 +405,11 @@ const GameContainer = () => {
             
             setTimeout(() => {
                 // This code checks to see whether it's the end of the round (SEO END_THE_ROUND end_of_round)
-                if(appState.remainingOxygen === 0 || returnedPlayerIds.length === appState.players.length){
+                if(appState.remainingOxygen === 0 || appState.returnedPlayerIDs.length === appState.players.length){
                 appAction({
                     type: ActionType.END_THE_ROUND
                 })
-                } else if(appState.remainingOxygen > 0 && returnedPlayerIds.length < appState.players.length){
+                } else if(appState.remainingOxygen > 0 && appState.returnedPlayerIDs.length < appState.players.length){
                     appAction({
                         type: ActionType.NEXT_PLAYER_LOGIC
                     })
@@ -478,7 +489,7 @@ const GameContainer = () => {
                     setAnnouncerInnerText(`The oxygen ran out!`);
                 } 
                 // Checking to see if the game ended due to everybody making it back to the submarine. 
-                else if(returnedPlayerIds.length === appState.players.length){
+                else if(appState.returnedPlayerIDs.length === appState.players.length){
                     setAnnouncerInnerText(`Everyone made it back!`);
                 }
                 // || returnedPlayerIds.length === appState.players.length){
