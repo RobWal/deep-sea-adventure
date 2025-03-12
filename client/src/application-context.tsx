@@ -269,7 +269,7 @@ export const DefaultGameState: GameState = {
     round: 1,
     tiles: tileGenerator(),
     remainingOxygen: 25,
-    gameSpeed: 1,
+    gameSpeed: 7,
     returnedPlayerIDs: [],
 };
 
@@ -300,11 +300,12 @@ export enum ActionType {
     NEXT_PLAYER_LOGIC = "next_player_logic",
     CLEAN_UP_THE_DROWNED = "clean_up_the_drowned",
     MOVE_DROWNED_PLAYERS_HOME = "move_drowned_players_home",
+    CLEAN_UP_TILE_ARRAY = "clean_up_tile_array",
     TALLY_SCORES = "tally_scores",
 }
 
 
-export type GameAction = ReturnToHomeScreenAction | SelectNamePlayers | HomescreenHelpButton | HomescreenLoadButton | AddPlayerAction | SetTotalPlayersAction | GeneratePlayersAction | ShufflePlayers | BeginPrestart | StartGame | SetCurrentPlayer | RollDice | MovePlayerToken | ShowDiceResults | TreasurePickupDecision | TreasureLeaveDecision | TreasureDropDecision | NextPlayerTurn | SetOxygenLevel | DeeperOrBack | PlayerGotBack | SkipPlayersGo | EndTheRound | NextPlayerLogic | CleanUpTheDrowned | MoveDrownedPlayersHome | TallyScores;
+export type GameAction = ReturnToHomeScreenAction | SelectNamePlayers | HomescreenHelpButton | HomescreenLoadButton | AddPlayerAction | SetTotalPlayersAction | GeneratePlayersAction | ShufflePlayers | BeginPrestart | StartGame | SetCurrentPlayer | RollDice | MovePlayerToken | ShowDiceResults | TreasurePickupDecision | TreasureLeaveDecision | TreasureDropDecision | NextPlayerTurn | SetOxygenLevel | DeeperOrBack | PlayerGotBack | SkipPlayersGo | EndTheRound | NextPlayerLogic | CleanUpTheDrowned | MoveDrownedPlayersHome | CleanUpTileArray | TallyScores;
 
 export interface ReturnToHomeScreenAction { 
     type: ActionType.RETURN_TO_HOMESCREEN;
@@ -452,6 +453,13 @@ export interface MoveDrownedPlayersHome {
     type: ActionType.MOVE_DROWNED_PLAYERS_HOME;
     payload: {
         newPlayersArray: Players[]
+    }
+}
+
+export interface CleanUpTileArray {
+    type: ActionType.CLEAN_UP_TILE_ARRAY;
+    payload: {
+        newTileArray: TileTypes[]
     }
 }
 
@@ -660,7 +668,13 @@ export const GameContextReducer: Reducer<
             return {
                 ...state,
                 players: action.payload.newPlayersArray,
-                currentStep: 'move_drowned_players_home'
+                currentStep: 'move_drowned_players_home',
+            }
+        case ActionType.CLEAN_UP_TILE_ARRAY:
+            return {
+                ...state,
+                tiles: action.payload.newTileArray,
+                currentStep: 'clean_up_tile_array',
             }
         case ActionType.TALLY_SCORES:
             // updatedScorePlayers takes the existing players array.

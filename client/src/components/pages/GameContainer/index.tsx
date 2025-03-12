@@ -484,7 +484,6 @@ const GameContainer = () => {
             setTimeout(() => {
                 let newPlayerLocations = JSON.parse(JSON.stringify(appState.players));
                 for(let i = 0; i < newPlayerLocations.length; i ++){
-                    console.log(newPlayerLocations[i]);
                     newPlayerLocations[i].mapPosition = 0;
                 }
                 appAction({
@@ -495,9 +494,30 @@ const GameContainer = () => {
                 });
             }, 4000/gameSpeed);
         };
+        if(appState.currentStep === 'move_drowned_players_home'){
+            // console.log(`${util.inspect(appState, {showHidden: false, depth: null, colors: false})}`);
+            let newTileLocations = JSON.parse(JSON.stringify(appState.tiles));
+            console.log(`${util.inspect(newTileLocations, {showHidden: false, depth: null, colors: false})}`);
+            for(let i = 0; i < newTileLocations.length; i ++){
+                // console.log(`${newTileLocations[i]}`);
+                // console.log(`Console logging the newTileLocations.type: ${newTileLocations.type}`);
+                if(newTileLocations[i].type === 0){
+                    newTileLocations.splice(i, 1);
+                    i--;
+                };
+            };
+            console.log(`${util.inspect(newTileLocations, {showHidden: false, depth: null, colors: false})}`);
+            appAction({
+                type: ActionType.CLEAN_UP_TILE_ARRAY,
+                payload: {
+                    newTileArray: newTileLocations,
+                }
+            });
+        };
 
-
-
+        if(appState.currentStep === 'clean_up_tile_array'){
+            console.log(`We're in the new step.. again: ${util.inspect(appState.tiles, {showHidden: false, depth: null, colors: false})}`);
+        };
         // THIS IS CURRENTLY COMMENTED OUT TO TRY AND IMPLEMENT A THREE ROUND GAME. AN ADJUSTED COPY OF THIS OLD CODE IS BEING USED ABOVE FOR THE EXTRA ROUNDS FEATURE.  
         // THE CODE BELOW CAN BE USED LATER WHEN DETERMINING WHO WON AT THE END OF THE GAME.
 
