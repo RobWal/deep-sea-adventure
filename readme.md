@@ -67,7 +67,7 @@ Some examples are:
         1. ~~Prevent tokens from being flipped over until the end of the third round.~~
         1. ~~Prevent tokens from being added to the score~~ until the end of the third round. 
         1. ~~Players who didn't make it to the submarine need to recorded and be moved back to the starting position.~~ 
-        1. Tokens that were picked up and left with an empty treasure tile, need to be removed, and the rest of the tokens need to be moved forward.
+        1. ~~Tokens that were picked up and left with an empty treasure tile, need to be removed, and the rest of the tokens need to be moved forward.~~
         1. Tokens picked up by players that didn't make it to the submarine need to be added to the tail end of the tokens array. 
         1. ~~Research what determines who goes first in the second and third rounds.~~
         1. ~~Ensure the turn order is correctly implemented according to the above research.~~ The first player of the next round is either, the player who was furthest from the submarine when the oxygen ran out, or, the player who was last to board the submarine. 

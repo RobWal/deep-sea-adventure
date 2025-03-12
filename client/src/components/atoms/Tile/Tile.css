@@ -2,4 +2,7 @@
     position: absolute;
     width: 55px;
     height: 55px;
+    /* transition-property: all;
+    transition-duration: 2000s;
+    transition-timing-function: ease-in-out; */
 }

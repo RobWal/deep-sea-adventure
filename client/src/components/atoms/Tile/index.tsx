@@ -7,6 +7,6 @@ const Tile = ({style, component, showComponent}: any) => {
             {showComponent}
         </div>
     )
-}
+};
 
 export default Tile;

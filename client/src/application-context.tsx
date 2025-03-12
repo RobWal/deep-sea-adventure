@@ -94,7 +94,7 @@ export const tileLocations: TileLocations = {
     3: {top: '30px', left: '250px',},
     4: {top: '40px',left: '180px',},
     5: {top: '60px',left: '110px',},
-    6: {top: '120px',left: '65px',},
+    6: {top: '130px',left: '60px',},
     7: {top: '200px',left: '35px',},
     8: {top: '280px',left: '45px',},
     9: {top: '360px',left: '60px',},
@@ -269,7 +269,7 @@ export const DefaultGameState: GameState = {
     round: 1,
     tiles: tileGenerator(),
     remainingOxygen: 25,
-    gameSpeed: 7,
+    gameSpeed: 5,
     returnedPlayerIDs: [],
 };
 
@@ -300,12 +300,12 @@ export enum ActionType {
     NEXT_PLAYER_LOGIC = "next_player_logic",
     CLEAN_UP_THE_DROWNED = "clean_up_the_drowned",
     MOVE_DROWNED_PLAYERS_HOME = "move_drowned_players_home",
-    CLEAN_UP_TILE_ARRAY = "clean_up_tile_array",
+    REMOVE_EMPTY_TILE_LOCATIONS = "remove_empty_tile_locations",
     TALLY_SCORES = "tally_scores",
 }
 
 
-export type GameAction = ReturnToHomeScreenAction | SelectNamePlayers | HomescreenHelpButton | HomescreenLoadButton | AddPlayerAction | SetTotalPlayersAction | GeneratePlayersAction | ShufflePlayers | BeginPrestart | StartGame | SetCurrentPlayer | RollDice | MovePlayerToken | ShowDiceResults | TreasurePickupDecision | TreasureLeaveDecision | TreasureDropDecision | NextPlayerTurn | SetOxygenLevel | DeeperOrBack | PlayerGotBack | SkipPlayersGo | EndTheRound | NextPlayerLogic | CleanUpTheDrowned | MoveDrownedPlayersHome | CleanUpTileArray | TallyScores;
+export type GameAction = ReturnToHomeScreenAction | SelectNamePlayers | HomescreenHelpButton | HomescreenLoadButton | AddPlayerAction | SetTotalPlayersAction | GeneratePlayersAction | ShufflePlayers | BeginPrestart | StartGame | SetCurrentPlayer | RollDice | MovePlayerToken | ShowDiceResults | TreasurePickupDecision | TreasureLeaveDecision | TreasureDropDecision | NextPlayerTurn | SetOxygenLevel | DeeperOrBack | PlayerGotBack | SkipPlayersGo | EndTheRound | NextPlayerLogic | CleanUpTheDrowned | MoveDrownedPlayersHome | RemoveEmptyTileLocations | TallyScores;
 
 export interface ReturnToHomeScreenAction { 
     type: ActionType.RETURN_TO_HOMESCREEN;
@@ -456,8 +456,8 @@ export interface MoveDrownedPlayersHome {
     }
 }
 
-export interface CleanUpTileArray {
-    type: ActionType.CLEAN_UP_TILE_ARRAY;
+export interface RemoveEmptyTileLocations {
+    type: ActionType.REMOVE_EMPTY_TILE_LOCATIONS;
     payload: {
         newTileArray: TileTypes[]
     }
@@ -670,7 +670,7 @@ export const GameContextReducer: Reducer<
                 players: action.payload.newPlayersArray,
                 currentStep: 'move_drowned_players_home',
             }
-        case ActionType.CLEAN_UP_TILE_ARRAY:
+        case ActionType.REMOVE_EMPTY_TILE_LOCATIONS:
             return {
                 ...state,
                 tiles: action.payload.newTileArray,
