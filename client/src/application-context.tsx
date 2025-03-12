@@ -268,7 +268,7 @@ export const DefaultGameState: GameState = {
     round: 1,
     tiles: tileGenerator(),
     remainingOxygen: 25,
-    gameSpeed: 4,
+    gameSpeed: 9,
     returnedPlayerIDs: [],
 };
 
@@ -646,7 +646,7 @@ export const GameContextReducer: Reducer<
                 currentStep: 'skip_players_turn',
             }
         case ActionType.END_THE_ROUND:
-            console.log(`players: ${util.inspect(state.tiles, {showHidden: false, depth: null, colors: false})}`);
+            // console.log(`players: ${util.inspect(state.tiles, {showHidden: false, depth: null, colors: false})}`);
             return {
                 ...state,
                 currentStep: 'end_of_round'

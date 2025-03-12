@@ -448,12 +448,38 @@ const GameContainer = () => {
         };
 
         if(appState.currentStep === 'clean_up_board_tiles'){
-            setTimeout(() => {
-                setAnnouncerInnerText(`testinsdfi !`);
-            }, 2000/gameSpeed);
-            
-
-        }
+            // If nobody drowned, skip announcing who drowned.
+            if(appState.returnedPlayerIDs.length === appState.players.length){} 
+            // If somebody drowned, work out who did and announce it via setAnnouncerInnerText
+            else if (appState.returnedPlayerIDs.length !== appState.players.length){
+                setTimeout(() => {
+                    let drownedPlayersText = ``;
+                    for(let i = 0; i < appState.players.length; i++){
+                        if(appState.players[i].mapPosition !== 0){
+                            // setAnnouncerInnerText(`${appState.players[i].name}`);
+                            // If names added === 0;
+                            // If there have been no names added to the string, add the first name, making the string "<name> drowned."
+                            if(drownedPlayersText === ``){
+                                drownedPlayersText += appState.players[i].name;
+                            }
+                            // If names added => 2;
+                            // If the string includes 'and', that means there are at least two names in the string, i.e. "Matt and Ashley 
+                            // drowned.", so the function will add to the list by adding "<name>,".
+                            else if (drownedPlayersText.includes(`and`)){
+                                drownedPlayersText = `${appState.players[i].name}, ${drownedPlayersText}`;
+                            } 
+                            // If names added === 1;
+                            // If the string is not empty, does not include a `,` or `and`, it must mean the string is currently `<name> drowned.`.
+                            else if (drownedPlayersText !== `` && !drownedPlayersText.includes(`,`) && !drownedPlayersText.includes(`and`)){
+                                drownedPlayersText += ` and ${appState.players[i].name}`;
+                            }
+                        };
+                    };
+                    drownedPlayersText = `${drownedPlayersText} drowned.`;
+                    setAnnouncerInnerText(`${drownedPlayersText}`);
+                }, 2000/gameSpeed);
+            };
+        };
 
 
 

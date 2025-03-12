@@ -1,6 +1,14 @@
 /*
 
 
+12/3/25 
+Alright kids, lets take a look at the steps it'll take to get the second round going, in more detail than the readme.md. 
+
+First things first, lets log who, if anybody is outside of the submarine, and check that we've got that information in 
+the appState. 
+
+On second thought, we can use the returnedPlayerIDs array and look to anybody who isn't in that array. We can also
+use it to check and see if everybody returned to the submarine. 
 
 
 
@@ -13,8 +21,7 @@
 
 
 
-
-
+??/??/25
 Testing save game functionality. 
 
 The current step seems to trigger twice regardless of what it is, e.g. 'rolling' 'rolled' 'moving' etc. 
