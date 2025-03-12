@@ -85,8 +85,8 @@ const GameContainer = () => {
         };
         // This code checks to see if a player is in the submarine.
         if(appState.currentStep === 'is_player_in_sub'){
-            console.log(`We're checking to see if the player is in the submarine for player ${appState.currentPlayer}`);
-            console.log(`returnedPlayerID's: ${appState.currentPlayer}`);
+            // console.log(`We're checking to see if the player is in the submarine for player ${appState.currentPlayer}`);
+            // console.log(`returnedPlayerID's: ${appState.currentPlayer}`);
             let isPlayerInSub = false;
             appState.returnedPlayerIDs.forEach((id) => {
                 if(id === appState.players[appState.currentPlayer].id){
@@ -441,13 +441,13 @@ const GameContainer = () => {
                 setTimeout(() => {
                     setAnnouncerInnerText(`Let's prepare the board for round ${appState.currentRound+1}!`);
                     appAction({
-                        type: ActionType.CLEAN_UP_BOARD_TILES,
+                        type: ActionType.CLEAN_UP_THE_DROWNED,
                     });
                 }, 2000/gameSpeed);
             }, 2000/gameSpeed);
         };
 
-        if(appState.currentStep === 'clean_up_board_tiles'){
+        if(appState.currentStep === 'clean_up_the_drowned'){
             // If nobody drowned, skip announcing who drowned.
             if(appState.returnedPlayerIDs.length === appState.players.length){} 
             // If somebody drowned, work out who did and announce it via setAnnouncerInnerText
@@ -479,6 +479,21 @@ const GameContainer = () => {
                     setAnnouncerInnerText(`${drownedPlayersText}`);
                 }, 2000/gameSpeed);
             };
+
+            // Deep clone the appState.players array, in order to set everyones mapPosition = 0, to update the appState.
+            setTimeout(() => {
+                let newPlayerLocations = JSON.parse(JSON.stringify(appState.players));
+                for(let i = 0; i < newPlayerLocations.length; i ++){
+                    console.log(newPlayerLocations[i]);
+                    newPlayerLocations[i].mapPosition = 0;
+                }
+                appAction({
+                    type: ActionType.MOVE_DROWNED_PLAYERS_HOME,
+                    payload: {
+                        newPlayersArray: newPlayerLocations,
+                    }
+                });
+            }, 4000/gameSpeed);
         };
 
 

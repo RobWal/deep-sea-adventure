@@ -10,7 +10,7 @@ the appState.
 On second thought, we can use the returnedPlayerIDs array and look to anybody who isn't in that array. We can also
 use it to check and see if everybody returned to the submarine. 
 
-
+Alright, we have everybody back in the submarine. Now to clean up the tiles, I expect this will be difficult. 
 
 
 

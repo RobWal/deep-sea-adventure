@@ -24,6 +24,7 @@ import TreasureThree from "./components/atoms/VisualAssets/TreasureThree";
 import TreasureThreeInventory from "./components/atoms/VisualAssets/TreasureThreeInventory";
 import TreasureTwo from "./components/atoms/VisualAssets/TreasureTwo";
 import TreasureTwoInventory from "./components/atoms/VisualAssets/TreasureTwoInventory";
+import { deflateSync } from "zlib";
 // util allows us to read nested objects in the console in a user friendly way, i.e. instead of '[object Object]', it will log '{Tiles:[type:1, value:2]}'.
 const util = require('util');
 
@@ -268,7 +269,7 @@ export const DefaultGameState: GameState = {
     round: 1,
     tiles: tileGenerator(),
     remainingOxygen: 25,
-    gameSpeed: 9,
+    gameSpeed: 1,
     returnedPlayerIDs: [],
 };
 
@@ -297,12 +298,13 @@ export enum ActionType {
     SKIP_PLAYERS_GO = "skip_players_go",
     END_THE_ROUND = "end_the_round",
     NEXT_PLAYER_LOGIC = "next_player_logic",
-    CLEAN_UP_BOARD_TILES = "clean_up_board_tiles",
+    CLEAN_UP_THE_DROWNED = "clean_up_the_drowned",
+    MOVE_DROWNED_PLAYERS_HOME = "move_drowned_players_home",
     TALLY_SCORES = "tally_scores",
 }
 
 
-export type GameAction = ReturnToHomeScreenAction | SelectNamePlayers | HomescreenHelpButton | HomescreenLoadButton | AddPlayerAction | SetTotalPlayersAction | GeneratePlayersAction | ShufflePlayers | BeginPrestart | StartGame | SetCurrentPlayer | RollDice | MovePlayerToken | ShowDiceResults | TreasurePickupDecision | TreasureLeaveDecision | TreasureDropDecision | NextPlayerTurn | SetOxygenLevel | DeeperOrBack | PlayerGotBack | SkipPlayersGo | EndTheRound | NextPlayerLogic | CleanUpBoardTiles | TallyScores;
+export type GameAction = ReturnToHomeScreenAction | SelectNamePlayers | HomescreenHelpButton | HomescreenLoadButton | AddPlayerAction | SetTotalPlayersAction | GeneratePlayersAction | ShufflePlayers | BeginPrestart | StartGame | SetCurrentPlayer | RollDice | MovePlayerToken | ShowDiceResults | TreasurePickupDecision | TreasureLeaveDecision | TreasureDropDecision | NextPlayerTurn | SetOxygenLevel | DeeperOrBack | PlayerGotBack | SkipPlayersGo | EndTheRound | NextPlayerLogic | CleanUpTheDrowned | MoveDrownedPlayersHome | TallyScores;
 
 export interface ReturnToHomeScreenAction { 
     type: ActionType.RETURN_TO_HOMESCREEN;
@@ -442,8 +444,15 @@ export interface NextPlayerLogic {
     type: ActionType.NEXT_PLAYER_LOGIC;
 }
 
-export interface CleanUpBoardTiles {
-    type: ActionType.CLEAN_UP_BOARD_TILES;
+export interface CleanUpTheDrowned {
+    type: ActionType.CLEAN_UP_THE_DROWNED;
+}
+
+export interface MoveDrownedPlayersHome {
+    type: ActionType.MOVE_DROWNED_PLAYERS_HOME;
+    payload: {
+        newPlayersArray: Players[]
+    }
 }
 
 export interface TallyScores {
@@ -476,19 +485,6 @@ export const GameContextReducer: Reducer<
             }              
         case ActionType.HOMESCREEN_LOAD_BUTTON: 
             const currentSaveGameData: GameState = JSON.parse(localStorage.getItem("currentGame") || "{}");
-            // This code is to help troubleshoot implementation of save files.       
-            // console.log(`\n`);
-            // console.log(`Below are the individual currentSaveGameData properties:`);
-            // console.log(`currentPlayer: ${currentSaveGameData.currentPlayer}`);
-            // console.log(`currentRound: ${currentSaveGameData.currentRound}`);
-            // console.log(`currentStep: ${currentSaveGameData.currentStep}`);
-            // console.log(`dice: ${currentSaveGameData.dice}`);
-            // console.log(`players: ${util.inspect(currentSaveGameData.players, {showHidden: false, depth: null, colors: false})}`);
-            // console.log(`remainingOxygen: ${currentSaveGameData.remainingOxygen}`);
-            // console.log(`round: ${currentSaveGameData.round}`);
-            // console.log(`tiles: ${util.inspect(currentSaveGameData.tiles, {showHidden: false, depth: null, colors: false})}`);
-            // console.log(`totalPlayers: ${currentSaveGameData.totalPlayers}`);
-            // console.log(`\n`);
             return { 
                 ...state,
                 currentRound: currentSaveGameData.currentRound,
@@ -646,7 +642,6 @@ export const GameContextReducer: Reducer<
                 currentStep: 'skip_players_turn',
             }
         case ActionType.END_THE_ROUND:
-            // console.log(`players: ${util.inspect(state.tiles, {showHidden: false, depth: null, colors: false})}`);
             return {
                 ...state,
                 currentStep: 'end_of_round'
@@ -656,10 +651,16 @@ export const GameContextReducer: Reducer<
                 ...state,
                 currentStep: 'next_player_logic'
             }
-        case ActionType.CLEAN_UP_BOARD_TILES: 
+        case ActionType.CLEAN_UP_THE_DROWNED: 
             return {
                 ...state,
-                currentStep: 'clean_up_board_tiles'
+                currentStep: 'clean_up_the_drowned'
+            }
+        case ActionType.MOVE_DROWNED_PLAYERS_HOME: 
+            return {
+                ...state,
+                players: action.payload.newPlayersArray,
+                currentStep: 'move_drowned_players_home'
             }
         case ActionType.TALLY_SCORES:
             // updatedScorePlayers takes the existing players array.
