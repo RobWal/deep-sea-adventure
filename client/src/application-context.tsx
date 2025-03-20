@@ -674,7 +674,7 @@ export const GameContextReducer: Reducer<
             return {
                 ...state,
                 tiles: action.payload.newTileArray,
-                currentStep: 'clean_up_tile_array',
+                currentStep: 'add_drowned_treasure_back',
             }
         case ActionType.TALLY_SCORES:
             // updatedScorePlayers takes the existing players array.

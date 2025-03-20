@@ -496,12 +496,30 @@ const GameContainer = () => {
         };
 
         if(appState.currentStep === 'move_drowned_players_home'){
+            for(const players of appState.players){
+                let returned = false;
+                for(let i = 0; i < appState.returnedPlayerIDs.length; i++){
+                    if(players.id === appState.returnedPlayerIDs[i]){
+                        returned = true;
+                    }
+                    else if(players.id !== appState.returnedPlayerIDs[i]){
+                    };
+                };
+                if(returned === true){
+                    console.log(`The player with ID ${players.id}, ${players.name}, made it home.`);
+                } 
+                else if(returned === false){
+                    console.log(`The player with ID ${players.id}, ${players.name}, did not make it home.`);
+                };
+            };
+            
             // Deep clone the appState.tiles, in order to loop through the tiles array and remove any tiles where type===0. 
             setTimeout(() => {
                 let newTileArray = JSON.parse(JSON.stringify(appState.tiles));
                 let tilePositionCounter = 1;
                 console.log(`${util.inspect(newTileArray, {showHidden: false, depth: null, colors: false})}`);
                 console.log(`${util.inspect(appState.players, {showHidden: false, depth: null, colors: false})}`);
+                console.log(`${util.inspect(appState, {showHidden: false, depth: null, colors: false})}`);
                 // Loop through the newTileArray
                 for(let i = 0; i < newTileArray.length; i ++){
                     if(newTileArray[i].type === 0){
@@ -523,10 +541,10 @@ const GameContainer = () => {
             }, 2000/gameSpeed);
         };
 
-        if(appState.currentStep === 'remove_empty_tile_locations'){
-            setTimeout(() => {
-                console.log(`We're in the new step.. again: ${util.inspect(appState.tiles, {showHidden: false, depth: null, colors: false})}`);
-            }, 2000/gameSpeed);
+        if(appState.currentStep === 'add_drowned_treasure_back'){
+            // setTimeout(() => {
+                // console.log(`We're in the new step.. again: ${util.inspect(appState.tiles, {showHidden: false, depth: null, colors: false})}`);
+            // }, 2000/gameSpeed);
         };
         // THIS IS CURRENTLY COMMENTED OUT TO TRY AND IMPLEMENT A THREE ROUND GAME. AN ADJUSTED COPY OF THIS OLD CODE IS BEING USED ABOVE FOR THE EXTRA ROUNDS FEATURE.  
         // THE CODE BELOW CAN BE USED LATER WHEN DETERMINING WHO WON AT THE END OF THE GAME.

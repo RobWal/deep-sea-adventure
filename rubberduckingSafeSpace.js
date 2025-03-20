@@ -1,5 +1,13 @@
 /*
 
+20/3/25 
+Hey kids, we're back with some 'lets order the players from the furthest away, to the closest to the submarine, in a way that allows us to add the dropped
+treasures back to the treasure pile in a coherent way'. 
+
+So first what we need to do is take a snapshot on the game state right before the game ends. I think the easiest way to do this is to create an array that contains
+the appState.players.id in order of those furthest-closest. That way we can access the treasure belonging to the ID's of those players in that order.
+
+
 
 12/3/25 
 Alright kids, lets take a look at the steps it'll take to get the second round going, in more detail than the readme.md. 
@@ -11,14 +19,6 @@ On second thought, we can use the returnedPlayerIDs array and look to anybody wh
 use it to check and see if everybody returned to the submarine. 
 
 Alright, we have everybody back in the submarine. Now to clean up the tiles, I expect this will be difficult. 
-
-
-
-
-
-
-
-
 
 
 ??/??/25
