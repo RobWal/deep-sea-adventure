@@ -1,0 +1,7 @@
+.load-button-text {
+    position: absolute;
+    top: 1px;
+    left: 11.5px;
+    cursor: default;
+    color: white;
+}

@@ -14,7 +14,7 @@ import {
 } from "../../../application-context";
 import ScoreBoardContainer from '../../organisms/ScoreBoardContainer';
 import EscapeButton from '../../molecules/EscapeButton';
-import HelpButton from '../../molecules/HelpButton';
+import LoadButton from '../../molecules/LoadButton';
 import OxygenMarker from '../../atoms/OxygenMarker';
 import TileLayout from '../../organisms/TileLayout';
 import PlayerTokens from '../../molecules/PlayerTokens';
@@ -501,6 +501,7 @@ const GameContainer = () => {
                 let newTileArray = JSON.parse(JSON.stringify(appState.tiles));
                 let tilePositionCounter = 1;
                 console.log(`${util.inspect(newTileArray, {showHidden: false, depth: null, colors: false})}`);
+                console.log(`${util.inspect(appState.players, {showHidden: false, depth: null, colors: false})}`);
                 // Loop through the newTileArray
                 for(let i = 0; i < newTileArray.length; i ++){
                     if(newTileArray[i].type === 0){
@@ -580,7 +581,7 @@ const GameContainer = () => {
             <PlayerTokens />
             <EscapeButton buttonFunction={handleEscapeButtonSubmit} style={{position: 'absolute', top: '15px', right: '0px'}}/>
             {/* <HelpButton buttonFunction={handleLoadButtonSubmit} style={{position: 'absolute', top:'5px', right:'245px', margin:'15px', zIndex:'1'}}/> */}
-            <HelpButton buttonFunction={handleHelpButtonSubmit} style={{position: 'absolute', top: '15px', right: '50px'}}/>
+            <LoadButton buttonFunction={handleHelpButtonSubmit} style={{position: 'absolute', top: '15px', right: '50px'}}/>
             <OxygenSubmarine style={{position: 'absolute', top: '20px', left: '500px'}}/>
             <OxygenMarker style={{position: 'absolute', top: oxygenTokenLocations[appState.remainingOxygen].top, left: oxygenTokenLocations[appState.remainingOxygen].left}}/>
             <AnnouncerContainer dice={<DiceContainer />} announcerMessage={<AnnouncerMessage text={announcerInnerText}/>}/>
