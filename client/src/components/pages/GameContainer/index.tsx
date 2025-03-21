@@ -449,9 +449,27 @@ const GameContainer = () => {
 
         if(appState.currentStep === 'clean_up_the_drowned'){
             // If nobody drowned, skip announcing who drowned.
+            let newTileArray = JSON.parse(JSON.stringify(appState.tiles));
             if(appState.returnedPlayerIDs.length === appState.players.length){} 
             // If somebody drowned, work out who did and announce it via setAnnouncerInnerText
             else if (appState.returnedPlayerIDs.length !== appState.players.length){
+                const playersArrayByMapPosition =  appState.players.sort((a, b) => b.mapPosition - a.mapPosition);
+                console.log(`${util.inspect(playersArrayByMapPosition, {showHidden: false, depth: null, colors: false})}`);
+                // Declare a variable that lets us set the location for the tiles of drowned players, i.e. to the 
+                // end of the tile array.
+                let drownedTilesNewMapPosition = appState.tiles.length + 1;
+                console.log(drownedTilesNewMapPosition);
+                for(const player of playersArrayByMapPosition){
+                    if(player.mapPosition !== 0){
+                        for(let i = 0; i < player.treasure.length; i++){
+                            console.log(`${util.inspect(player.treasure[i], {showHidden: false, depth: null, colors: false})}`);
+                            player.treasure[i].location = drownedTilesNewMapPosition;
+                            newTileArray.push(player.treasure[i]);
+                        }
+                    }
+                    drownedTilesNewMapPosition ++;
+                }
+                console.log(`${util.inspect(newTileArray, {showHidden: false, depth: null, colors: false})}`);
                 setTimeout(() => {
                     let drownedPlayersText = ``;
                     for(let i = 0; i < appState.players.length; i++){
@@ -490,6 +508,7 @@ const GameContainer = () => {
                     type: ActionType.MOVE_DROWNED_PLAYERS_HOME,
                     payload: {
                         newPlayersArray: newPlayerLocations,
+                        newTileArray: newTileArray,
                     }
                 });
             }, 4000/gameSpeed);
@@ -498,20 +517,20 @@ const GameContainer = () => {
         // This entire state is so bloated, I'm tired of looking at it. 
         if(appState.currentStep === 'move_drowned_players_home'){
             // let drownedPlayersTilesArray: {}[] = [];
-            for(const players of appState.players){
-                let returned = false;
+            // for(const players of appState.players){
+                // let returned = false;
                 // Loop through the returnedPlayersIDs array to 
-                for(let i = 0; i < appState.returnedPlayerIDs.length; i++){
-                    if(players.id === appState.returnedPlayerIDs[i]){
-                        returned = true;
-                    }
-                    else if(players.id !== appState.returnedPlayerIDs[i]){
-                    };
-                };
-                if(returned === true){
+                // for(let i = 0; i < appState.returnedPlayerIDs.length; i++){
+                //     if(players.id === appState.returnedPlayerIDs[i]){
+                //         returned = true;
+                //     }
+                //     else if(players.id !== appState.returnedPlayerIDs[i]){
+                //     };
+                // };
+                // if(returned === true){
                     // console.log(`The player with ID ${players.id}, ${players.name}, made it home.`);
-                } 
-                else if(returned === false){
+                // } 
+                // else if(returned === false){
                     // console.log(`The player with ID ${players.id}, ${players.name}, did not make it home.`);
                     // for(let i = 0; i < players.treasure.length; i++){
                     //     console.log(`asdasdas`);
@@ -519,8 +538,8 @@ const GameContainer = () => {
                     //     players.treasure.splice(i, 1);
                     //     i--;
                     // }
-                };
-            };
+                // };
+            // };
             // console.log(`${util.inspect(drownedPlayersTilesArray, {showHidden: false, depth: null, colors: false})}`);
 
             // Deep clone the appState.tiles, in order to loop through the tiles array and remove any tiles where type===0,
@@ -531,6 +550,10 @@ const GameContainer = () => {
                 // console.log(`${util.inspect(newTileArray, {showHidden: false, depth: null, colors: false})}`);
                 // console.log(`${util.inspect(appState.players, {showHidden: false, depth: null, colors: false})}`);
                 // console.log(`${util.inspect(appState, {showHidden: false, depth: null, colors: false})}`);
+
+                for(const player of appState.players){
+
+                }
 
                 // Loop through the newTileArray, removing tiles where type === 0
                 for(let i = 0; i < newTileArray.length; i ++){

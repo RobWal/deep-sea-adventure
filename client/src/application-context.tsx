@@ -452,7 +452,8 @@ export interface CleanUpTheDrowned {
 export interface MoveDrownedPlayersHome {
     type: ActionType.MOVE_DROWNED_PLAYERS_HOME;
     payload: {
-        newPlayersArray: Players[]
+        newPlayersArray: Players[],
+        newTileArray: TileTypes[],
     }
 }
 
@@ -668,6 +669,7 @@ export const GameContextReducer: Reducer<
             return {
                 ...state,
                 players: action.payload.newPlayersArray,
+                tiles: action.payload.newTileArray,
                 currentStep: 'move_drowned_players_home',
             }
         case ActionType.REMOVE_EMPTY_TILE_LOCATIONS:
