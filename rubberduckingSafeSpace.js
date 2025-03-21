@@ -1,12 +1,21 @@
 /*
 
+21/3/25
+
+Alright, so we have to: 
+ - remove the tiles from the players who drowned.
+ - add the tiles from the players who drowned to the tail of the array. 
+
+
+
+
+
 20/3/25 
 Hey kids, we're back with some 'lets order the players from the furthest away, to the closest to the submarine, in a way that allows us to add the dropped
 treasures back to the treasure pile in a coherent way'. 
 
 So first what we need to do is take a snapshot on the game state right before the game ends. I think the easiest way to do this is to create an array that contains
 the appState.players.id in order of those furthest-closest. That way we can access the treasure belonging to the ID's of those players in that order.
-
 
 
 12/3/25 

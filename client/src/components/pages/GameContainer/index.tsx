@@ -495,9 +495,12 @@ const GameContainer = () => {
             }, 4000/gameSpeed);
         };
 
+        // This entire state is so bloated, I'm tired of looking at it. 
         if(appState.currentStep === 'move_drowned_players_home'){
+            // let drownedPlayersTilesArray: {}[] = [];
             for(const players of appState.players){
                 let returned = false;
+                // Loop through the returnedPlayersIDs array to 
                 for(let i = 0; i < appState.returnedPlayerIDs.length; i++){
                     if(players.id === appState.returnedPlayerIDs[i]){
                         returned = true;
@@ -506,31 +509,46 @@ const GameContainer = () => {
                     };
                 };
                 if(returned === true){
-                    console.log(`The player with ID ${players.id}, ${players.name}, made it home.`);
+                    // console.log(`The player with ID ${players.id}, ${players.name}, made it home.`);
                 } 
                 else if(returned === false){
-                    console.log(`The player with ID ${players.id}, ${players.name}, did not make it home.`);
+                    // console.log(`The player with ID ${players.id}, ${players.name}, did not make it home.`);
+                    // for(let i = 0; i < players.treasure.length; i++){
+                    //     console.log(`asdasdas`);
+                    //     drownedPlayersTilesArray.push(players.treasure[i]);
+                    //     players.treasure.splice(i, 1);
+                    //     i--;
+                    // }
                 };
             };
-            
-            // Deep clone the appState.tiles, in order to loop through the tiles array and remove any tiles where type===0. 
+            // console.log(`${util.inspect(drownedPlayersTilesArray, {showHidden: false, depth: null, colors: false})}`);
+
+            // Deep clone the appState.tiles, in order to loop through the tiles array and remove any tiles where type===0,
+            // before sending it to application-context. 
             setTimeout(() => {
                 let newTileArray = JSON.parse(JSON.stringify(appState.tiles));
                 let tilePositionCounter = 1;
-                console.log(`${util.inspect(newTileArray, {showHidden: false, depth: null, colors: false})}`);
-                console.log(`${util.inspect(appState.players, {showHidden: false, depth: null, colors: false})}`);
-                console.log(`${util.inspect(appState, {showHidden: false, depth: null, colors: false})}`);
-                // Loop through the newTileArray
+                // console.log(`${util.inspect(newTileArray, {showHidden: false, depth: null, colors: false})}`);
+                // console.log(`${util.inspect(appState.players, {showHidden: false, depth: null, colors: false})}`);
+                // console.log(`${util.inspect(appState, {showHidden: false, depth: null, colors: false})}`);
+
+                // Loop through the newTileArray, removing tiles where type === 0
                 for(let i = 0; i < newTileArray.length; i ++){
                     if(newTileArray[i].type === 0){
                         newTileArray.splice(i, 1);
                         i--;
                     }
+                    // If tile type !== 0, update its position in the tile array by using tilePositionCounter.
                     else if(newTileArray[i].type !== 0){
                         newTileArray[i].location = tilePositionCounter;
                         tilePositionCounter ++;
-                    }
+                    };
                 };
+                
+                // for(let i = 0; i < drownedPlayersTilesArray.length; i++){
+                //     newTileArray.push(drownedPlayersTilesArray[i]);
+                // }
+                // console.log(`${util.inspect(newTileArray, {showHidden: false, depth: null, colors: false})}`);
                 // Submit the new tile array to the appState. 
                 appAction({
                     type: ActionType.REMOVE_EMPTY_TILE_LOCATIONS,
