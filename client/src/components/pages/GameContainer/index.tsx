@@ -551,10 +551,10 @@ const GameContainer = () => {
                 // console.log(`${util.inspect(appState.players, {showHidden: false, depth: null, colors: false})}`);
                 // console.log(`${util.inspect(appState, {showHidden: false, depth: null, colors: false})}`);
 
-                for(const player of appState.players){
+                // for(const player of appState.players){
 
-                }
-
+                // }
+                console.log(`${util.inspect(newTileArray, {showHidden: false, depth: null, colors: false})}`);
                 // Loop through the newTileArray, removing tiles where type === 0
                 for(let i = 0; i < newTileArray.length; i ++){
                     if(newTileArray[i].type === 0){
@@ -564,10 +564,31 @@ const GameContainer = () => {
                     // If tile type !== 0, update its position in the tile array by using tilePositionCounter.
                     else if(newTileArray[i].type !== 0){
                         newTileArray[i].location = tilePositionCounter;
-                        tilePositionCounter ++;
+                        // To account for multiple treasures being in the same location, i.e. from drowned players dropping them,
+                        // we need to check to see if the next treasure is in the same location, to stop tilePositionCounter
+                        // from increasing. 
+                        
+                        // To prevent the following if statements from causing an error by checking against a tile that doesn't
+                        // exist, i.e. the array has 32 values and we check against the 33rd tile. 
+                        // console.log(`newTileArray[i].location+1: ${newTileArray[i].location+1}`);
+                        // console.log(`newTileArray.length: ${newTileArray.length}`);
+                        if(newTileArray[i].location+1 !== newTileArray.length){
+                            // If the location of the current tile is the same as the location of the next, do not 
+                            // increment the tilePositionCounter.
+                            console.log(`newTileArray[i].location: ${newTileArray[i].location}`);
+                            console.log(`newTileArray[i+1].location: ${newTileArray[i+1].location}`);    
+                            if(newTileArray[i].location === newTileArray[i+1].location){
+                                // Do nothing
+                            } 
+                            // Else, if the current tile and the next tile have different location values,
+                            // increment tilePostionCounter.
+                            else if (newTileArray[i].location !== newTileArray[i+1].location){
+                                tilePositionCounter ++;
+                            }
+                        }
                     };
                 };
-                
+                console.log(`${util.inspect(newTileArray, {showHidden: false, depth: null, colors: false})}`);
                 // for(let i = 0; i < drownedPlayersTilesArray.length; i++){
                 //     newTileArray.push(drownedPlayersTilesArray[i]);
                 // }

@@ -121,6 +121,12 @@ export const tileLocations: TileLocations = {
     30: {top: '360px', left: '625px',},
     31: {top: '280px',left: '650px',},
     32: {top: '270px',left: '730px',},
+    33: {top: '340px',left: '730px',},
+    34: {top: '360px',left: '730px',},
+    35: {top: '380px',left: '730px',},
+    36: {top: '400px',left: '730px',},
+    37: {top: '420px', left: '730px',},
+    38: {top: '440px',left: '730px',},
 }
 
 export interface TileTypes {
@@ -269,7 +275,7 @@ export const DefaultGameState: GameState = {
     round: 1,
     tiles: tileGenerator(),
     remainingOxygen: 25,
-    gameSpeed: 5,
+    gameSpeed: 1,
     returnedPlayerIDs: [],
 };
 

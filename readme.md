@@ -91,5 +91,7 @@ Some examples are:
 
 # Bugs
 
+1. The drowned player treasure tiles are each taking up one space (aside from the very last one), instead of being lumped together in one square. 
+1. The players are shuffling on the game board at the end of the round for some reason. 
 1. ~~When loading a save file and your token is already back in the submarine, you are still prompted to roll the dice on your turn.~~
 1. While using the game speed feature, player tile animations using the style={style} syntax aren't sped up, causing a disconnect between player tokens and potential player decisions. 

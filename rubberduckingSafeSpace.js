@@ -6,8 +6,8 @@ Alright, so we have to:
  - remove the tiles from the players who drowned.
  - add the tiles from the players who drowned to the tail of the array. 
 
-
-
+Brains fried, we're very close. For some reason the tiles, when being added to the end of the array, aren't stacking nicely. 
+We can fix it - We have the tecnhnology. 
 
 
 20/3/25 
