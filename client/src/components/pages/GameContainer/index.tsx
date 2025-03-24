@@ -49,12 +49,12 @@ const GameContainer = () => {
     };
 
     const handleEscapeButtonSubmit = () => {
-        console.log(`We're clicking the escape button`);
+        // console.log(`We're clicking the escape button`);
         playAudio();
     }
 
     const handleHelpButtonSubmit = () => {
-        console.log(`You're clicking the help button`);
+        // console.log(`You're clicking the help button`);
         const currentGameSaveState = JSON.stringify(appState);
         localStorage.setItem(`currentGame`, `${currentGameSaveState}`);
         playAudio();
@@ -396,7 +396,7 @@ const GameContainer = () => {
                     })
                 }
             }, 2000/gameSpeed);
-        }
+        };
 
         if(appState.currentStep === 'next_player_logic'){
             if(appState.currentPlayer+1 === appState.players.length){
@@ -405,7 +405,7 @@ const GameContainer = () => {
                     payload: {
                         newCurrentPlayer: 0,
                     }
-                })
+                });
             } 
             else {
                 appAction({
@@ -413,9 +413,9 @@ const GameContainer = () => {
                     payload: {
                         newCurrentPlayer: appState.currentPlayer+1,
                     }
-                })
-            }
-        }
+                });
+            };
+        };
 
         if(appState.currentStep === 'end_of_round'){
             setAnnouncerInnerText(`The round is over!`);
@@ -426,18 +426,11 @@ const GameContainer = () => {
                 // Checking to see if the game ended due to a lack of oxygen, i.e. not everybody made it back.
                 if(appState.remainingOxygen === 0){
                     setAnnouncerInnerText(`The oxygen ran out!`);
-                } 
+                }
                 // Checking to see if the game ended due to everybody making it back to the submarine. 
                 else if(appState.returnedPlayerIDs.length === appState.players.length){
                     setAnnouncerInnerText(`Everyone made it back!`);
-                }
-                // || returnedPlayerIds.length === appState.players.length){
-                    
-                    // } else if(appState.remainingOxygen > 0 && returnedPlayerIds.length < appState.players.length){
-                    //     appAction({
-                    //         type: ActionType.NEXT_PLAYER_LOGIC
-                    //     })
-                    // }
+                };
                 setTimeout(() => {
                     setAnnouncerInnerText(`Let's prepare the board for round ${appState.currentRound+1}!`);
                     appAction({
@@ -454,27 +447,22 @@ const GameContainer = () => {
             // If somebody drowned, work out who did and announce it via setAnnouncerInnerText
             else if (appState.returnedPlayerIDs.length !== appState.players.length){
                 const playersArrayByMapPosition =  JSON.parse(JSON.stringify(appState.players)).sort((a: any, b: any) => b.mapPosition - a.mapPosition);
-                console.log(`${util.inspect(playersArrayByMapPosition, {showHidden: false, depth: null, colors: false})}`);
                 // Declare a variable that lets us set the location for the tiles of drowned players, i.e. to the 
                 // end of the tile array.
                 let drownedTilesNewMapPosition = appState.tiles.length + 1;
-                console.log(drownedTilesNewMapPosition);
                 for(const player of playersArrayByMapPosition){
                     if(player.mapPosition !== 0){
                         for(let i = 0; i < player.treasure.length; i++){
-                            console.log(`${util.inspect(player.treasure[i], {showHidden: false, depth: null, colors: false})}`);
                             player.treasure[i].location = drownedTilesNewMapPosition;
                             newTileArray.push(player.treasure[i]);
-                        }
-                    }
+                        };
+                    };
                     drownedTilesNewMapPosition ++;
-                }
-                console.log(`${util.inspect(newTileArray, {showHidden: false, depth: null, colors: false})}`);
+                };
                 setTimeout(() => {
                     let drownedPlayersText = ``;
                     for(let i = 0; i < appState.players.length; i++){
                         if(appState.players[i].mapPosition !== 0){
-                            // setAnnouncerInnerText(`${appState.players[i].name}`);
                             // If names added === 0;
                             // If there have been no names added to the string, add the first name, making the string "<name> drowned."
                             if(drownedPlayersText === ``){
@@ -500,14 +488,18 @@ const GameContainer = () => {
 
             // Deep clone the appState.players array, in order to set everyones mapPosition = 0, to update the appState.
             setTimeout(() => {
-                let newPlayerLocations = JSON.parse(JSON.stringify(appState.players));
-                for(let i = 0; i < newPlayerLocations.length; i ++){
-                    newPlayerLocations[i].mapPosition = 0;
-                }
+                let newPlayerLocationsAndTreasures = JSON.parse(JSON.stringify(appState.players));
+                // THIS IS WHERE WE'RE WORKING RIGHT NOW <---- 
+                for(let i = 0; i < newPlayerLocationsAndTreasures.length; i ++){
+                    if(newPlayerLocationsAndTreasures[i].mapPosition !== 0){
+                        newPlayerLocationsAndTreasures[i].mapPosition = 0;
+                        newPlayerLocationsAndTreasures[i].treasure = [];
+                    }
+                };
                 appAction({
                     type: ActionType.MOVE_DROWNED_PLAYERS_HOME,
                     payload: {
-                        newPlayersArray: newPlayerLocations,
+                        newPlayersArray: newPlayerLocationsAndTreasures,
                         newTileArray: newTileArray,
                     }
                 });
@@ -535,6 +527,7 @@ const GameContainer = () => {
                         tilePositionCounter ++;
                     };
                 };
+
                 setTimeout(() => {
                     // Having removed all empty tiles, we now loop through the tile array in order to find the first tile 
                     // that doesn't belong to this rounds original array, by comparing the tile.location to treasureLoopCounter.
@@ -571,6 +564,9 @@ const GameContainer = () => {
                 // console.log(`We're in the new step.. again: ${util.inspect(appState.tiles, {showHidden: false, depth: null, colors: false})}`);
             // }, 2000/gameSpeed);
         };
+
+
+
         // THIS IS CURRENTLY COMMENTED OUT TO TRY AND IMPLEMENT A THREE ROUND GAME. AN ADJUSTED COPY OF THIS OLD CODE IS BEING USED ABOVE FOR THE EXTRA ROUNDS FEATURE.  
         // THE CODE BELOW CAN BE USED LATER WHEN DETERMINING WHO WON AT THE END OF THE GAME.
 
