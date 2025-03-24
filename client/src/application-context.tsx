@@ -275,7 +275,7 @@ export const DefaultGameState: GameState = {
     round: 1,
     tiles: tileGenerator(),
     remainingOxygen: 25,
-    gameSpeed: 1,
+    gameSpeed: 5,
     returnedPlayerIDs: [],
 };
 

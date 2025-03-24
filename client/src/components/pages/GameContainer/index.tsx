@@ -453,7 +453,7 @@ const GameContainer = () => {
             if(appState.returnedPlayerIDs.length === appState.players.length){} 
             // If somebody drowned, work out who did and announce it via setAnnouncerInnerText
             else if (appState.returnedPlayerIDs.length !== appState.players.length){
-                const playersArrayByMapPosition =  appState.players.sort((a, b) => b.mapPosition - a.mapPosition);
+                const playersArrayByMapPosition =  JSON.parse(JSON.stringify(appState.players)).sort((a: any, b: any) => b.mapPosition - a.mapPosition);
                 console.log(`${util.inspect(playersArrayByMapPosition, {showHidden: false, depth: null, colors: false})}`);
                 // Declare a variable that lets us set the location for the tiles of drowned players, i.e. to the 
                 // end of the tile array.

@@ -1,5 +1,12 @@
 /*
 
+24/3/25
+
+Looking at the old code, I identified that the player locations were only being updated once officially in the application-context
+file, so it had to be getting mutated elsewhere. Sure enough, where I loop through the players who drowned to add their treasure 
+to the trail, it mutated appState.players by not deep cloning it first. 
+
+
 21/3/25
 
 Alright, so we have to: 
