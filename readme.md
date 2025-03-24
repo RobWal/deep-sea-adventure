@@ -60,20 +60,17 @@ Some examples are:
 -   The pacing of the game so that AI turns didn't happen instantly, but rather had a natural flow that the user could easily interpret
 -   Utilising react JSX components in a dynamic way to populate the UI depending on the useContext
 
-# What I'm working towards now
-
--   Abroad (primarily)
-    1. Add a second round to the game. 
-        1. ~~Prevent tokens from being flipped over until the end of the third round.~~
-        1. ~~Prevent tokens from being added to the score~~ until the end of the third round. 
-        1. ~~Players who didn't make it to the submarine need to recorded and be moved back to the starting position.~~ 
-        1. ~~Tokens that were picked up and left with an empty treasure tile, need to be removed, and the rest of the tokens need to be moved forward.~~
-        1. Tokens picked up by players that didn't make it to the submarine need to be added to the tail end of the tokens array. 
-        1. ~~Research what determines who goes first in the second and third rounds.~~
-        1. ~~Ensure the turn order is correctly implemented according to the above research.~~ The first player of the next round is either, the player who was furthest from the submarine when the oxygen ran out, or, the player who was last to board the submarine. 
--   ** At home (primarily)
-    1. User friendly buttons need to be added to replace the currently unhelpful ? buttons used to save and load the game. This will likely require the addition of a menu, to also add the ability for users to change the game speed in game, leave the current game, etc..". **Please note that I have decided I don't want to do this yet, to all my adoring fans, please sit tightly for these updates and enjoy the weird load/save buttons for now.
--   1. ~~What I'm actually working on - Bug #1 - Prompted to roll dice when already in submarine when loading the game from that position.~~  
+# What I'm working towards now.
+1. Add a second round to the game. 
+    1. ~~Prevent tokens from being flipped over until the end of the third round.~~
+    1. ~~Prevent tokens from being added to the score~~ until the end of the third round. 
+    1. ~~Players who didn't make it to the submarine need to recorded and be moved back to the starting position.~~ 
+    1. ~~Tokens that were picked up and left with an empty treasure tile, need to be removed, and the rest of the tokens need to be moved forward.~~
+    1. ~~Tokens picked up by players that didn't make it to the submarine need to be added to the tail end of the tokens array.~~ 
+    1. ~~Research what determines who goes first in the second and third rounds.~~
+    1. ~~Ensure the turn order is correctly implemented according to the above research.~~ The first player of the next round is either, the player who was furthest from the submarine when the oxygen ran out, or, the player who was last to board the submarine. 
+1. User friendly buttons need to be added to replace the currently unhelpful ? buttons used to save and load the game. This will likely require the addition of a menu, to also add the ability for users to change the game speed in game, leave the current game, etc..". **Please note that I have decided I don't want to do this yet, to all my adoring fans, please sit tightly for these updates and enjoy the weird load/save buttons for now.
+1. ~~What I'm actually working on - Bug #1 - Prompted to roll dice when already in submarine when loading the game from that position.~~  
 
 # Ongoing improvements
 
@@ -91,7 +88,7 @@ Some examples are:
 
 # Bugs
 
-1. The drowned player treasure tiles are each taking up one space (aside from the very last one), instead of being lumped together in one square. 
+1. ~~The drowned player treasure tiles are each taking up one space (aside from the very last one), instead of being lumped together in one square.~~
 1. ~~The players are shuffling on the game board at the end of the round for some reason.~~
 1. ~~When loading a save file and your token is already back in the submarine, you are still prompted to roll the dice on your turn.~~
-1. While using the game speed feature, player tile animations using the style={style} syntax aren't sped up, causing a disconnect between player tokens and potential player decisions. 
+1. While using the game speed feature, player tile animations using the style={style} syntax aren't sped up, causing a lag between player tokens and potential player decisions. 
