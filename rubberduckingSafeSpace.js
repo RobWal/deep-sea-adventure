@@ -2,7 +2,15 @@
 
 24/3/25
 
-Looking at the old code, I identified that the player locations were only being updated once officially in the application-context
+Drowned player treasures not assigning correctly - Alright, so looking at the code, the treasures are in the correct locations prior 
+to the 'move_drowned_players_home' section of code where the tile treasure array is spliced. 
+    I found the issue, "newTileArray[i].location = tilePositionCounter;" changes the location no matter what. 
+    I think the easiest way to ensure tiles go where they need to after one round, is to record the length of the tile array,
+before any modifications (e.g. removal of empty treasure tiles, addition of drowned player treasure). 
+    Alright, I've successfully altered it so that it loops through the original treasure tiles the correct amount of times. Now
+I just need to add the new tiles onto the end of it. 
+
+Player locations changing twice bug - Looking at the old code, I identified that the player locations were only being updated once officially in the application-context
 file, so it had to be getting mutated elsewhere. Sure enough, where I loop through the players who drowned to add their treasure 
 to the trail, it mutated appState.players by not deep cloning it first. 
 

@@ -122,11 +122,11 @@ export const tileLocations: TileLocations = {
     31: {top: '280px',left: '650px',},
     32: {top: '270px',left: '730px',},
     33: {top: '340px',left: '730px',},
-    34: {top: '360px',left: '730px',},
-    35: {top: '380px',left: '730px',},
-    36: {top: '400px',left: '730px',},
-    37: {top: '420px', left: '730px',},
-    38: {top: '440px',left: '730px',},
+    34: {top: '400px',left: '730px',},
+    35: {top: '460px',left: '730px',},
+    36: {top: '520px',left: '730px',},
+    37: {top: '580px', left: '730px',},
+    38: {top: '640px',left: '730px',},
 }
 
 export interface TileTypes {
@@ -259,6 +259,7 @@ export interface GameState {
     players: Players[],
     round: number,
     tiles: any[],
+    tilesArrayLength: number,
     remainingOxygen: number,
     gameSpeed: number,
     returnedPlayerIDs: number[],
@@ -274,6 +275,7 @@ export const DefaultGameState: GameState = {
     players: [],
     round: 1,
     tiles: tileGenerator(),
+    tilesArrayLength: 32,
     remainingOxygen: 25,
     gameSpeed: 5,
     returnedPlayerIDs: [],
