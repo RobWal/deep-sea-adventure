@@ -289,7 +289,7 @@ export interface GameState {
     currentStep: string,
     dice: number[],
     players: Players[],
-    round: number,
+    // round: number,
     tiles: any[],
     tilesArrayLength: number,
     remainingOxygen: number,
@@ -306,7 +306,7 @@ export const DefaultGameState: GameState = {
     currentStep: 'returnToHomeScreen',
     dice: [1, 3],
     players: [],
-    round: 1,
+    // round: 1,
     tiles: tileGenerator(),
     tilesArrayLength: 32,
     remainingOxygen: 25,
@@ -343,12 +343,12 @@ export enum ActionType {
     CLEAN_UP_THE_DROWNED = "clean_up_the_drowned",
     MOVE_DROWNED_PLAYERS_HOME = "move_drowned_players_home",
     REMOVE_EMPTY_TILE_LOCATIONS = "remove_empty_tile_locations",
-    END_OF_ROUND_PLAYER_ORDER_ADJUSTMENT = "end_of_round_player_order_adjustment",
+    END_OF_ROUND_ADJUSTMENTS = "end_of_round_adjustments",
     TALLY_SCORES = "tally_scores",
 }
 
 
-export type GameAction = ReturnToHomeScreenAction | SelectNamePlayers | HomescreenHelpButton | HomescreenLoadButton | AddPlayerAction | SetTotalPlayersAction | GeneratePlayersAction | ShufflePlayers | BeginPrestart | StartGame | SetCurrentPlayer | RollDice | MovePlayerToken | ShowDiceResults | TreasurePickupDecision | TreasureLeaveDecision | TreasureDropDecision | NextPlayerTurn | SetOxygenLevel | DeeperOrBack | PlayerGotBack | SkipPlayersGo | EndTheRound | NextPlayerLogic | CleanUpTheDrowned | MoveDrownedPlayersHome | RemoveEmptyTileLocations | EndOfRoundPlayerOrderAdjustment | TallyScores;
+export type GameAction = ReturnToHomeScreenAction | SelectNamePlayers | HomescreenHelpButton | HomescreenLoadButton | AddPlayerAction | SetTotalPlayersAction | GeneratePlayersAction | ShufflePlayers | BeginPrestart | StartGame | SetCurrentPlayer | RollDice | MovePlayerToken | ShowDiceResults | TreasurePickupDecision | TreasureLeaveDecision | TreasureDropDecision | NextPlayerTurn | SetOxygenLevel | DeeperOrBack | PlayerGotBack | SkipPlayersGo | EndTheRound | NextPlayerLogic | CleanUpTheDrowned | MoveDrownedPlayersHome | RemoveEmptyTileLocations | EndOfRoundAdjustments | TallyScores;
 
 export interface ReturnToHomeScreenAction { 
     type: ActionType.RETURN_TO_HOMESCREEN;
@@ -508,10 +508,12 @@ export interface RemoveEmptyTileLocations {
     }
 }
 
-export interface EndOfRoundPlayerOrderAdjustment {
-    type: ActionType.END_OF_ROUND_PLAYER_ORDER_ADJUSTMENT;
+export interface EndOfRoundAdjustments {
+    type: ActionType.END_OF_ROUND_ADJUSTMENTS;
     payload: {
         reorderedPlayersArray: Players[],
+        currentRound: number,
+        tilesArrayLength: number,
     }
 }
 
@@ -553,7 +555,7 @@ export const GameContextReducer: Reducer<
                 currentStep: currentSaveGameData.currentStep,
                 dice: currentSaveGameData.dice,
                 players: currentSaveGameData.players,
-                round: currentSaveGameData.round,
+                // round: currentSaveGameData.round,
                 tiles: currentSaveGameData.tiles,
                 remainingOxygen: currentSaveGameData.remainingOxygen,
                 returnedPlayerIDs: currentSaveGameData.returnedPlayerIDs, 
@@ -724,18 +726,23 @@ export const GameContextReducer: Reducer<
                 currentStep: 'move_drowned_players_home',
                 farthestFromTheSub: action.payload.farthestFromTheSub,
             }
-        case ActionType.REMOVE_EMPTY_TILE_LOCATIONS:
-            return {
-                ...state,
-                tiles: action.payload.newTileArray,
-                currentStep: 'remove_empty_tile_locations',
-            }
-        case ActionType.END_OF_ROUND_PLAYER_ORDER_ADJUSTMENT:
-            return {
-                ...state,
-                players: action.payload.reorderedPlayersArray,
-                currentStep: 'end_of_round_player_order_adjustment',
-                remainingOxygen: 25,
+            case ActionType.REMOVE_EMPTY_TILE_LOCATIONS:
+                return {
+                    ...state,
+                    tiles: action.payload.newTileArray,
+                    currentStep: 'remove_empty_tile_locations',
+                }
+            case ActionType.END_OF_ROUND_ADJUSTMENTS:
+                return {
+                    ...state,
+                    players: action.payload.reorderedPlayersArray,
+                    currentStep: 'end_of_round_adjustments',
+                    remainingOxygen: 25,
+                    currentRound: action.payload.currentRound,
+                    currentPlayer: 1,
+                    returnedPlayerIDs: [],
+                    farthestFromTheSub: 0,
+                    tilesArrayLength: action.payload.tilesArrayLength,
             }
 
         case ActionType.TALLY_SCORES:
