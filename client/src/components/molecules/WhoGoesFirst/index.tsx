@@ -13,6 +13,7 @@ const WhoGoesFirst = ({hidden}: any) => {
 
     // This function shuffles the appState.players array by mapping it onto a new array 'arrayForShuffling'.
     function shuffleArray() {
+        console.log(`adsadasd`);
         arrayForShuffling = [...appState.players];
         for (var i = arrayForShuffling.length - 1; i > 0; i--) {
             var j = Math.floor(Math.random() * (i + 1));
@@ -33,7 +34,7 @@ const WhoGoesFirst = ({hidden}: any) => {
     }
     // This useEffect triggers on any change to the application, but only executes on the preStart phase, i.e. once per game. 
     useEffect(() => {
-        if(appState.currentStep === 'preStart'){
+        if(appState.currentStep === 'begin_prestart'){
             shuffleArray();
             setTimeout(() => {
                 setDisplayWhoGoesFirst(true);

@@ -68,8 +68,9 @@ Some examples are:
     1. ~~Tokens that were picked up and left with an empty treasure tile, need to be removed, and the rest of the tokens need to be moved forward.~~
     1. ~~Tokens picked up by players that didn't make it to the submarine need to be added to the tail end of the tokens array.~~ 
     1. ~~Research what determines who goes first in the second and third rounds.~~
-    1. ~~Ensure the turn order is correctly implemented according to the above research.~~ The first player of the next round is either, the player who was furthest from the submarine when the oxygen ran out, or, the player who was last to board the submarine. 
-1. User friendly buttons need to be added to replace the currently unhelpful ? buttons used to save and load the game. This will likely require the addition of a menu, to also add the ability for users to change the game speed in game, leave the current game, etc..". **Please note that I have decided I don't want to do this yet, to all my adoring fans, please sit tightly for these updates and enjoy the weird load/save buttons for now.
+    1. ~~Ensure the turn order is correctly implemented according to the above research. The first player of the next round is either, the player who was furthest from the submarine when the oxygen ran out, or, the player who was last to board the submarine.~~
+    1. Adjust everything in appState that needs to be changed in order for a following round to execute appropriately, e.g. 'appState.players.direction'. 
+1. ~~User friendly buttons need to be added to replace the currently unhelpful ? buttons used to save and load the game.~~ This will likely require the addition of a menu, to also add the ability for users to change the game speed in game, leave the current game, etc..". **Please note that I have decided I don't want to do this yet, to all my adoring fans, please sit tightly for these updates and enjoy the weird load/save buttons for now.
 1. ~~What I'm actually working on - Bug #1 - Prompted to roll dice when already in submarine when loading the game from that position.~~  
 
 # Ongoing improvements
@@ -82,9 +83,9 @@ Some examples are:
 1. Animations added to the movement of pieces such as treasure tiles and player tokens to more clearly illustrate the game state.
 1. Three rounds in total, which would include tile reorganising and drowned diver treasure being added to the trail.
 1. An indicator that makes clear whose turn it is, between the players score and their name.
-1. The ability to 'rewind' the game in order to see 'what if' a user had done something else.
-1. Allowing for multiple local users to play against each other, or AI.
-1. Allowing for multiple users to play online against each other, or AI, by utilising web sockets.
+1. ~~The ability to 'rewind' the game in order to see 'what if' a user had done something else.~~ This has been somewhat implemented through the use of the save game function. 
+1. Allowing for multiple local users to play against each other, or AI (hotseat).
+1. Allowing for multiple users to play online against each other, or AI, by utilising web sockets (online).
 
 # Bugs
 

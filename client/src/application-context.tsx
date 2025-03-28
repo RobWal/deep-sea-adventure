@@ -295,6 +295,7 @@ export interface GameState {
     remainingOxygen: number,
     gameSpeed: number,
     returnedPlayerIDs: number[],
+    farthestFromTheSub: number,
 }
 
 export const DefaultGameState: GameState = {
@@ -309,8 +310,9 @@ export const DefaultGameState: GameState = {
     tiles: tileGenerator(),
     tilesArrayLength: 32,
     remainingOxygen: 25,
-    gameSpeed: 6,
+    gameSpeed: 5,
     returnedPlayerIDs: [],
+    farthestFromTheSub: 0,
 };
 
 export enum ActionType {
@@ -341,11 +343,12 @@ export enum ActionType {
     CLEAN_UP_THE_DROWNED = "clean_up_the_drowned",
     MOVE_DROWNED_PLAYERS_HOME = "move_drowned_players_home",
     REMOVE_EMPTY_TILE_LOCATIONS = "remove_empty_tile_locations",
+    END_OF_ROUND_PLAYER_ORDER_ADJUSTMENT = "end_of_round_player_order_adjustment",
     TALLY_SCORES = "tally_scores",
 }
 
 
-export type GameAction = ReturnToHomeScreenAction | SelectNamePlayers | HomescreenHelpButton | HomescreenLoadButton | AddPlayerAction | SetTotalPlayersAction | GeneratePlayersAction | ShufflePlayers | BeginPrestart | StartGame | SetCurrentPlayer | RollDice | MovePlayerToken | ShowDiceResults | TreasurePickupDecision | TreasureLeaveDecision | TreasureDropDecision | NextPlayerTurn | SetOxygenLevel | DeeperOrBack | PlayerGotBack | SkipPlayersGo | EndTheRound | NextPlayerLogic | CleanUpTheDrowned | MoveDrownedPlayersHome | RemoveEmptyTileLocations | TallyScores;
+export type GameAction = ReturnToHomeScreenAction | SelectNamePlayers | HomescreenHelpButton | HomescreenLoadButton | AddPlayerAction | SetTotalPlayersAction | GeneratePlayersAction | ShufflePlayers | BeginPrestart | StartGame | SetCurrentPlayer | RollDice | MovePlayerToken | ShowDiceResults | TreasurePickupDecision | TreasureLeaveDecision | TreasureDropDecision | NextPlayerTurn | SetOxygenLevel | DeeperOrBack | PlayerGotBack | SkipPlayersGo | EndTheRound | NextPlayerLogic | CleanUpTheDrowned | MoveDrownedPlayersHome | RemoveEmptyTileLocations | EndOfRoundPlayerOrderAdjustment | TallyScores;
 
 export interface ReturnToHomeScreenAction { 
     type: ActionType.RETURN_TO_HOMESCREEN;
@@ -494,6 +497,7 @@ export interface MoveDrownedPlayersHome {
     payload: {
         newPlayersArray: Players[],
         newTileArray: TileTypes[],
+        farthestFromTheSub: number,
     }
 }
 
@@ -501,6 +505,13 @@ export interface RemoveEmptyTileLocations {
     type: ActionType.REMOVE_EMPTY_TILE_LOCATIONS;
     payload: {
         newTileArray: TileTypes[]
+    }
+}
+
+export interface EndOfRoundPlayerOrderAdjustment {
+    type: ActionType.END_OF_ROUND_PLAYER_ORDER_ADJUSTMENT;
+    payload: {
+        reorderedPlayersArray: Players[],
     }
 }
 
@@ -587,7 +598,7 @@ export const GameContextReducer: Reducer<
         case ActionType.BEGIN_PRESTART: 
             return {
                 ...state,
-                currentStep: 'preStart',
+                currentStep: 'begin_prestart',
             };
         case ActionType.START_GAME: 
             return {
@@ -711,13 +722,22 @@ export const GameContextReducer: Reducer<
                 players: action.payload.newPlayersArray,
                 tiles: action.payload.newTileArray,
                 currentStep: 'move_drowned_players_home',
+                farthestFromTheSub: action.payload.farthestFromTheSub,
             }
         case ActionType.REMOVE_EMPTY_TILE_LOCATIONS:
             return {
                 ...state,
                 tiles: action.payload.newTileArray,
-                currentStep: 'add_drowned_treasure_back',
+                currentStep: 'remove_empty_tile_locations',
             }
+        case ActionType.END_OF_ROUND_PLAYER_ORDER_ADJUSTMENT:
+            return {
+                ...state,
+                players: action.payload.reorderedPlayersArray,
+                currentStep: 'end_of_round_player_order_adjustment',
+                remainingOxygen: 25,
+            }
+
         case ActionType.TALLY_SCORES:
             // updatedScorePlayers takes the existing players array.
             let updatedScorePlayers = [...state.players];

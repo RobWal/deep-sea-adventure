@@ -61,7 +61,7 @@ const GameContainer = () => {
     }
 
     useEffect(() => {
-        if(appState.currentStep === 'preStart'){
+        if(appState.currentStep === 'begin_prestart'){
             setTimeout(() => {
                 setWhoGoesFirstVisibility(false);
                 setTealOverlayVisibility(false);
@@ -443,10 +443,10 @@ const GameContainer = () => {
         if(appState.currentStep === 'clean_up_the_drowned'){
             // If nobody drowned, skip announcing who drowned.
             let newTileArray = JSON.parse(JSON.stringify(appState.tiles));
+            const playersArrayByMapPosition =  JSON.parse(JSON.stringify(appState.players)).sort((a: any, b: any) => b.mapPosition - a.mapPosition);
             if(appState.returnedPlayerIDs.length === appState.players.length){} 
             // If somebody drowned, work out who did and announce it via setAnnouncerInnerText
             else if (appState.returnedPlayerIDs.length !== appState.players.length){
-                const playersArrayByMapPosition =  JSON.parse(JSON.stringify(appState.players)).sort((a: any, b: any) => b.mapPosition - a.mapPosition);
                 // Declare a variable that lets us set the location for the tiles of drowned players, i.e. to the 
                 // end of the tile array.
                 let drownedTilesNewMapPosition = appState.tiles.length + 1;
@@ -489,7 +489,6 @@ const GameContainer = () => {
             // Deep clone the appState.players array, in order to set everyones mapPosition = 0, to update the appState.
             setTimeout(() => {
                 let newPlayerLocationsAndTreasures = JSON.parse(JSON.stringify(appState.players));
-                // THIS IS WHERE WE'RE WORKING RIGHT NOW <---- 
                 for(let i = 0; i < newPlayerLocationsAndTreasures.length; i ++){
                     if(newPlayerLocationsAndTreasures[i].mapPosition !== 0){
                         newPlayerLocationsAndTreasures[i].mapPosition = 0;
@@ -501,6 +500,7 @@ const GameContainer = () => {
                     payload: {
                         newPlayersArray: newPlayerLocationsAndTreasures,
                         newTileArray: newTileArray,
+                        farthestFromTheSub: playersArrayByMapPosition[0].id,
                     }
                 });
             }, 4000/gameSpeed);
@@ -559,10 +559,37 @@ const GameContainer = () => {
             }, 2000/gameSpeed);
         };
 
-        if(appState.currentStep === 'add_drowned_treasure_back'){
-            // setTimeout(() => {
-                // console.log(`We're in the new step.. again: ${util.inspect(appState.tiles, {showHidden: false, depth: null, colors: false})}`);
-            // }, 2000/gameSpeed);
+        if(appState.currentStep === 'remove_empty_tile_locations'){
+            // If someone drowned, i.e. If the amount of players who made it home is less than the total players, 
+            // shuffle the player order around till the farthest person from the sub is the person going first in the next round.
+            
+            // This will need to be revisited when working on the game logic that executes at the end of the game, as it will
+            // be unnecessary. 
+            if(appState.returnedPlayerIDs.length < appState.players.length){
+                const reorderedPlayersArray =  JSON.parse(JSON.stringify(appState.players));
+                setTimeout(() => {
+                    while(reorderedPlayersArray[0].id !== appState.farthestFromTheSub){
+                        reorderedPlayersArray.unshift(reorderedPlayersArray[reorderedPlayersArray.length-1]);
+                        reorderedPlayersArray.pop();
+                    };
+                    appAction({
+                        type: ActionType.END_OF_ROUND_PLAYER_ORDER_ADJUSTMENT,
+                        payload: {
+                            reorderedPlayersArray: reorderedPlayersArray,
+                        }
+                    });
+                    setAnnouncerInnerText(`${reorderedPlayersArray[0].name} is going first this round!`);
+                }, 2000/gameSpeed);
+            }
+            // If nobody drowned, complete the appAction without changing anything, and progress to the next step. 
+            else if(appState.returnedPlayerIDs.length = appState.players.length){
+                appAction({
+                    type: ActionType.END_OF_ROUND_PLAYER_ORDER_ADJUSTMENT,
+                    payload: {
+                        reorderedPlayersArray: appState.players,
+                    }
+                });
+            }
         };
 
 
