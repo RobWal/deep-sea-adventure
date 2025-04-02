@@ -739,12 +739,11 @@ export const GameContextReducer: Reducer<
                     currentStep: 'end_of_round_adjustments',
                     remainingOxygen: 25,
                     currentRound: action.payload.currentRound,
-                    currentPlayer: 1,
+                    currentPlayer: 0,
                     returnedPlayerIDs: [],
                     farthestFromTheSub: 0,
                     tilesArrayLength: action.payload.tilesArrayLength,
             }
-
         case ActionType.TALLY_SCORES:
             // updatedScorePlayers takes the existing players array.
             let updatedScorePlayers = [...state.players];

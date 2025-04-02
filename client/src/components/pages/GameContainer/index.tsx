@@ -49,12 +49,10 @@ const GameContainer = () => {
     };
 
     const handleEscapeButtonSubmit = () => {
-        // console.log(`We're clicking the escape button`);
         playAudio();
     }
 
     const handleHelpButtonSubmit = () => {
-        // console.log(`You're clicking the help button`);
         const currentGameSaveState = JSON.stringify(appState);
         localStorage.setItem(`currentGame`, `${currentGameSaveState}`);
         playAudio();
@@ -109,7 +107,8 @@ const GameContainer = () => {
             }
         };
 
-        if(appState.currentStep === 'direction_logic'){
+        if(appState.currentStep === 'direction_logic' || appState.currentStep === 'end_of_round_adjustments'){
+            console.log(util.inspect(appState, {showHidden: false, depth: null, colors: false}));
             setTimeout(() => {
                 if(appState.players[appState.currentPlayer].direction === 'backwards'){
                     appAction({
@@ -581,43 +580,39 @@ const GameContainer = () => {
                     }
                 }
                 // Set a new variable to update the appState.currentRound. 
+                // If someone drowned, loop through the player array and shuffle the order so that the furthest from the sub goes first. 
                 const newCurrentRound = appState.currentRound + 1;
+                // Make a deep clone of the appState.players array, to iterate through, shuffling who is first until
+                // the player who is first, is the player who was the furthest from the submarine. 
+                const reorderedPlayersArray =  JSON.parse(JSON.stringify(appState.players));
                 if(appState.returnedPlayerIDs.length < appState.players.length){
-                    // Make a deep clone of the appState.players array, to iterate through, shuffling who is first until
-                    // the player who is first, is the player who was the furthest from the submarine. 
-                    const reorderedPlayersArray =  JSON.parse(JSON.stringify(appState.players));
                     while(reorderedPlayersArray[0].id !== appState.farthestFromTheSub){
                         reorderedPlayersArray.unshift(reorderedPlayersArray[reorderedPlayersArray.length-1]);
                         reorderedPlayersArray.pop();
                     };
-                    
-                    appAction({
-                        type: ActionType.END_OF_ROUND_ADJUSTMENTS,
-                        payload: {
-                            reorderedPlayersArray: reorderedPlayersArray,
-                            currentRound: newCurrentRound,
-                            tilesArrayLength: newTileArrayLength,
-                        }
-                    });
                     setAnnouncerInnerText(`${reorderedPlayersArray[0].name} is going first this round!`);
                 }
-                    // If nobody drowned, complete the appAction without changing anything, and progress to the next step. 
-                else if(appState.returnedPlayerIDs.length = appState.players.length){
-                    appAction({
-                        type: ActionType.END_OF_ROUND_ADJUSTMENTS,
-                        payload: {
-                            reorderedPlayersArray: appState.players,
-                            currentRound: newCurrentRound,
-                            tilesArrayLength: newTileArrayLength,
-                        }
-                    });
+
+                // Loop through the reorderedPlayersArray and set everybody's direction to 'forwards'. 
+                for(const player of reorderedPlayersArray){
+                    player.direction = 'forwards';
                 };
+
+                // Submit the changes made to the players array, update the currentRound, and the tilesArrayLength.
+                appAction({
+                    type: ActionType.END_OF_ROUND_ADJUSTMENTS,
+                    payload: {
+                        reorderedPlayersArray: reorderedPlayersArray,
+                        currentRound: newCurrentRound,
+                        tilesArrayLength: newTileArrayLength,
+                    }
+                });
             }, 2000/gameSpeed);
         };
 
-        if(appState.currentStep === 'end_of_round_adjustments'){
-            
-        }
+        // if(appState.currentStep === 'end_of_round_adjustments'){
+        //     console.log(util.inspect(appState, {showHidden: false, depth: null, colors: false}));
+        // }
 
         // THIS IS CURRENTLY COMMENTED OUT TO TRY AND IMPLEMENT A THREE ROUND GAME. AN ADJUSTED COPY OF THIS OLD CODE IS BEING USED ABOVE FOR THE EXTRA ROUNDS FEATURE.  
         // THE CODE BELOW CAN BE USED LATER WHEN DETERMINING WHO WON AT THE END OF THE GAME.
