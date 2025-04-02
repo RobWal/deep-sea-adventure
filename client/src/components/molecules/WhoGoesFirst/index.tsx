@@ -13,7 +13,6 @@ const WhoGoesFirst = ({hidden}: any) => {
 
     // This function shuffles the appState.players array by mapping it onto a new array 'arrayForShuffling'.
     function shuffleArray() {
-        console.log(`adsadasd`);
         arrayForShuffling = [...appState.players];
         for (var i = arrayForShuffling.length - 1; i > 0; i--) {
             var j = Math.floor(Math.random() * (i + 1));
