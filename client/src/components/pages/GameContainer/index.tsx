@@ -90,7 +90,7 @@ const GameContainer = () => {
                 }
             })
             if(!isPlayerInSub){
-                let newOxygenLevel =  (appState.remainingOxygen) - (appState.players[appState.currentPlayer].treasure.length - appState.players[appState.currentPlayer].securedTreasure);
+                let newOxygenLevel =  (appState.remainingOxygen) - appState.players[appState.currentPlayer].treasure.length;
                 if(newOxygenLevel < 0) {
                     newOxygenLevel = 0;
                 };
@@ -99,7 +99,7 @@ const GameContainer = () => {
                     payload: {
                         newOxygenLevel: newOxygenLevel,
                     }
-                }) 
+                })
             } else {
                 appAction({
                     type: ActionType.NEXT_PLAYER_LOGIC
@@ -207,7 +207,7 @@ const GameContainer = () => {
                 for(let i = 0; i < appState.players.length; i++){
                     playerMapPositions[appState.players[i].mapPosition] = appState.players[i].id;
                 }
-                let totalPlacesToMove = (appState.dice[0] + appState.dice[1]) - appState.players[appState.currentPlayer].treasure.length + appState.players[appState.currentPlayer].securedTreasure;
+                let totalPlacesToMove = (appState.dice[0] + appState.dice[1]) - appState.players[appState.currentPlayer].treasure.length;
                 let simulatedPlayerPosition = appState.players[appState.currentPlayer].mapPosition;
                 if(appState.players[appState.currentPlayer].direction === 'forwards'){
                     if(totalPlacesToMove < 0){
@@ -296,7 +296,7 @@ const GameContainer = () => {
                             // SEO revisit logic treasure pickup needs work ai strategy 
 
                             // If true, the conditions are met and the AI will pick up the treasure. 
-                            if(appState.remainingOxygen > 15 && (appState.players[appState.currentPlayer].treasure.length - appState.players[appState.currentPlayer].securedTreasure) < 3){
+                            if(appState.remainingOxygen > 15 && appState.players[appState.currentPlayer].treasure.length< 3){
                                 let newPlayerTreasureArray = [...appState.players[appState.currentPlayer].treasure]
                                 newPlayerTreasureArray.push(appState.tiles[appState.players[appState.currentPlayer].mapPosition-1])
                                 let newTileArray = [...appState.tiles];
@@ -323,7 +323,7 @@ const GameContainer = () => {
                         } 
                         // If there is no treasure there, the AI may leave a treasure token if they are behind and carrying too much treasure. 
                         else if(!anyTreasureThere){
-                            if(appState.remainingOxygen < 15 && (appState.players[appState.currentPlayer].treasure.length - appState.players[appState.currentPlayer].securedTreasure)> 2){
+                            if(appState.remainingOxygen < 15 && appState.players[appState.currentPlayer].treasure.length> 2){
                                 let newTileArray = [...appState.tiles];
                                 let newPlayerTreasureArray = [...appState.players[appState.currentPlayer].treasure]
                                 let treasureToBeDropped: any = {};
@@ -374,7 +374,7 @@ const GameContainer = () => {
                                         newTileArray: newTileArray,
                                     }
                                 })
-                            } else if(!(appState.remainingOxygen < 15 && (appState.players[appState.currentPlayer].treasure.length - appState.players[appState.currentPlayer].securedTreasure) > 2)){
+                            } else if(!(appState.remainingOxygen < 15 && appState.players[appState.currentPlayer].treasure.length> 2)){
                                 appAction({
                                     type: ActionType.TREASURE_LEAVE_DECISION,
                                 })
@@ -505,13 +505,21 @@ const GameContainer = () => {
             // This is also used to set the direction for each player back to 'forwards' for the beginning of a new round. 
             setTimeout(() => {
                 let newPlayerArray = JSON.parse(JSON.stringify(appState.players));
+                console.log(util.inspect(appState, {showHidden: false, depth: null, colors: false}));
                 for(let i = 0; i < newPlayerArray.length; i ++){
                     if(newPlayerArray[i].mapPosition !== 0){
                         newPlayerArray[i].mapPosition = 0;
                         newPlayerArray[i].treasure = [];
                         newPlayerArray[i].direction = 'forwards';
-                    }
+                    } 
+                    else {
+                        for(let j = 0; j < newPlayerArray[i].treasure.length; j++){
+                            newPlayerArray[i].securedTreasure.push(newPlayerArray[i].treasure[j]);
+                            
+                        };
+                    };
                 };
+                console.log(util.inspect(newPlayerArray, {showHidden: false, depth: null, colors: false}));
                 appAction({
                     type: ActionType.MOVE_DROWNED_PLAYERS_HOME,
                     payload: {
@@ -615,7 +623,6 @@ const GameContainer = () => {
                 // console.log(util.inspect(appState, {showHidden: false, depth: null, colors: false}));
                 for(const player of reorderedPlayersArray){
                     player.direction = 'forwards';
-                    player.securedTreasure = player.treasure.length;
                 };
 
                 // Submit the changes made to the players array, update the currentRound, and the tilesArrayLength.

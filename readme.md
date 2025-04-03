@@ -62,7 +62,8 @@ Some examples are:
 
 # What I'm working towards now.
 1. Add an end-of-game section to the game. 
-1. ~~Add a second round to the game.~~ 
+1. Add a second round to the game. 
+    1. It looks like keeping the securedTreasure alongside the treasure is a bad idea and introduces new bugs. I'll have to create a new player property to keep securedTreasure safe, instead of the current integer. 
     1. ~~Adjust everything in appState that needs to be changed in order for a following round to execute appropriately, e.g. 'appState.players.direction'.~~
         1. ~~The game needs to differentiate between treasure tokens in the players inventories from this round, and past rounds.~~
 1. ~~User friendly buttons need to be added to replace the currently unhelpful ? buttons used to save and load the game.~~ This will likely require the addition of a menu, to also add the ability for users to change the game speed in game, leave the current game, etc..". **Please note that I have decided I don't want to do this yet, to all my adoring fans, please sit tightly for these updates and enjoy the weird load/save buttons for now.

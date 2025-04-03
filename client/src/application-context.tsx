@@ -127,38 +127,6 @@ export const tileLocations: TileLocations = {
     36: {top: '520px',left: '730px',},
     37: {top: '580px', left: '730px',},
     38: {top: '640px',left: '730px',},
-    
-    // 2: {top: '40px',left: '320px',},
-    // 3: {top: '30px', left: '250px',},
-    // 4: {top: '40px',left: '180px',},
-    // 5: {top: '60px',left: '110px',},
-    // 6: {top: '130px',left: '60px',},
-    // 7: {top: '200px',left: '35px',},
-    // 8: {top: '280px',left: '45px',},
-    // 9: {top: '360px',left: '60px',},
-    // 10: {top: '440px',left: '55px',},
-    // 11: {top: '520px',left: '35px',},
-    // 12: {top: '600px',left: '55px',},
-    // 13: {top: '640px', left: '135px',},
-    // 14: {top: '620px',left: '215px',},
-    // 15: {top: '540px',left: '245px',},
-    // 16: {top: '460px',left: '265px',},
-    // 17: {top: '378px',left: '235px',},
-    // 18: {top: '300px',left: '245px',},
-    // 19: {top: '250px',left: '310px',},
-    // 20: {top: '235px',left: '390px',},
-    // 21: {top: '300px',left: '450px',},
-    // 22: {top: '380px',left: '470px',},
-    // 23: {top: '450px', left: '450px',},
-    // 24: {top: '530px',left: '430px',},
-    // 25: {top: '610px',left: '460px',},
-    // 26: {top: '630px',left: '540px',},
-    // 27: {top: '610px',left: '620px',},
-    // 28: {top: '530px',left: '640px',},
-    // 29: {top: '445px',left: '630px',},
-    // 30: {top: '360px', left: '625px',},
-    // 31: {top: '280px',left: '650px',},
-    // 32: {top: '270px',left: '730px',},
 }
 
 export interface TileTypes {
@@ -250,7 +218,7 @@ export interface Players {
     name: string,
     mapPosition: number,
     treasure: any[],
-    securedTreasure: number,
+    securedTreasure: any[],
     score: number,
     settings: {},
     color: string,
@@ -271,7 +239,7 @@ export const playerGenerator = (totalPlayers: number) => {
             name: botNameArray[nameArrayIndex],
             mapPosition: 0,
             treasure: [],
-            securedTreasure: 0,
+            securedTreasure: [],
             score: 0,
             settings: {},
             color: botColorArray[colorArrayIndex],
@@ -586,7 +554,7 @@ export const GameContextReducer: Reducer<
                     name: action.payload.userName,
                     mapPosition: 0,
                     treasure: [],
-                    securedTreasure: 0,
+                    securedTreasure: [],
                     score: 0,
                     settings: {},
                     color: '#FFFFFF',
@@ -722,6 +690,7 @@ export const GameContextReducer: Reducer<
                 currentStep: 'clean_up_the_drowned'
             }
         case ActionType.MOVE_DROWNED_PLAYERS_HOME: 
+            console.log(`We're in the application-context ${util.inspect(action.payload.newPlayersArray, {showHidden: false, depth: null, colors: false})}`);
             return {
                 ...state,
                 players: action.payload.newPlayersArray,
