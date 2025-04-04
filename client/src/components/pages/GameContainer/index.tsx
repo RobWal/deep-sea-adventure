@@ -505,7 +505,6 @@ const GameContainer = () => {
             // This is also used to set the direction for each player back to 'forwards' for the beginning of a new round. 
             setTimeout(() => {
                 let newPlayerArray = JSON.parse(JSON.stringify(appState.players));
-                console.log(util.inspect(appState, {showHidden: false, depth: null, colors: false}));
                 for(let i = 0; i < newPlayerArray.length; i ++){
                     if(newPlayerArray[i].mapPosition !== 0){
                         newPlayerArray[i].mapPosition = 0;

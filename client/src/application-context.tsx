@@ -690,7 +690,6 @@ export const GameContextReducer: Reducer<
                 currentStep: 'clean_up_the_drowned'
             }
         case ActionType.MOVE_DROWNED_PLAYERS_HOME: 
-            console.log(`We're in the application-context ${util.inspect(action.payload.newPlayersArray, {showHidden: false, depth: null, colors: false})}`);
             return {
                 ...state,
                 players: action.payload.newPlayersArray,

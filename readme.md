@@ -62,10 +62,7 @@ Some examples are:
 
 # What I'm working towards now.
 1. Add an end-of-game section to the game. 
-1. Add a second round to the game. 
-    1. It looks like keeping the securedTreasure alongside the treasure is a bad idea and introduces new bugs. I'll have to create a new player property to keep securedTreasure safe, instead of the current integer. 
-    1. ~~Adjust everything in appState that needs to be changed in order for a following round to execute appropriately, e.g. 'appState.players.direction'.~~
-        1. ~~The game needs to differentiate between treasure tokens in the players inventories from this round, and past rounds.~~
+1. Fix the game-breaking bugs introduced by a second and third round. 
 1. ~~User friendly buttons need to be added to replace the currently unhelpful ? buttons used to save and load the game.~~ This will likely require the addition of a menu, to also add the ability for users to change the game speed in game, leave the current game, etc..". **Please note that I have decided I don't want to do this yet, to all my adoring fans, please sit tightly for these updates and enjoy the weird load/save buttons for now.
 
 # Ongoing improvements
@@ -84,7 +81,9 @@ Some examples are:
 
 # Bugs
 
-1. ~~The drowned player treasure tiles are each taking up one space (aside from the very last one), instead of being lumped together in one square.~~
-1. ~~The players are shuffling on the game board at the end of the round for some reason.~~
-1. ~~When loading a save file and your token is already back in the submarine, you are still prompted to roll the dice on your turn.~~
+1. Now that we can play a second and third round, we've opened up a can of ~~worms~~ bugs. Including, but not limited to:
+    1. Players being able to pick up 'empty' tiles (i.e. tile type === 0).
+    1. Players being able to move onto tiles which no longer contain treasure. 
+    1. On round three, the treasure tile array bugs out and spreads stacked tiles of treasure from drowned players, out over multiple tiles. 
+    1. Probably more! 
 1. While using the game speed feature, player tile animations using the style={style} syntax aren't sped up, causing a lag between player tokens and potential player decisions. 
