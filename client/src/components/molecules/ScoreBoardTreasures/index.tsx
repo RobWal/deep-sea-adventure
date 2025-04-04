@@ -11,7 +11,22 @@ interface Tile {
 }
 
 const ScoreBoardTreasures = ({playerId}: any) => {
+    // util allows us to read nested objects in the console in a user friendly way, i.e. instead of '[object Object]', it will log '{Tiles:[type:1, value:2]}'.
+    const util = require('util');
+    
     const [appState, appAction] = useContext(GameContext);
+    
+    // If the player exists, loop through their treasure[] and securedTreasure[] and add it to the 
+    // scoreBoardTreasuresDisplay[].
+    let scoreBoardTreasuresDisplay = [];
+    if(appState.players[playerId]){
+        for(let i = 0; i < appState.players[playerId].securedTreasure.length; i++){
+            scoreBoardTreasuresDisplay.push(appState.players[playerId].securedTreasure[i]);
+        };
+        for(let i = 0; i < appState.players[playerId].treasure.length; i++){
+            scoreBoardTreasuresDisplay.push(appState.players[playerId].treasure[i]);
+        };
+    };
     // This checks to make sure that there's anything to return, if not, it returns an empty component.
     if(playerId === undefined){
         return <></>
@@ -21,7 +36,7 @@ const ScoreBoardTreasures = ({playerId}: any) => {
     else if(appState.currentStep !== 'end_of_game'){
         return (
             <div className='score-board-treasures'>
-                {appState.players[playerId].treasure.map((tile: Tile, index) => {
+                {scoreBoardTreasuresDisplay.map((tile: Tile, index) => {
                     return (
                         <div key={index} className='individual-treasure-container'>
                             <Tile style={{width: '50px', height: '50px'}}  component={inventoryTileTypes[tile.type]} />

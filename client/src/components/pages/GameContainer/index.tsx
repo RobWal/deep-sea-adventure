@@ -522,7 +522,7 @@ const GameContainer = () => {
                         };
                     };
                 };
-                console.log(util.inspect(newPlayerArray, {showHidden: false, depth: null, colors: false}));
+                // console.log(util.inspect(newPlayerArray, {showHidden: false, depth: null, colors: false}));
                 appAction({
                     type: ActionType.MOVE_DROWNED_PLAYERS_HOME,
                     payload: {
