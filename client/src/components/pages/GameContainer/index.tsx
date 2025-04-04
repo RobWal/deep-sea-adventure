@@ -512,10 +512,13 @@ const GameContainer = () => {
                         newPlayerArray[i].treasure = [];
                         newPlayerArray[i].direction = 'forwards';
                     } 
+                    // Here is where we're moving player treasure from the treasure[] to securedTreasure[]. Because we're already looping
+                    // through the players array above, we can then loop through the players treasure array and push it to securedTreasure[].
                     else {
                         for(let j = 0; j < newPlayerArray[i].treasure.length; j++){
                             newPlayerArray[i].securedTreasure.push(newPlayerArray[i].treasure[j]);
-                            
+                            newPlayerArray[i].treasure.splice(j, 1);
+                            j--;
                         };
                     };
                 };
