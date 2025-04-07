@@ -107,8 +107,22 @@ const GameContainer = () => {
             }
         };
 
+        // This small section is used to give necessary information for troubleshooting, to prevent clogging of more important
+        // sections. 
+        if(appState.currentStep ===  'end_of_round_adjustments' || appState.currentStep ===  'remove_empty_tile_locations' || appState.currentStep ===  'move_drowned_players_home' || appState.currentStep ===  'clean_up_the_drowned'){
+            console.log(`\n\nThe appState.currentStep is: ${appState.currentStep}`);
+            for(let i = 0; i < appState.players.length; i++){
+                console.log(`${appState.players[i].name}'s tiles are: `);
+                console.log(`Treasure: \n${util.inspect(appState.players[i].treasure, {showHidden: false, depth: null, colors: false})}`);
+                console.log(`Secured Treasure: \n${util.inspect(appState.players[i].securedTreasure, {showHidden: false, depth: null, colors: false})}`);
+            }
+            console.log(`The tilesArrayLength is: ${appState.tilesArrayLength}`);
+            console.log(`The appState.tiles are: `);
+            console.log(util.inspect(appState.tiles, {showHidden: false, depth: null, colors: false}));
+        }
+
         if(appState.currentStep === 'direction_logic' || appState.currentStep === 'end_of_round_adjustments'){
-            // console.log(util.inspect(appState, {showHidden: false, depth: null, colors: false}));
+            // console.log(util.inspect(appState.tiles, {showHidden: false, depth: null, colors: false}));
             setTimeout(() => {
                 if(appState.players[appState.currentPlayer].direction === 'backwards'){
                     appAction({
@@ -259,6 +273,10 @@ const GameContainer = () => {
         if(appState.currentStep === 'moved'){
             setTimeout(() => {
             if(appState.players[appState.currentPlayer].id === 1){
+                // This executes if the current player is a person, and they made it back to the submarine. 
+                // I'm not entirely sure why this check is necessary as a separate entity, but I will have to 
+                // revisit it later. 
+                // SEO revise fix to do code refactoring 
                 if(appState.players[appState.currentPlayer].mapPosition === 0){
                     appAction({
                         type: ActionType.PLAYER_GOT_BACK,
