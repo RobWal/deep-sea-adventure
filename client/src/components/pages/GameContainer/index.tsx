@@ -283,11 +283,13 @@ const GameContainer = () => {
                         payload: {
                             returnedPlayerID: appState.players[appState.currentPlayer].id
                         },
-                    })
-                }
-            } else if (appState.players[appState.currentPlayer].id !== 1){
+                    });
+                };
+            }
+            else if (appState.players[appState.currentPlayer].id !== 1){
                     let anyTreasureThere = false;
-                    // If the player moved and they arrived at the submarine, run ActionType.PLAYER_GOT_BACK.
+                    // If the player (who isn't player 1) moved and they arrived at the submarine, 
+                    // run ActionType.PLAYER_GOT_BACK.
                     if(appState.players[appState.currentPlayer].mapPosition === 0){
                         let newReturnedPlayers = [...appState.returnedPlayerIDs];
                             newReturnedPlayers.push(appState.players[appState.currentPlayer].id)
@@ -339,7 +341,7 @@ const GameContainer = () => {
                                 })
                             }
                         } 
-                        // If there is no treasure there, the AI may leave a treasure token if they are behind and carrying too much treasure. 
+                        // If there is no treasure where the player landed, there is less than . 
                         else if(!anyTreasureThere){
                             if(appState.remainingOxygen < 15 && appState.players[appState.currentPlayer].treasure.length> 2){
                                 let newTileArray = [...appState.tiles];
@@ -348,9 +350,8 @@ const GameContainer = () => {
                                 for(let i = 0; i < newPlayerTreasureArray.length; i++){
                                     if(newPlayerTreasureArray[i].type === 1){
                                         treasureToBeDropped = newPlayerTreasureArray[i];
-                                    }
-                                }
-
+                                    };
+                                };
                                 //This needs to be looked at. I think this is the last thing I worked on before the break and I'm not sure
                                 //exactly what this code is supposed to do yet, or why the === {} value is empty. 
                                 // if(treasureToBeDropped === {}){
