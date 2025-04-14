@@ -109,17 +109,18 @@ const GameContainer = () => {
 
         // This small section is used to give necessary information for troubleshooting, to prevent clogging of more important
         // sections. 
-        if(appState.currentStep ===  'end_of_round_adjustments' || appState.currentStep ===  'remove_empty_tile_locations' || appState.currentStep ===  'move_drowned_players_home' || appState.currentStep ===  'clean_up_the_drowned'){
-            console.log(`\n\nThe appState.currentStep is: ${appState.currentStep}`);
-            for(let i = 0; i < appState.players.length; i++){
-                console.log(`${appState.players[i].name}'s tiles are: `);
-                console.log(`Treasure: \n${util.inspect(appState.players[i].treasure, {showHidden: false, depth: null, colors: false})}`);
-                console.log(`Secured Treasure: \n${util.inspect(appState.players[i].securedTreasure, {showHidden: false, depth: null, colors: false})}`);
-            }
-            console.log(`The tilesArrayLength is: ${appState.tilesArrayLength}`);
-            console.log(`The appState.tiles are: `);
-            console.log(util.inspect(appState.tiles, {showHidden: false, depth: null, colors: false}));
-        }
+
+        // if(appState.currentStep ===  'end_of_round_adjustments' || appState.currentStep ===  'remove_empty_tile_locations' || appState.currentStep ===  'move_drowned_players_home' || appState.currentStep ===  'clean_up_the_drowned'){
+        //     console.log(`\n\nThe appState.currentStep is: ${appState.currentStep}`);
+        //     for(let i = 0; i < appState.players.length; i++){
+        //         console.log(`${appState.players[i].name}'s tiles are: `);
+        //         console.log(`Treasure: \n${util.inspect(appState.players[i].treasure, {showHidden: false, depth: null, colors: false})}`);
+        //         console.log(`Secured Treasure: \n${util.inspect(appState.players[i].securedTreasure, {showHidden: false, depth: null, colors: false})}`);
+        //     }
+        //     console.log(`The tilesArrayLength is: ${appState.tilesArrayLength}`);
+        //     console.log(`The appState.tiles are: `);
+        //     console.log(util.inspect(appState.tiles, {showHidden: false, depth: null, colors: false}));
+        // }
 
         if(appState.currentStep === 'direction_logic' || appState.currentStep === 'end_of_round_adjustments'){
             setTimeout(() => {
@@ -546,14 +547,21 @@ const GameContainer = () => {
         };
 
         if(appState.currentStep === 'move_drowned_players_home'){
+            // THIS IS WHERE WE'RE WORKING NOW! SEO COME HERE LOOK THANK YOU
+
             // Deep clone the appState.tiles, in order to loop through the tiles array and remove any tiles where type===0,
             // before sending it to application-context. 
+
             setTimeout(() => {
                 let newTileArray = JSON.parse(JSON.stringify(appState.tiles));
                 let tilePositionCounter = 1;
                 // Loop through the newTileArray, using a modifiable appState.tilesArrayLength to iterate through.
+                console.log(util.inspect(appState, {showHidden: false, depth: null, colors: false}));
                 let treasureLoopCounter = appState.tilesArrayLength;
+                console.log(`treasureLoopCounter = ${treasureLoopCounter}, tilePositionCounter = ${tilePositionCounter}`);
+                console.log(util.inspect(newTileArray, {showHidden: false, depth: null, colors: false}));
                 for(let i = 0; i < treasureLoopCounter; i ++){
+                    console.log(`i = ${i}, treasureLoopCounter = ${treasureLoopCounter}`);
                     // Remove any tiles that have tile type === 0 i.e. they were taken by a player. 
                     if(newTileArray[i].type === 0){
                         newTileArray.splice(i, 1);
@@ -562,11 +570,23 @@ const GameContainer = () => {
                     }
                     // If the tile is not empty, set the tile location to the next position in the tile array. 
                     else if(newTileArray[i].type !== 0){
-                        newTileArray[i].location = tilePositionCounter;
-                        tilePositionCounter ++;
+                        if(newTileArray[i].location !== newTileArray[i+1].location){
+                            newTileArray[i].location = tilePositionCounter;
+                            tilePositionCounter ++;
+                        }
+                        // This code checks to see if the following tile matches the current tiles location,
+                        // if so, it does not advance the tile position counter. 
+                        else if(newTileArray[i].location === newTileArray[i+1].location){
+                            newTileArray[i].location = tilePositionCounter;
+                        }
                     };
+                    console.log(util.inspect(newTileArray, {showHidden: false, depth: null, colors: false}));
                 };
+                console.log(util.inspect(newTileArray, {showHidden: false, depth: null, colors: false}));
+                console.log(`The length of the treasure array is now: ${newTileArray.length}`);
+                console.log(`TreasureLoopCounter: ${treasureLoopCounter}`);
 
+                // console.log(util.inspect(newTileArray, {showHidden: false, depth: null, colors: false}));
                 setTimeout(() => {
                     // Having removed all empty tiles, we now loop through the tile array in order to find the first tile 
                     // that doesn't belong to this rounds original array, by comparing the tile.location to treasureLoopCounter.
