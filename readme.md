@@ -63,6 +63,8 @@ Some examples are:
 # What I'm working towards now.
 1. Add an end-of-game section to the game. 
 1. Fix the game-breaking bugs introduced by a second and third round. 
+    1. Fix the bug that spreads out treasure that has been dropped in rounds 1 & 2. 
+    1. ~~Successully addressed the 'bug' that prevented players from correctly dropping treasure (hint: it wasn't a bug, it just wasn't coded yet).~~
 1. ~~User friendly buttons need to be added to replace the currently unhelpful ? buttons used to save and load the game.~~ This will likely require the addition of a menu, to also add the ability for users to change the game speed in game, leave the current game, etc..". **Please note that I have decided I don't want to do this yet, to all my adoring fans, please sit tightly for these updates and enjoy the weird load/save buttons for now.
 
 # Ongoing improvements

@@ -122,7 +122,6 @@ const GameContainer = () => {
         }
 
         if(appState.currentStep === 'direction_logic' || appState.currentStep === 'end_of_round_adjustments'){
-            // console.log(util.inspect(appState.tiles, {showHidden: false, depth: null, colors: false}));
             setTimeout(() => {
                 if(appState.players[appState.currentPlayer].direction === 'backwards'){
                     appAction({
@@ -300,7 +299,7 @@ const GameContainer = () => {
                             },
                         });
                     } 
-                    // If the player moved and they are NOT in the submarine.. 
+                    // If the player, real or AI, moved and they are NOT in the submarine.. 
                     else if(appState.players[appState.currentPlayer].mapPosition !== 0){
                         // If the location of the player does have a tile there (i.e. tile.type !== 0), set anyTreasureThere to true. 
                         if(appState.tiles[appState.players[appState.currentPlayer].mapPosition-1].type !== 0){
@@ -341,49 +340,43 @@ const GameContainer = () => {
                                 })
                             }
                         } 
-                        // If there is no treasure where the player landed, there is less than . 
+                        // If there is no treasure where the player landed, the AI will decide what to do. 
                         else if(!anyTreasureThere){
-                            if(appState.remainingOxygen < 15 && appState.players[appState.currentPlayer].treasure.length> 2){
+                            if(appState.remainingOxygen < 15 && appState.players[appState.currentPlayer].treasure.length > 2){
                                 let newTileArray = [...appState.tiles];
                                 let newPlayerTreasureArray = [...appState.players[appState.currentPlayer].treasure]
-                                let treasureToBeDropped: any = {};
+                                let treasureToBeDropped: any = [];
+                                // The below code loops through the player treasure array, and selected the lowest value tile to drop. 
+                                // First, it identifies which tile to drop (treasureToBeDropped), and then it removes it 
+                                // (newPlayerTreasureArray.splice(i, 1))
                                 for(let i = 0; i < newPlayerTreasureArray.length; i++){
                                     if(newPlayerTreasureArray[i].type === 1){
-                                        treasureToBeDropped = newPlayerTreasureArray[i];
+                                        treasureToBeDropped[0] = newPlayerTreasureArray[i];
+                                        newPlayerTreasureArray.splice(i, 1)
+                                    } 
+                                    else if(treasureToBeDropped[0] === undefined){
+                                        treasureToBeDropped[0] = newPlayerTreasureArray[i];
+                                        newPlayerTreasureArray.splice(i, 1)
+                                    }
+                                    else if(treasureToBeDropped[0] !== undefined){
+                                        if(treasureToBeDropped[0].type > newPlayerTreasureArray[i].type){
+                                            treasureToBeDropped = newPlayerTreasureArray[i];
+                                            newPlayerTreasureArray.splice(i, 1)
+                                        };
                                     };
                                 };
-                                //This needs to be looked at. I think this is the last thing I worked on before the break and I'm not sure
-                                //exactly what this code is supposed to do yet, or why the === {} value is empty. 
-                                // if(treasureToBeDropped === {}){
-                                //     for(let i = 0; i < newPlayerTreasureArray.length; i++){
-                                //         if(newPlayerTreasureArray[i].type === 2){
-                                //             treasureToBeDropped = newPlayerTreasureArray[i];
-                                //         }
-                                //     }
-                                // }
-                                // if(treasureToBeDropped === {}){
-                                //     for(let i = 0; i < newPlayerTreasureArray.length; i++){
-                                //         if(newPlayerTreasureArray[i].type === 3){
-                                //             treasureToBeDropped = newPlayerTreasureArray[i];
-                                //         }
-                                //     }
-                                // }
-                                // if(treasureToBeDropped === {}){
-                                //     for(let i = 0; i < newPlayerTreasureArray.length; i++){
-                                //         if(newPlayerTreasureArray[i].type === 4){
-                                //             treasureToBeDropped = newPlayerTreasureArray[i];
-                                //         }
-                                //     }
-                                // }
                                 newTileArray[appState.players[appState.currentPlayer].mapPosition-1] = {
-                                    type: treasureToBeDropped.type,
-                                    id: treasureToBeDropped.id,
+                                    type: treasureToBeDropped[0].type,
+                                    id: treasureToBeDropped[0].id,
                                     location: appState.players[appState.currentPlayer].mapPosition,
-                                    value: treasureToBeDropped.value,
+                                    value: treasureToBeDropped[0].value,
                                 }
-                                newPlayerTreasureArray = newPlayerTreasureArray.filter(function(element) {
-                                    return element !== treasureToBeDropped
-                                })
+
+                                // I have no idea what the below code does. 
+                                // Commenting it out to see if it breaks anything, fingers crossed! I'll keep it just in case.
+                                // newPlayerTreasureArray = newPlayerTreasureArray.filter(function(element) {
+                                //     return element !== treasureToBeDropped
+                                // })
 
                                 appAction({
                                     type: ActionType.TREASURE_DROP_DECISION,
@@ -393,7 +386,8 @@ const GameContainer = () => {
                                         newTileArray: newTileArray,
                                     }
                                 })
-                            } else if(!(appState.remainingOxygen < 15 && appState.players[appState.currentPlayer].treasure.length> 2)){
+                            } 
+                            else if(!(appState.remainingOxygen < 15 && appState.players[appState.currentPlayer].treasure.length> 2)){
                                 appAction({
                                     type: ActionType.TREASURE_LEAVE_DECISION,
                                 })
@@ -540,7 +534,6 @@ const GameContainer = () => {
                         };
                     };
                 };
-                // console.log(util.inspect(newPlayerArray, {showHidden: false, depth: null, colors: false}));
                 appAction({
                     type: ActionType.MOVE_DROWNED_PLAYERS_HOME,
                     payload: {
@@ -641,7 +634,6 @@ const GameContainer = () => {
                 }
 
                 // Loop through the reorderedPlayersArray and set everybody's direction to 'forwards'. 
-                // console.log(util.inspect(appState, {showHidden: false, depth: null, colors: false}));
                 for(const player of reorderedPlayersArray){
                     player.direction = 'forwards';
                 };
