@@ -219,6 +219,7 @@ export interface Players {
     mapPosition: number,
     treasure: any[],
     securedTreasure: any[],
+    // lostTreasure: any[],
     score: number,
     settings: {},
     color: string,
@@ -240,6 +241,7 @@ export const playerGenerator = (totalPlayers: number) => {
             mapPosition: 0,
             treasure: [],
             securedTreasure: [],
+            // lostTreasure: [],
             score: 0,
             settings: {},
             color: botColorArray[colorArrayIndex],
@@ -265,6 +267,7 @@ export interface GameState {
     remainingOxygen: number,
     gameSpeed: number,
     returnedPlayerIDs: number[],
+    drownedPlayersTreasures: number[],
     farthestFromTheSub: number,
 }
 
@@ -282,6 +285,7 @@ export const DefaultGameState: GameState = {
     remainingOxygen: 25,
     gameSpeed: 5,
     returnedPlayerIDs: [],
+    drownedPlayersTreasures: [],
     farthestFromTheSub: 0,
 };
 
@@ -468,6 +472,7 @@ export interface MoveDrownedPlayersHome {
         newPlayersArray: Players[],
         newTileArray: TileTypes[],
         farthestFromTheSub: number,
+        drownedPlayersTreasures: [],
     }
 }
 
@@ -520,6 +525,7 @@ export const GameContextReducer: Reducer<
             return { 
                 ...state,
                 currentRound: currentSaveGameData.currentRound,
+                totalRounds: currentSaveGameData.totalRounds,
                 currentPlayer: currentSaveGameData.currentPlayer,
                 totalPlayers: currentSaveGameData.totalPlayers,
                 currentStep: currentSaveGameData.currentStep,
@@ -527,8 +533,12 @@ export const GameContextReducer: Reducer<
                 players: currentSaveGameData.players,
                 // round: currentSaveGameData.round,
                 tiles: currentSaveGameData.tiles,
+                tilesArrayLength: currentSaveGameData.tilesArrayLength,
                 remainingOxygen: currentSaveGameData.remainingOxygen,
+                gameSpeed: currentSaveGameData.gameSpeed,
                 returnedPlayerIDs: currentSaveGameData.returnedPlayerIDs, 
+                drownedPlayersTreasures: currentSaveGameData.drownedPlayersTreasures,
+                farthestFromTheSub: currentSaveGameData.farthestFromTheSub,
             };
         case ActionType.SET_TOTAL_PLAYERS:
             return {
@@ -555,6 +565,7 @@ export const GameContextReducer: Reducer<
                     mapPosition: 0,
                     treasure: [],
                     securedTreasure: [],
+                    // lostTreasure: [],
                     score: 0,
                     settings: {},
                     color: '#FFFFFF',
@@ -696,6 +707,7 @@ export const GameContextReducer: Reducer<
                 tiles: action.payload.newTileArray,
                 currentStep: 'move_drowned_players_home',
                 farthestFromTheSub: action.payload.farthestFromTheSub,
+                drownedPlayersTreasures: action.payload.drownedPlayersTreasures,
             }
             case ActionType.REMOVE_EMPTY_TILE_LOCATIONS:
                 return {
@@ -714,6 +726,7 @@ export const GameContextReducer: Reducer<
                     returnedPlayerIDs: [],
                     farthestFromTheSub: 0,
                     tilesArrayLength: action.payload.tilesArrayLength,
+                    drownedPlayersTreasures: [],
             }
         case ActionType.TALLY_SCORES:
             // updatedScorePlayers takes the existing players array.
