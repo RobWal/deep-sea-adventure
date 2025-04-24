@@ -561,6 +561,9 @@ const GameContainer = () => {
                 let currentTileLocation = 1;
                 let newTileArray = JSON.parse(JSON.stringify(appState.tiles));
                 for(let i = 0; i < newTileArray.length; i++){
+                    // This variable allows us to track any stacks of tiles we loop through, 
+                    // allowing us to tell the loop to skip past those tiles, by iterating 'i' that many times. 
+                    let tilesToMovePast = 0;
                     // If the tile type === 0, remove it from the array, and reduce the counter by 
                     // one to ensure no tiles are missed.
                     if(newTileArray[i].type === 0){
@@ -570,55 +573,57 @@ const GameContainer = () => {
                     }
                     // If the tile type !== 0
                     else if(newTileArray[i].type !== 0){
-                        // console.log(`\n The current value of i is: ${i}`);
-                        // console.log(`\n The current value of newTileArray.length: ${newTileArray.length}`);
-                        // console.log(`The value of newTileArray[i+1].location is: ${newTileArray[i+1].location}`);
-                        // console.log(`The current value of the newTileArray is: \n${util.inspect(newTileArray, {showHidden: false, depth: null, colors: false})}`);
                         // If this treasure is the last treasure in the array
-                        console.log(`i = ${i}, newTileArray.length = ${newTileArray.length}`);
                         if(i === newTileArray.length - 1){
-                            // console.log(`\nThis should only fire once, at the end. The tile we're currently on: ${util.inspect(newTileArray[i], {showHidden: false, depth: null, colors: false})}`)
                             newTileArray[i].location = currentTileLocation;
                         }
                         // If this treasure is not a stack
                         else if(newTileArray[i].location !== newTileArray[i+1].location){
-                            console.log(`This is not a stack.`);
                             newTileArray[i].location = currentTileLocation;
                         }
                         // If this treasure is a stack, i.e. it has the same location as the next tile (at least)..
                         else if(newTileArray[i].location === newTileArray[i+1].location){
-                            console.log(`This is a stack.`);
+                            // console.log(`We're in a stack of 2..`);
+                            console.log(`Pre J loop newTileArray: ${util.inspect(newTileArray, {showHidden: false, depth: null, colors: false})}`);
                             // Check the current tile against the next 10 tiles (it's impossible to have more than that)
                             // AND ensure j + i IS NOT greater than newTileArray.length to prevent overflow errors.
+                            tilesToMovePast++;
                             for(let j = 2; j < 11 && j + i < newTileArray.length; j++){
+                                // console.log(`We're in a stack of ${j+1}..`);
                                 // If the location of the third etc. tile in the stack..
                                 if(newTileArray[i].location === newTileArray[i+j].location){
-                                    console.log(`We're in a stack of ${j+1}..`)
                                     // Set the location to the same location as the others.
-                                    newTileArray[i+j].location = i+1;
-                                    currentTileLocation++;
+                                    newTileArray[i+j].location = currentTileLocation;
+                                    tilesToMovePast++;
                                 }
                             };
                             // Set the location of the first and second tile in the stack to the same location as the others.
-                            newTileArray[i+1].location = i+1;
-                            newTileArray[i].location = i+1;
-                            currentTileLocation++;
-                            // Iterate i an additional time to compensate for the stack (of at least two)
-                            // i++;
+                            newTileArray[i+1].location = currentTileLocation;
+                            newTileArray[i].location = currentTileLocation;
+                            console.log(`Post J loop newTileArray: ${util.inspect(newTileArray, {showHidden: false, depth: null, colors: false})}`);
                         };
                     };
+                    i += tilesToMovePast;
                     currentTileLocation++;
+                    console.log(`\nWe're curently on i: ${i}, tilesToMovePast is ${tilesToMovePast}, currentTileLocation is ${currentTileLocation}, newTileArray.length is ${newTileArray.length}.`)
                 };
 
-                console.log(util.inspect(newTileArray, {showHidden: false, depth: null, colors: false}));
-                setTimeout(() => {
-                    appAction({
-                        type: ActionType.REMOVE_EMPTY_TILE_LOCATIONS,
-                        payload: {
-                            newTileArray: newTileArray,
-                        }
-                    });
-                }, 4000/gameSpeed);
+                // console.log(util.inspect(newTileArray, {showHidden: false, depth: null, colors: false}));
+                let drownedPlayerTreasureTileLocation = newTileArray[newTileArray.length-1].location + 1;
+                let temporaryDrownedPlayersTreasures = JSON.parse(JSON.stringify(appState.drownedPlayersTreasures));
+                for(let i = 0; i < temporaryDrownedPlayersTreasures.length; i++){
+                    for(let j = 0; j < temporaryDrownedPlayersTreasures[i].length; j++){
+                        temporaryDrownedPlayersTreasures[i][j].location = drownedPlayerTreasureTileLocation;
+                        newTileArray.push(temporaryDrownedPlayersTreasures[i][j]);
+                    };
+                    drownedPlayerTreasureTileLocation ++;
+                };
+                appAction({
+                    type: ActionType.REMOVE_EMPTY_TILE_LOCATIONS,
+                    payload: {
+                        newTileArray: newTileArray,
+                    }
+                });
             }, 2000/gameSpeed);
 
 
