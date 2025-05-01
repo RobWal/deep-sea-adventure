@@ -111,7 +111,7 @@ const GameContainer = () => {
         // sections. 
 
         if(appState.currentStep ===  'end_of_round_adjustments' || appState.currentStep ===  'remove_empty_tile_locations' || appState.currentStep ===  'move_drowned_players_home' || appState.currentStep ===  'clean_up_the_drowned'){
-            console.log(`\n\nThe appState.currentStep is: ${appState.currentStep}`);
+            // console.log(`\n\nThe appState.currentStep is: ${appState.currentStep}`);
             // for(let i = 0; i < appState.players.length; i++){
             //     console.log(`${appState.players[i].name}'s tiles are: `);
             //     console.log(`Treasure: \n${util.inspect(appState.players[i].treasure, {showHidden: false, depth: null, colors: false})}`);
@@ -120,7 +120,7 @@ const GameContainer = () => {
             // console.log(`The tilesArrayLength is: ${appState.tilesArrayLength}`);
             // console.log(`The appState.tiles are: `);
             // console.log(util.inspect(appState.tiles, {showHidden: false, depth: null, colors: false}));
-            console.log(util.inspect(appState, {showHidden: false, depth: null, colors: false}));
+            // console.log(util.inspect(appState, {showHidden: false, depth: null, colors: false}));
         }
 
         if(appState.currentStep === 'direction_logic' || appState.currentStep === 'end_of_round_adjustments'){
@@ -218,6 +218,8 @@ const GameContainer = () => {
         
         if(appState.currentStep === 'moving'){
             setTimeout(() => {
+                // The code below creates an object filled with key value pairs of playerMapPositions : playerIDs 
+                // to be used later on when determining how many places the moving player should move. 
                 let playerMapPositions: PlayerMapPositions = {};
                 for(let i = 0; i < appState.players.length; i++){
                     playerMapPositions[appState.players[i].mapPosition] = appState.players[i].id;
@@ -225,19 +227,24 @@ const GameContainer = () => {
                 let totalPlacesToMove = (appState.dice[0] + appState.dice[1]) - appState.players[appState.currentPlayer].treasure.length;
                 let simulatedPlayerPosition = appState.players[appState.currentPlayer].mapPosition;
                 if(appState.players[appState.currentPlayer].direction === 'forwards'){
+                    // In the event that the player has more tiles in their inventory than pips on their movement dice,
+                    // e.g. they roll a 2 and they have 3 treasures, this ensures they don't 'move backwards'. 
                     if(totalPlacesToMove < 0){
                         totalPlacesToMove = 0;
                     }
+                    // Iterate the moving player through their steps, checking to see whether there's a player to 
+                    // 'hop' over or not. If there is, increase the places to move by 1, else, move as normal. 
                     for(let i = 0; i < totalPlacesToMove; i++){
                         if(playerMapPositions[simulatedPlayerPosition+1] !== undefined){
                             totalPlacesToMove++;
                         }
-                        if(simulatedPlayerPosition === 32){
-                            simulatedPlayerPosition--;
+                        if(simulatedPlayerPosition === appState.tilesArrayLength){
+                            // simulatedPlayerPosition--;
+                            break;
                         } else {
                             simulatedPlayerPosition++;
-                        }
-                    }
+                        };
+                    };
                     appAction({
                         type: ActionType.MOVE_PLAYER_TOKEN,
                         payload: {
@@ -317,15 +324,23 @@ const GameContainer = () => {
                             // SEO revisit logic treasure pickup needs work ai strategy 
 
                             // If true, the conditions are met and the AI will pick up the treasure. 
-                            if(appState.remainingOxygen > 15 && appState.players[appState.currentPlayer].treasure.length< 3){
+                            if(appState.remainingOxygen > 15 && appState.players[appState.currentPlayer].treasure.length < 3){
                                 let newPlayerTreasureArray = [...appState.players[appState.currentPlayer].treasure]
-                                newPlayerTreasureArray.push(appState.tiles[appState.players[appState.currentPlayer].mapPosition-1])
                                 let newTileArray = [...appState.tiles];
-                                newTileArray[appState.players[appState.currentPlayer].mapPosition-1] = {
+                                // This line of code right here is the one responsible for adding the treasure from the treasure
+                                // tile layout, into the players inventory. 
+                                for(let i = 0; i < newTileArray.length; i++){
+                                    if(newTileArray[i].location === appState.players[appState.currentPlayer].mapPosition){
+                                        newPlayerTreasureArray.push(newTileArray[i]);
+                                        newTileArray.splice(i, 1);
+                                        i--;
+                                    };
+                                };
+                                // Replace the picked up tile(s) with a single type 0 tile. 
+                                newTileArray.push({
                                     type: 0,
                                     location: appState.players[appState.currentPlayer].mapPosition,
-                                }
-
+                                });
                                 appAction({
                                     type: ActionType.TREASURE_PICKUP_DECISION,
                                     payload: {
@@ -367,11 +382,12 @@ const GameContainer = () => {
                                         };
                                     };
                                 };
+                                console.log(treasureToBeDropped);
                                 newTileArray[appState.players[appState.currentPlayer].mapPosition-1] = {
-                                    type: treasureToBeDropped[0].type,
-                                    id: treasureToBeDropped[0].id,
+                                    type: treasureToBeDropped.type,
+                                    id: treasureToBeDropped.id,
                                     location: appState.players[appState.currentPlayer].mapPosition,
-                                    value: treasureToBeDropped[0].value,
+                                    value: treasureToBeDropped.value,
                                 }
 
                                 // I have no idea what the below code does. 
@@ -583,13 +599,10 @@ const GameContainer = () => {
                         }
                         // If this treasure is a stack, i.e. it has the same location as the next tile (at least)..
                         else if(newTileArray[i].location === newTileArray[i+1].location){
-                            // console.log(`We're in a stack of 2..`);
-                            console.log(`Pre J loop newTileArray: ${util.inspect(newTileArray, {showHidden: false, depth: null, colors: false})}`);
                             // Check the current tile against the next 10 tiles (it's impossible to have more than that)
                             // AND ensure j + i IS NOT greater than newTileArray.length to prevent overflow errors.
                             tilesToMovePast++;
                             for(let j = 2; j < 11 && j + i < newTileArray.length; j++){
-                                // console.log(`We're in a stack of ${j+1}..`);
                                 // If the location of the third etc. tile in the stack..
                                 if(newTileArray[i].location === newTileArray[i+j].location){
                                     // Set the location to the same location as the others.
@@ -600,15 +613,12 @@ const GameContainer = () => {
                             // Set the location of the first and second tile in the stack to the same location as the others.
                             newTileArray[i+1].location = currentTileLocation;
                             newTileArray[i].location = currentTileLocation;
-                            console.log(`Post J loop newTileArray: ${util.inspect(newTileArray, {showHidden: false, depth: null, colors: false})}`);
                         };
                     };
                     i += tilesToMovePast;
                     currentTileLocation++;
-                    console.log(`\nWe're curently on i: ${i}, tilesToMovePast is ${tilesToMovePast}, currentTileLocation is ${currentTileLocation}, newTileArray.length is ${newTileArray.length}.`)
                 };
 
-                // console.log(util.inspect(newTileArray, {showHidden: false, depth: null, colors: false}));
                 let drownedPlayerTreasureTileLocation = newTileArray[newTileArray.length-1].location + 1;
                 let temporaryDrownedPlayersTreasures = JSON.parse(JSON.stringify(appState.drownedPlayersTreasures));
                 for(let i = 0; i < temporaryDrownedPlayersTreasures.length; i++){
@@ -625,91 +635,6 @@ const GameContainer = () => {
                     }
                 });
             }, 2000/gameSpeed);
-
-
-
-            // Deep clone the appState.tiles, in order to loop through the tiles array and remove any tiles where type===0,
-            // before sending it to application-context. 
-            // ***************************************************************************************************
-            // This has been commented out for simplicity! 
-            // ***************************************************************************************************
-            // setTimeout(() => {
-            //     let newTileArray = JSON.parse(JSON.stringify(appState.tiles));
-            //     let tilePositionCounter = 1;
-            //     // Loop through the newTileArray, using a modifiable appState.tilesArrayLength to iterate through.
-            //     let treasureLoopCounter = appState.tilesArrayLength;
-                
-            //     for(let i = 0; i < treasureLoopCounter; i ++){
-            //         // Remove any tiles that have tile type === 0 i.e. they were taken by a player. 
-            //         if(newTileArray[i].type === 0){
-            //             newTileArray.splice(i, 1);
-            //             i--;
-            //             treasureLoopCounter--;
-            //         }
-            //         // If the tile is not empty AND the tile is not the last one in the array, set the tile location to the next position in the tile array. 
-            //         // The extra condition comparing to appState.tilesArrayLength is to ensure we don't cause an overflow error by comparing it to i+1 
-            //         // which does not exist. 
-            //         else if(newTileArray[i].type !== 0 && newTileArray[i].location !== appState.tilesArrayLength){
-            //             if(newTileArray[i].location !== newTileArray[i+1].location){
-            //                 newTileArray[i].location = tilePositionCounter;
-            //                 tilePositionCounter ++;
-            //             }
-            //             // This code checks to see if the following tile matches the current tiles location,
-            //             // if so, it does not advance the tile position counter. 
-            //             else if(newTileArray[i].location === newTileArray[i+1].location){
-            //                 newTileArray[i].location = tilePositionCounter;
-            //             }
-            //         } 
-            //         // If the tile is the last tile in the array
-            //         else if(newTileArray[i].location === appState.tilesArrayLength){
-            //             newTileArray[i].location = tilePositionCounter;
-            //         };
-            //     };
-            //     setTimeout(() => {
-            //         // console.log(util.inspect(newTileArray, {showHidden: false, depth: null, colors: false}));
-            //         let drownedPlayerTreasureTileLocation = newTileArray[newTileArray.length-1].location + 1;
-            //         let temporaryDrownedPlayersTreasures = JSON.parse(JSON.stringify(appState.drownedPlayersTreasures));
-            //         // console.log(drownedPlayerTreasureTileLocation);
-            //         // console.log(util.inspect(temporaryDrownedPlayersTreasures, {showHidden: false, depth: null, colors: false}));
-            //         for(let i = 0; i < temporaryDrownedPlayersTreasures.length; i++){
-            //             // console.log(temporaryDrownedPlayersTreasures[i]);
-            //             for(let j = 0; j < temporaryDrownedPlayersTreasures[i].length; j++){
-            //                 temporaryDrownedPlayersTreasures[i][j].location = drownedPlayerTreasureTileLocation;
-            //                 newTileArray.push(temporaryDrownedPlayersTreasures[i][j]);
-            //             };
-            //             drownedPlayerTreasureTileLocation ++;
-            //         };
-            //         // console.log(util.inspect(temporaryDrownedPlayersTreasures, {showHidden: false, depth: null, colors: false}));
-            //         // Having removed all empty tiles, we now loop through the tile array in order to find the first tile 
-            //         // that doesn't belong to this rounds original array, by comparing the tile.location to treasureLoopCounter.
-            //         // for(const tile of newTileArray){
-            //         //     // Once we find the first tile that doesn't belong to the original tile array, set its location as 
-            //         //     // the locationBundlerValue, to find any other tiles in the array that match. 
-            //         //     if(tile.location > treasureLoopCounter){
-            //         //         let locationBundlerValue = tile.location;
-            //         //         // Loop through the array again, looking for any tiles that matches the location of the tile that
-            //         //         // doesn't belong to the original game tile array, including the one originally found above.
-            //         //         // Once found, its location as set to the end of the tile array (treasureLoopCounter+1). 
-            //         //         for(const subTile of newTileArray){
-            //         //             if(subTile.location === locationBundlerValue){
-            //         //                 subTile.location = treasureLoopCounter+1;
-            //         //             };
-            //         //         };
-            //         //         // After moving the tile(s), add 1 to the treasureLoopCounter to iterate through the array again to find any 
-            //         //         // more drowned player treasure tiles, and to increment where to place the next tile(s).
-            //         //         treasureLoopCounter++;
-            //         //     };
-            //         // };
-
-
-            //         appAction({
-            //             type: ActionType.REMOVE_EMPTY_TILE_LOCATIONS,
-            //             payload: {
-            //                 newTileArray: newTileArray,
-            //             }
-            //         });
-            //     }, 4000/gameSpeed);
-            // }, 2000/gameSpeed);
         };
 
         if(appState.currentStep === 'remove_empty_tile_locations'){
@@ -764,10 +689,6 @@ const GameContainer = () => {
                 });
             }, 2000/gameSpeed);
         };
-
-        // if(appState.currentStep === 'end_of_round_adjustments'){
-        //     console.log(util.inspect(appState, {showHidden: false, depth: null, colors: false}));
-        // }
 
         // THIS IS CURRENTLY COMMENTED OUT TO TRY AND IMPLEMENT A THREE ROUND GAME. AN ADJUSTED COPY OF THIS OLD CODE IS BEING USED ABOVE FOR THE EXTRA ROUNDS FEATURE.  
         // THE CODE BELOW CAN BE USED LATER WHEN DETERMINING WHO WON AT THE END OF THE GAME.

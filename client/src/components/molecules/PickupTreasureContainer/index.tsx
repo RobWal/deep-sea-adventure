@@ -9,6 +9,8 @@ const PickupTreasureContainer = () => {
     return (
         <div className='pickup-treasure-container'>
             <H1 text={'What will you do?'} style={{display: 'block', textAlign: 'center', color: 'white', fontSize: '27px', margin: '20px 0 40px 0'}} />
+            {/* The AnnouncerButtonContainer contains the logic for picking up, 
+            leaving, and dropping treasure. */}
             <AnnouncerButtonContainer style={{}} text={'What will you do?'} />
         </div>
     )

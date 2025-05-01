@@ -84,8 +84,10 @@ Some examples are:
 # Bugs
 
 1. Now that we can play a second and third round, we've opened up a can of ~~worms~~ bugs. Including, but not limited to:
-    1. Players being able to pick up 'empty' tiles (i.e. tile type === 0).
-    1. Players being able to move onto tiles which no longer contain treasure. 
-    1. On round three, the treasure tile array bugs out and spreads stacked tiles of treasure from drowned players, out over multiple tiles. 
+    1. 'Empty' tile tokens are appearing in the dropped stacks of treasure from players. 
+    1. ~~Players pick up one treasure from a stack of treasure, rather than picking up the entire stack.~~
+    1. ~~Players being able to pick up 'empty' tiles (i.e. tile type === 0).~~
+    1. ~~Players being able to move onto tiles which no longer contain treasure.~~ This is theoretically fixed, but requires further testing. 
+    1. ~~On round three, the treasure tile array bugs out and spreads stacked tiles of treasure from drowned players, out over multiple tiles.~~ 
     1. Probably more! 
 1. While using the game speed feature, player tile animations using the style={style} syntax aren't sped up, causing a lag between player tokens and potential player decisions. 
