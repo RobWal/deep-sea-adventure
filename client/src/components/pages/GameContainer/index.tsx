@@ -110,7 +110,8 @@ const GameContainer = () => {
         // This small section is used to give necessary information for troubleshooting, to prevent clogging of more important
         // sections. 
 
-        if(appState.currentStep ===  'end_of_round_adjustments' || appState.currentStep ===  'remove_empty_tile_locations' || appState.currentStep ===  'move_drowned_players_home' || appState.currentStep ===  'clean_up_the_drowned'){
+        // if(appState.currentStep ===  'end_of_round_adjustments' || appState.currentStep ===  'remove_empty_tile_locations' || appState.currentStep ===  'move_drowned_players_home' || appState.currentStep ===  'clean_up_the_drowned'){
+        if(appState.currentStep ===  'direction_logic'){
             // console.log(`\n\nThe appState.currentStep is: ${appState.currentStep}`);
             // for(let i = 0; i < appState.players.length; i++){
             //     console.log(`${appState.players[i].name}'s tiles are: `);
@@ -120,7 +121,8 @@ const GameContainer = () => {
             // console.log(`The tilesArrayLength is: ${appState.tilesArrayLength}`);
             // console.log(`The appState.tiles are: `);
             // console.log(util.inspect(appState.tiles, {showHidden: false, depth: null, colors: false}));
-            // console.log(util.inspect(appState, {showHidden: false, depth: null, colors: false}));
+            console.log(`The appState is: `);
+            console.log(util.inspect(appState, {showHidden: false, depth: null, colors: false}));
         }
 
         if(appState.currentStep === 'direction_logic' || appState.currentStep === 'end_of_round_adjustments'){
@@ -311,8 +313,16 @@ const GameContainer = () => {
                     // If the player, real or AI, moved and they are NOT in the submarine.. 
                     else if(appState.players[appState.currentPlayer].mapPosition !== 0){
                         // If the location of the player does have a tile there (i.e. tile.type !== 0), set anyTreasureThere to true. 
-                        if(appState.tiles[appState.players[appState.currentPlayer].mapPosition-1].type !== 0){
-                            anyTreasureThere = true;
+                        // if(appState.tiles[appState.players[appState.currentPlayer].mapPosition-1].type !== 0){
+                        //     anyTreasureThere = true;
+                        // }
+                        for(let i = 0; i < appState.tiles.length; i++){
+                            // console.log(`We're checking to see if there are any tiles in this location by comparing the following varaibles.`);
+                            // console.log(`appState.tiles[i].location: ${appState.tiles[i].location} and \n`);
+                            // console.log(`appState.players[appState.currentPlayer].mapPosition-1: ${appState.players[appState.currentPlayer].mapPosition-1}`);
+                            if(appState.tiles[i].location === appState.players[appState.currentPlayer].mapPosition && appState.tiles[i].type !== 0){
+                                anyTreasureThere = true;
+                            }
                         }
                         // If there is treasure there..
                         if(anyTreasureThere){
@@ -337,10 +347,21 @@ const GameContainer = () => {
                                     };
                                 };
                                 // Replace the picked up tile(s) with a single type 0 tile. 
-                                newTileArray.push({
-                                    type: 0,
-                                    location: appState.players[appState.currentPlayer].mapPosition,
-                                });
+                                for(let i = 0; i < newTileArray.length; i++){
+                                    if(newTileArray[i].location > appState.players[appState.currentPlayer].mapPosition){
+                                        newTileArray.splice(i, 0, 
+                                            {
+                                                type: 0,
+                                                location: appState.players[appState.currentPlayer].mapPosition,
+                                            }
+                                        );
+                                        i += 50;
+                                    };
+                                };
+                                // newTileArray.push({
+                                //     type: 0,
+                                //     location: appState.players[appState.currentPlayer].mapPosition,
+                                // });
                                 appAction({
                                     type: ActionType.TREASURE_PICKUP_DECISION,
                                     payload: {
@@ -359,36 +380,54 @@ const GameContainer = () => {
                         } 
                         // If there is no treasure where the player landed, the AI will decide what to do. 
                         else if(!anyTreasureThere){
+                            // The line below is 'the AI deciding what to do', it's an incredibly simplistic check, and 
+                            // will need to be more robust to account for things like the number of players. 
                             if(appState.remainingOxygen < 15 && appState.players[appState.currentPlayer].treasure.length > 2){
                                 let newTileArray = [...appState.tiles];
                                 let newPlayerTreasureArray = [...appState.players[appState.currentPlayer].treasure]
                                 let treasureToBeDropped: any = [];
+                                let iDOfTileToBeSpliced = 0;
+                                // If the current player opting to drop a treasure has a treasure of type 1, drop that treasure
+                                // as a priority. 
                                 // The below code loops through the player treasure array, and selected the lowest value tile to drop. 
                                 // First, it identifies which tile to drop (treasureToBeDropped), and then it removes it 
                                 // (newPlayerTreasureArray.splice(i, 1))
                                 for(let i = 0; i < newPlayerTreasureArray.length; i++){
+                                    // If the tile[i] is type 1, drop that treasure. 
                                     if(newPlayerTreasureArray[i].type === 1){
                                         treasureToBeDropped[0] = newPlayerTreasureArray[i];
-                                        newPlayerTreasureArray.splice(i, 1)
+                                        iDOfTileToBeSpliced = newPlayerTreasureArray[i].id;
                                     } 
-                                    else if(treasureToBeDropped[0] === undefined){
+                                    // If tile[i] isn't type 1, but the treasureToBeDropped is empty, make it this treasure. 
+                                    else if(JSON.stringify(treasureToBeDropped) === "{}"){
                                         treasureToBeDropped[0] = newPlayerTreasureArray[i];
-                                        newPlayerTreasureArray.splice(i, 1)
+                                        iDOfTileToBeSpliced = newPlayerTreasureArray[i].id;
                                     }
-                                    else if(treasureToBeDropped[0] !== undefined){
+                                    else if(treasureToBeDropped.length !== undefined){
                                         if(treasureToBeDropped[0].type > newPlayerTreasureArray[i].type){
-                                            treasureToBeDropped = newPlayerTreasureArray[i];
-                                            newPlayerTreasureArray.splice(i, 1)
+                                            treasureToBeDropped[0] = newPlayerTreasureArray[i];
+                                            iDOfTileToBeSpliced = newPlayerTreasureArray[i].id;
                                         };
                                     };
                                 };
-                                console.log(treasureToBeDropped);
-                                newTileArray[appState.players[appState.currentPlayer].mapPosition-1] = {
-                                    type: treasureToBeDropped.type,
-                                    id: treasureToBeDropped.id,
-                                    location: appState.players[appState.currentPlayer].mapPosition,
-                                    value: treasureToBeDropped.value,
-                                }
+                                // This code is responsible for removing the empty tile from the location the players tile 
+                                // will be dropped. It loops through the tile array to find the current tile that matches 
+                                // the current players location, and removes it from the array. 
+                                for(let i = 0; i < newTileArray.length; i++){
+                                    if(newTileArray[i].location === appState.players[appState.currentPlayer].mapPosition){
+                                        newTileArray.splice(i, 1);
+                                        // At the same time, it adds the treasure selected to be dropped by the above logic 
+                                        // and inserts it into the treasure tile array, by looping through the current players
+                                        // treasure array and matching it against the ID. 
+                                        for(let j = 0; j < newPlayerTreasureArray.length; j++){
+                                            if(newPlayerTreasureArray[j].id === iDOfTileToBeSpliced){
+                                                newPlayerTreasureArray[j].location = appState.players[appState.currentPlayer].mapPosition;
+                                                newTileArray.splice(i, 0, newPlayerTreasureArray[j]);
+                                                newPlayerTreasureArray.splice(j, 1);
+                                            };
+                                        }
+                                    };
+                                };
 
                                 // I have no idea what the below code does. 
                                 // Commenting it out to see if it breaks anything, fingers crossed! I'll keep it just in case.
@@ -536,6 +575,7 @@ const GameContainer = () => {
             // This is also used to set the direction for each player back to 'forwards' for the beginning of a new round. 
             setTimeout(() => {
                 let newPlayerArray = JSON.parse(JSON.stringify(appState.players));
+                console.log(`\nWe're checking the players array at the start of the setTimeout() before MOVE_DROWNED_PLAYERS_HOME: ${util.inspect(newPlayerArray, {showHidden: false, depth: null, colors: false})}`);
                 for(let i = 0; i < newPlayerArray.length; i ++){
                     if(newPlayerArray[i].mapPosition !== 0){
                         newPlayerArray[i].mapPosition = 0;
@@ -556,6 +596,8 @@ const GameContainer = () => {
                         };
                     };
                 };
+                console.log(`\nWe're checking the players array before MOVE_DROWNED_PLAYERS_HOME: ${util.inspect(newPlayerArray, {showHidden: false, depth: null, colors: false})}`);
+                console.log(`\nWe're checking the drownedPlayersTreasures array before MOVE_DROWNED_PLAYERS_HOME: ${util.inspect(newDrownedTreasuresArray, {showHidden: false, depth: null, colors: false})}`);
                 appAction({
                     type: ActionType.MOVE_DROWNED_PLAYERS_HOME,
                     payload: {
@@ -569,13 +611,11 @@ const GameContainer = () => {
         };
 
         if(appState.currentStep === 'move_drowned_players_home'){
-            // ***************************************************************************************************
-            // This is where we'll be working today!!
-            // ***************************************************************************************************
             setTimeout(() => {
                 // First, we're going to loop through the array to remove any tiles where type === 0. 
                 let currentTileLocation = 1;
                 let newTileArray = JSON.parse(JSON.stringify(appState.tiles));
+                console.log(`\nWe're checking the newTileArray at the very start: ${util.inspect(newTileArray, {showHidden: false, depth: null, colors: false})}`);
                 for(let i = 0; i < newTileArray.length; i++){
                     // This variable allows us to track any stacks of tiles we loop through, 
                     // allowing us to tell the loop to skip past those tiles, by iterating 'i' that many times. 
@@ -628,6 +668,7 @@ const GameContainer = () => {
                     };
                     drownedPlayerTreasureTileLocation ++;
                 };
+                console.log(`\nWe're checking the newTileArray right before pushing it up appState: ${util.inspect(newTileArray, {showHidden: false, depth: null, colors: false})}`);
                 appAction({
                     type: ActionType.REMOVE_EMPTY_TILE_LOCATIONS,
                     payload: {

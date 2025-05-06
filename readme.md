@@ -84,10 +84,13 @@ Some examples are:
 # Bugs
 
 1. Now that we can play a second and third round, we've opened up a can of ~~worms~~ bugs. Including, but not limited to:
-    1. 'Empty' tile tokens are appearing in the dropped stacks of treasure from players. 
+    1. ~~Dropping a treasure tile now causes tiles in the array to randomly be picked up and dropped off. This is likely due to the fixes increasingly decoupling the treasure tile array ORDER from the treasure tile LOCATIONS. Some code relies on the order to be in the correct order, but growing complexity has meant decoupling it in some areas - causing problems.~~
+    1. ~~'Empty' tile tokens are appearing in the dropped stacks of treasure from players.~~
     1. ~~Players pick up one treasure from a stack of treasure, rather than picking up the entire stack.~~
     1. ~~Players being able to pick up 'empty' tiles (i.e. tile type === 0).~~
     1. ~~Players being able to move onto tiles which no longer contain treasure.~~ This is theoretically fixed, but requires further testing. 
     1. ~~On round three, the treasure tile array bugs out and spreads stacked tiles of treasure from drowned players, out over multiple tiles.~~ 
+    1. Players are able to move past the last tile in the tile array, as though there were still treasure tiles there. 
+    1. When moving to the end of the tile array, players do not currently 'sit' at the very end, but instead 'bounce' back. 
     1. Probably more! 
 1. While using the game speed feature, player tile animations using the style={style} syntax aren't sped up, causing a lag between player tokens and potential player decisions. 
