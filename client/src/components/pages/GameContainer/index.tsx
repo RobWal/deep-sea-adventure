@@ -121,8 +121,8 @@ const GameContainer = () => {
             // console.log(`The tilesArrayLength is: ${appState.tilesArrayLength}`);
             // console.log(`The appState.tiles are: `);
             // console.log(util.inspect(appState.tiles, {showHidden: false, depth: null, colors: false}));
-            console.log(`The appState is: `);
-            console.log(util.inspect(appState, {showHidden: false, depth: null, colors: false}));
+            // console.log(`The appState is: `);
+            // console.log(util.inspect(appState, {showHidden: false, depth: null, colors: false}));
         }
 
         if(appState.currentStep === 'direction_logic' || appState.currentStep === 'end_of_round_adjustments'){
@@ -228,6 +228,7 @@ const GameContainer = () => {
                 }
                 let totalPlacesToMove = (appState.dice[0] + appState.dice[1]) - appState.players[appState.currentPlayer].treasure.length;
                 let simulatedPlayerPosition = appState.players[appState.currentPlayer].mapPosition;
+                let reachedTheEndOfTheTiles = false;
                 if(appState.players[appState.currentPlayer].direction === 'forwards'){
                     // In the event that the player has more tiles in their inventory than pips on their movement dice,
                     // e.g. they roll a 2 and they have 3 treasures, this ensures they don't 'move backwards'. 
@@ -237,24 +238,29 @@ const GameContainer = () => {
                     // Iterate the moving player through their steps, checking to see whether there's a player to 
                     // 'hop' over or not. If there is, increase the places to move by 1, else, move as normal. 
                     for(let i = 0; i < totalPlacesToMove; i++){
+                        // Check to see if the next simulated step is a tile occupied by a player. If so, increase 
+                        // their move count by one. 
                         if(playerMapPositions[simulatedPlayerPosition+1] !== undefined){
                             totalPlacesToMove++;
-                        }
+                        };
+                        // Check to see if the players simulated map position reaches the end of the tile array.
                         if(simulatedPlayerPosition === appState.tilesArrayLength){
-                            // simulatedPlayerPosition--;
-                            break;
-                        } else {
+                            reachedTheEndOfTheTiles = true;
+                        }
+                        // asdas
+                        else if(simulatedPlayerPosition !== appState.tilesArrayLength && reachedTheEndOfTheTiles === false){
                             simulatedPlayerPosition++;
                         };
                     };
                     appAction({
                         type: ActionType.MOVE_PLAYER_TOKEN,
                         payload: {
-                            newMapPosition: appState.players[appState.currentPlayer].mapPosition + totalPlacesToMove,
+                            newMapPosition: simulatedPlayerPosition,
                             playerToMove: appState.currentPlayer,
                         }
                     })
-                } else if(appState.players[appState.currentPlayer].direction === 'backwards'){
+                } 
+                else if(appState.players[appState.currentPlayer].direction === 'backwards'){
                     if(totalPlacesToMove < 0) {
                         totalPlacesToMove = 0;
                     }
@@ -317,9 +323,6 @@ const GameContainer = () => {
                         //     anyTreasureThere = true;
                         // }
                         for(let i = 0; i < appState.tiles.length; i++){
-                            // console.log(`We're checking to see if there are any tiles in this location by comparing the following varaibles.`);
-                            // console.log(`appState.tiles[i].location: ${appState.tiles[i].location} and \n`);
-                            // console.log(`appState.players[appState.currentPlayer].mapPosition-1: ${appState.players[appState.currentPlayer].mapPosition-1}`);
                             if(appState.tiles[i].location === appState.players[appState.currentPlayer].mapPosition && appState.tiles[i].type !== 0){
                                 anyTreasureThere = true;
                             }
@@ -575,7 +578,7 @@ const GameContainer = () => {
             // This is also used to set the direction for each player back to 'forwards' for the beginning of a new round. 
             setTimeout(() => {
                 let newPlayerArray = JSON.parse(JSON.stringify(appState.players));
-                console.log(`\nWe're checking the players array at the start of the setTimeout() before MOVE_DROWNED_PLAYERS_HOME: ${util.inspect(newPlayerArray, {showHidden: false, depth: null, colors: false})}`);
+                // console.log(`\nWe're checking the players array at the start of the setTimeout() before MOVE_DROWNED_PLAYERS_HOME: ${util.inspect(newPlayerArray, {showHidden: false, depth: null, colors: false})}`);
                 for(let i = 0; i < newPlayerArray.length; i ++){
                     if(newPlayerArray[i].mapPosition !== 0){
                         newPlayerArray[i].mapPosition = 0;
@@ -596,8 +599,8 @@ const GameContainer = () => {
                         };
                     };
                 };
-                console.log(`\nWe're checking the players array before MOVE_DROWNED_PLAYERS_HOME: ${util.inspect(newPlayerArray, {showHidden: false, depth: null, colors: false})}`);
-                console.log(`\nWe're checking the drownedPlayersTreasures array before MOVE_DROWNED_PLAYERS_HOME: ${util.inspect(newDrownedTreasuresArray, {showHidden: false, depth: null, colors: false})}`);
+                // console.log(`\nWe're checking the players array before MOVE_DROWNED_PLAYERS_HOME: ${util.inspect(newPlayerArray, {showHidden: false, depth: null, colors: false})}`);
+                // console.log(`\nWe're checking the drownedPlayersTreasures array before MOVE_DROWNED_PLAYERS_HOME: ${util.inspect(newDrownedTreasuresArray, {showHidden: false, depth: null, colors: false})}`);
                 appAction({
                     type: ActionType.MOVE_DROWNED_PLAYERS_HOME,
                     payload: {
@@ -615,7 +618,7 @@ const GameContainer = () => {
                 // First, we're going to loop through the array to remove any tiles where type === 0. 
                 let currentTileLocation = 1;
                 let newTileArray = JSON.parse(JSON.stringify(appState.tiles));
-                console.log(`\nWe're checking the newTileArray at the very start: ${util.inspect(newTileArray, {showHidden: false, depth: null, colors: false})}`);
+                // console.log(`\nWe're checking the newTileArray at the very start: ${util.inspect(newTileArray, {showHidden: false, depth: null, colors: false})}`);
                 for(let i = 0; i < newTileArray.length; i++){
                     // This variable allows us to track any stacks of tiles we loop through, 
                     // allowing us to tell the loop to skip past those tiles, by iterating 'i' that many times. 
@@ -668,7 +671,7 @@ const GameContainer = () => {
                     };
                     drownedPlayerTreasureTileLocation ++;
                 };
-                console.log(`\nWe're checking the newTileArray right before pushing it up appState: ${util.inspect(newTileArray, {showHidden: false, depth: null, colors: false})}`);
+                // console.log(`\nWe're checking the newTileArray right before pushing it up appState: ${util.inspect(newTileArray, {showHidden: false, depth: null, colors: false})}`);
                 appAction({
                     type: ActionType.REMOVE_EMPTY_TILE_LOCATIONS,
                     payload: {

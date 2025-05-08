@@ -44,16 +44,33 @@ const AnnouncerButtonContainer = ({style}: any) => {
                                     i--;
                                 };
                             };
-                            // Replace the picked up tile(s) with a single type 0 tile. 
-                            for(let i = 0; i < newTileArray.length; i++){
-                                if(newTileArray[i].location > appState.players[appState.currentPlayer].mapPosition){
-                                    newTileArray.splice(i, 0, 
-                                        {
-                                            type: 0,
-                                            location: appState.players[appState.currentPlayer].mapPosition,
-                                        }
-                                    );
-                                    i += 50;
+                            // This code inserts a type 0 treasure tile into the treasure array to replace the picked up treasure. 
+                            // It works by iterating through the treasure tiles, checking the treasure tile location against the players 
+                            // position. Once the tile position > the player position, it inserts a type 0 tile in the previous spot. 
+
+                            // Unfortunately, the exception to this rule is when the player lands on the very last spot. Once the 
+                            // player picks up that treasure, the tiles only go to X, where the player position is X+1, meaning the 
+                            // condition is never met. This necessitates the first if check. 
+                            
+                            // If the tile being picked up is the last tile in the array, creating a situation where the 
+                            // player map position is > the position of the last tile in the treasure tile array.
+                            if(newTileArray[newTileArray.length-1].location < appState.players[appState.currentPlayer].mapPosition){
+                                newTileArray.push ({
+                                    type: 0,
+                                    location: appState.players[appState.currentPlayer].mapPosition,
+                                });
+                            }
+                            else if(newTileArray[newTileArray.length-1].location >= appState.players[appState.currentPlayer].mapPosition){
+                                for(let i = 0; i < newTileArray.length; i++){
+                                    if(newTileArray[i].location > appState.players[appState.currentPlayer].mapPosition){
+                                        newTileArray.splice(i, 0, 
+                                            {
+                                                type: 0,
+                                                location: appState.players[appState.currentPlayer].mapPosition,
+                                            }
+                                        );
+                                        i += 50;
+                                    };
                                 };
                             };
                             // newTileArray.push({

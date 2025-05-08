@@ -80,6 +80,7 @@ Some examples are:
 1. ~~The ability to 'rewind' the game in order to see 'what if' a user had done something else.~~ This has been somewhat implemented through the use of the save game function. 
 1. Allowing for multiple local users to play against each other, or AI (hotseat).
 1. Allowing for multiple users to play online against each other, or AI, by utilising web sockets (online).
+1. Due to the way the code is structured, a lot of the logic is duplicated to account for logic when bots are playing (the code is found in /GameContainer), vs when the player is playing (the logic is found in AccouncerButtonContainer). This logic could be more optimally located within the game files i.e. not in the components themselves and instead inside logic files. Though I would have to figure out how that logic would access the required data to function. 
 
 # Bugs
 
@@ -90,7 +91,8 @@ Some examples are:
     1. ~~Players being able to pick up 'empty' tiles (i.e. tile type === 0).~~
     1. ~~Players being able to move onto tiles which no longer contain treasure.~~ This is theoretically fixed, but requires further testing. 
     1. ~~On round three, the treasure tile array bugs out and spreads stacked tiles of treasure from drowned players, out over multiple tiles.~~ 
-    1. Players are able to move past the last tile in the tile array, as though there were still treasure tiles there. 
-    1. When moving to the end of the tile array, players do not currently 'sit' at the very end, but instead 'bounce' back. 
+    1. ~~Players are able to move past the last tile in the tile array, as though there were still treasure tiles there.~~
+    1. ~~When moving to the end of the tile array, players do not currently 'sit' at the very end, but instead 'bounce' back.~~
     1. Probably more! 
+    1. More! When one player is already positioned at the end of the tile array, another can land on the end tile as well. 
 1. While using the game speed feature, player tile animations using the style={style} syntax aren't sped up, causing a lag between player tokens and potential player decisions. 
