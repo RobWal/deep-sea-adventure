@@ -85,6 +85,8 @@ Some examples are:
 # Bugs
 
 1. Now that we can play a second and third round, we've opened up a can of ~~worms~~ bugs. Including, but not limited to:
+    1. More! When one player is already positioned at the end of the tile array, another can land on the end tile as well. 
+    1. ~~It seems there's a bug that occurs when a player drowns with no treasure in their inventory. It may be due to the logic iterating through map positions per drowned player, even if they have no treasure, but investigation is required.~~
     1. ~~Dropping a treasure tile now causes tiles in the array to randomly be picked up and dropped off. This is likely due to the fixes increasingly decoupling the treasure tile array ORDER from the treasure tile LOCATIONS. Some code relies on the order to be in the correct order, but growing complexity has meant decoupling it in some areas - causing problems.~~
     1. ~~'Empty' tile tokens are appearing in the dropped stacks of treasure from players.~~
     1. ~~Players pick up one treasure from a stack of treasure, rather than picking up the entire stack.~~
@@ -94,5 +96,4 @@ Some examples are:
     1. ~~Players are able to move past the last tile in the tile array, as though there were still treasure tiles there.~~
     1. ~~When moving to the end of the tile array, players do not currently 'sit' at the very end, but instead 'bounce' back.~~
     1. Probably more! 
-    1. More! When one player is already positioned at the end of the tile array, another can land on the end tile as well. 
 1. While using the game speed feature, player tile animations using the style={style} syntax aren't sped up, causing a lag between player tokens and potential player decisions. 

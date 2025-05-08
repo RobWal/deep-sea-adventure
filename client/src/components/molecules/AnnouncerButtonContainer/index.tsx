@@ -73,10 +73,6 @@ const AnnouncerButtonContainer = ({style}: any) => {
                                     };
                                 };
                             };
-                            // newTileArray.push({
-                            //     type: 0,
-                            //     location: appState.players[appState.currentPlayer].mapPosition,
-                            // });
                             appAction({
                                 type: ActionType.TREASURE_PICKUP_DECISION,
                                 payload: {

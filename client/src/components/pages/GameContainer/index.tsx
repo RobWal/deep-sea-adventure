@@ -228,13 +228,27 @@ const GameContainer = () => {
                 }
                 let totalPlacesToMove = (appState.dice[0] + appState.dice[1]) - appState.players[appState.currentPlayer].treasure.length;
                 let simulatedPlayerPosition = appState.players[appState.currentPlayer].mapPosition;
-                let reachedTheEndOfTheTiles = false;
                 if(appState.players[appState.currentPlayer].direction === 'forwards'){
                     // In the event that the player has more tiles in their inventory than pips on their movement dice,
                     // e.g. they roll a 2 and they have 3 treasures, this ensures they don't 'move backwards'. 
                     if(totalPlacesToMove < 0){
                         totalPlacesToMove = 0;
                     }
+                    // Check to see if there is a player at the end of the tile array. If there is, 
+                    // find the first empty location from the end of the tile array and place the player there. 
+                    // This also has the benefit of preventing an endless loop from ocurring due to the if check
+                    // in the for() loop below, that increases totalPlacesToMove if there's another player there. 
+
+                    // ************************************************************************************************
+                    // ********** WE'RE WORKING IN HERE, LOOK HERE, HALLLOOOO - THIS IS WHERE WE'RE FIXING A BUG ******
+                    // ************************************************************************************************
+                    let anybodyAtTheEnd = false;
+                    for(let i = 0; i < appState.players.length; i++){
+                        if(appState.players[i].mapPosition === appState.tiles[appState.tiles.length - 1].location){
+                            anybodyAtTheEnd = true;
+                            console.log(`We're in here!!`);
+                        };
+                    };
                     // Iterate the moving player through their steps, checking to see whether there's a player to 
                     // 'hop' over or not. If there is, increase the places to move by 1, else, move as normal. 
                     for(let i = 0; i < totalPlacesToMove; i++){
@@ -243,12 +257,9 @@ const GameContainer = () => {
                         if(playerMapPositions[simulatedPlayerPosition+1] !== undefined){
                             totalPlacesToMove++;
                         };
-                        // Check to see if the players simulated map position reaches the end of the tile array.
-                        if(simulatedPlayerPosition === appState.tilesArrayLength){
-                            reachedTheEndOfTheTiles = true;
-                        }
-                        // asdas
-                        else if(simulatedPlayerPosition !== appState.tilesArrayLength && reachedTheEndOfTheTiles === false){
+                        // Check to see if the players simulated map position reaches the end of the tile array. If not, 
+                        // increase the players simulated player position. 
+                        if(simulatedPlayerPosition !== appState.tilesArrayLength){
                             simulatedPlayerPosition++;
                         };
                     };
@@ -555,7 +566,11 @@ const GameContainer = () => {
                         for(let i = 0; i < player.treasure.length; i++){
                             individualPlayerDrownedTreasure.push(player.treasure[i]);
                         };
-                        newDrownedTreasuresArray.push(individualPlayerDrownedTreasure);
+                        // Do nothing if the drowned players array is empty.
+                        if(individualPlayerDrownedTreasure.length === 0){}
+                        else if(individualPlayerDrownedTreasure.length > 0){
+                            newDrownedTreasuresArray.push(individualPlayerDrownedTreasure);
+                        }
                     };
                 };
                 setTimeout(() => {
@@ -610,6 +625,7 @@ const GameContainer = () => {
                     };
                 };
                 // console.log(`\nWe're checking the players array before MOVE_DROWNED_PLAYERS_HOME: ${util.inspect(newPlayerArray, {showHidden: false, depth: null, colors: false})}`);
+                // console.log(`\nWe're checking the drownedPlayersTreasures array before MOVE_DROWNED_PLAYERS_HOME: ${util.inspect(newDrownedTreasuresArray, {showHidden: false, depth: null, colors: false})}`);
                 // console.log(`\nWe're checking the drownedPlayersTreasures array before MOVE_DROWNED_PLAYERS_HOME: ${util.inspect(newDrownedTreasuresArray, {showHidden: false, depth: null, colors: false})}`);
                 appAction({
                     type: ActionType.MOVE_DROWNED_PLAYERS_HOME,
