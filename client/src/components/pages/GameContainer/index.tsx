@@ -240,7 +240,8 @@ const GameContainer = () => {
                     // in the for() loop below, that increases totalPlacesToMove if there's another player there. 
 
                     // ************************************************************************************************
-                    // ********** WE'RE WORKING IN HERE, LOOK HERE, HALLLOOOO - THIS IS WHERE WE'RE FIXING A BUG ******
+                    // ****** WE'RE WORKING IN HERE, LOOK HERE, HALLLOOOO - THIS IS WHERE WE'RE FIXING THE BUG 
+                    // ****** THAT ALLOWS MULTIPLE PLAYERS TO LAND ON THE END TILE OF THE TILE ARRAY
                     // ************************************************************************************************
                     let anybodyAtTheEnd = false;
                     for(let i = 0; i < appState.players.length; i++){
@@ -423,11 +424,12 @@ const GameContainer = () => {
                                         iDOfTileToBeSpliced = newPlayerTreasureArray[i].id;
                                     } 
                                     // If tile[i] isn't type 1, but the treasureToBeDropped is empty, make it this treasure. 
-                                    else if(JSON.stringify(treasureToBeDropped) === "{}"){
+                                    else if(JSON.stringify(treasureToBeDropped) === "[]"){
                                         treasureToBeDropped[0] = newPlayerTreasureArray[i];
                                         iDOfTileToBeSpliced = newPlayerTreasureArray[i].id;
                                     }
-                                    else if(treasureToBeDropped.length !== undefined){
+                                    // 
+                                    else if(treasureToBeDropped.length !== 0){
                                         if(treasureToBeDropped[0].type > newPlayerTreasureArray[i].type){
                                             treasureToBeDropped[0] = newPlayerTreasureArray[i];
                                             iDOfTileToBeSpliced = newPlayerTreasureArray[i].id;
