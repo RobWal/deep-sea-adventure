@@ -1,5 +1,17 @@
 /*
 
+14/5/25 
+
+I just realised that the way I'm checking to see if there's someone on the last available tile in the tile array, won't work,
+as there can be multiple tiles in the tile array with the last available position. For example, if there is a tile stack of three
+at the end of the array, they will all have .location of 26 or something. This will cause errors. 
+
+I instead need to allocate the last available tile according to the place in the tile array, e.g. if there are 26 tiles, 
+and the last four tiles have .location of 21, the last position will be 26th, not 21. 
+
+No wait, that's all fine, it's EXACTLY WHY I'm doing it this way, because even if there are twenty tiles in location 15, 
+that is still just one location according to the game, and should not be distinguished as individual spaces. 
+
 24/3/25
 
 Drowned player treasures not assigning correctly - Alright, so looking at the code, the treasures are in the correct locations prior 

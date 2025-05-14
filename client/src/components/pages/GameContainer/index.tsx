@@ -225,7 +225,25 @@ const GameContainer = () => {
                 let playerMapPositions: PlayerMapPositions = {};
                 for(let i = 0; i < appState.players.length; i++){
                     playerMapPositions[appState.players[i].mapPosition] = appState.players[i].id;
-                }
+                };
+                
+                // The code below determines what the last available tile is for players to land on, to ensure that 
+                // players piling up at the end of the tile array do not stack on top of each other. 
+                let lastAvailableTilePosition = 0;
+                // Loop through the tile array from last to first.
+                for(let i = appState.tiles.length - 1; i > 0; i--){
+                    // While looping through the tile array backwards, if the location of the tile exists in the playerMapPositions 
+                    // array, i.e. there is someone there, it does not qualify as a valid 'lastAvailableTilePostion'.
+                    if(playerMapPositions[appState.tiles[i].location]){
+                        // Do nothing
+                    }
+                    // If the location of the tile in the tile array doesn't exist on the playerMapPositions hashmap,
+                    // this is a valid location for lastAvailableTilePosition. 
+                    else if(!playerMapPositions[appState.tiles[i].location]){
+                        lastAvailableTilePosition = appState.tiles[i].location;
+                        i -= 50;
+                    };
+                };
                 let totalPlacesToMove = (appState.dice[0] + appState.dice[1]) - appState.players[appState.currentPlayer].treasure.length;
                 let simulatedPlayerPosition = appState.players[appState.currentPlayer].mapPosition;
                 if(appState.players[appState.currentPlayer].direction === 'forwards'){
@@ -234,34 +252,68 @@ const GameContainer = () => {
                     if(totalPlacesToMove < 0){
                         totalPlacesToMove = 0;
                     }
-                    // Check to see if there is a player at the end of the tile array. If there is, 
-                    // find the first empty location from the end of the tile array and place the player there. 
-                    // This also has the benefit of preventing an endless loop from ocurring due to the if check
-                    // in the for() loop below, that increases totalPlacesToMove if there's another player there. 
+                    if(totalPlacesToMove > 0){
 
-                    // ************************************************************************************************
-                    // ****** WE'RE WORKING IN HERE, LOOK HERE, HALLLOOOO - THIS IS WHERE WE'RE FIXING THE BUG 
-                    // ****** THAT ALLOWS MULTIPLE PLAYERS TO LAND ON THE END TILE OF THE TILE ARRAY
-                    // ************************************************************************************************
-                    let anybodyAtTheEnd = false;
-                    for(let i = 0; i < appState.players.length; i++){
-                        if(appState.players[i].mapPosition === appState.tiles[appState.tiles.length - 1].location){
-                            anybodyAtTheEnd = true;
-                            console.log(`We're in here!!`);
-                        };
-                    };
-                    // Iterate the moving player through their steps, checking to see whether there's a player to 
-                    // 'hop' over or not. If there is, increase the places to move by 1, else, move as normal. 
-                    for(let i = 0; i < totalPlacesToMove; i++){
-                        // Check to see if the next simulated step is a tile occupied by a player. If so, increase 
-                        // their move count by one. 
-                        if(playerMapPositions[simulatedPlayerPosition+1] !== undefined){
-                            totalPlacesToMove++;
-                        };
-                        // Check to see if the players simulated map position reaches the end of the tile array. If not, 
-                        // increase the players simulated player position. 
-                        if(simulatedPlayerPosition !== appState.tilesArrayLength){
-                            simulatedPlayerPosition++;
+                        // **********************************************************************
+                        // ***** This code is outdated - We no longer fine whether or not someone is at the end of the array. 
+                        // ***** We instead find the last unoccupied tile as per the block of code above. 
+                        // **********************************************************************
+                        // // Check to see if there is a player (other than the current player) at the end of the tile array. 
+                        // let anybodyAtTheEnd = false;
+                        // for(let i = 0; i < appState.players.length; i++){
+                        //     if(appState.players[i].mapPosition === appState.tiles[appState.tiles.length - 1].location){
+                        //         // Do nothing if the player who is on the last tile is the current player.
+                        //         if(appState.players[i].id === appState.players[appState.currentPlayer].id){
+                        //         }
+                        //         // If the player at the end ISN'T the current player, set anybodyAtTheEnd to true.
+                        //         else if(appState.players[i].id !== appState.players[appState.currentPlayer].id){
+                        //             anybodyAtTheEnd = true;
+                        //         }
+                        //     };
+                        // };
+
+                        // Iterate the moving player through their steps, checking to see whether there's a player to 
+                        // 'hop' over or not. If there is, increase the places to move by 1, else, move as normal. 
+                        for(let i = 0; i < totalPlacesToMove; i++){
+                            // Check to see if the position of the player is > or < the location of the last available
+                            // tile in the tile array. 
+
+                            // If the player is further along in the tile array than the last available tile,
+                            // do not move them anywhere. 
+                            // This is most likely to be the case if the player is either occupying the last tile space,
+                            // or is part of a line of players at the end of the tile array. 
+                            if(simulatedPlayerPosition >= lastAvailableTilePosition){
+                                // Break the loop by increasing i by 10, and do nothing
+                                i += 10; 
+                            }
+                            // Check to see if the next simiulated step is a tile occupied by a player. IF NOT, increase
+                            // their simulatedPlayerPosition by one. 
+                            else if(playerMapPositions[simulatedPlayerPosition+1] === undefined){
+                                simulatedPlayerPosition++;
+                            }
+                            // Check to see if the next simulated step is a tile occupied by a player. IF SO, increase 
+                            // their move count by one, and their simulatedPlayerPosition by one. 
+                            else if(playerMapPositions[simulatedPlayerPosition+1] !== undefined){
+                                totalPlacesToMove++;
+                                simulatedPlayerPosition++;
+                            };
+
+                            
+
+                            // **********************************************************************
+                            // ***** This code is outdated - We no longer fine whether or not someone is at the end of the array. 
+                            // ***** We instead find the last unoccupied tile. 
+                            // **********************************************************************
+                            // // Check to see if the players simulated map position reaches the end of the tile array. If not, 
+                            // // increase the players simulated player position. 
+                            // if(simulatedPlayerPosition !== appState.tiles[appState.tilesArrayLength - 1].location){
+                            //     simulatedPlayerPosition++;
+                            // };
+                            // // If there is a player at the end of the tiles, and the player is going to land on it, find the 
+                            // // last unoccupied tile to land on, excluding the player themselves. 
+                            // if(anybodyAtTheEnd === true && simulatedPlayerPosition === appState.tiles[appState.tilesArrayLength - 1].location){
+                                
+                            // };
                         };
                     };
                     appAction({
