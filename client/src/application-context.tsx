@@ -283,7 +283,7 @@ export const DefaultGameState: GameState = {
     tiles: tileGenerator(),
     tilesArrayLength: 32,
     remainingOxygen: 25,
-    gameSpeed: 5,
+    gameSpeed: 2,
     returnedPlayerIDs: [],
     drownedPlayersTreasures: [],
     farthestFromTheSub: 0,

@@ -110,8 +110,8 @@ const GameContainer = () => {
         // This small section is used to give necessary information for troubleshooting, to prevent clogging of more important
         // sections. 
 
-        // if(appState.currentStep ===  'end_of_round_adjustments' || appState.currentStep ===  'remove_empty_tile_locations' || appState.currentStep ===  'move_drowned_players_home' || appState.currentStep ===  'clean_up_the_drowned'){
-        if(appState.currentStep ===  'direction_logic'){
+        // if(appState.currentStep === 'remove_empty_tile_locations' || appState.currentStep ===  'move_drowned_players_home' || appState.currentStep ===  'direction_logic'){
+        // if(appState.currentStep ===  'direction_logic'){
             // console.log(`\n\nThe appState.currentStep is: ${appState.currentStep}`);
             // for(let i = 0; i < appState.players.length; i++){
             //     console.log(`${appState.players[i].name}'s tiles are: `);
@@ -122,10 +122,10 @@ const GameContainer = () => {
             // console.log(`The appState.tiles are: `);
             // console.log(util.inspect(appState.tiles, {showHidden: false, depth: null, colors: false}));
             // console.log(`The appState is: `);
-            // console.log(util.inspect(appState, {showHidden: false, depth: null, colors: false}));
-        }
+            console.log(util.inspect(appState, {showHidden: false, depth: null, colors: false}));
+        // }
 
-        if(appState.currentStep === 'direction_logic' || appState.currentStep === 'end_of_round_adjustments'){
+        if(appState.currentStep === 'direction_logic' || appState.currentStep === 'end_of_round_adjustments' && appState.currentRound !== 4){
             setTimeout(() => {
                 if(appState.players[appState.currentPlayer].direction === 'backwards'){
                     appAction({
@@ -595,7 +595,13 @@ const GameContainer = () => {
                     setAnnouncerInnerText(`Everyone made it back!`);
                 };
                 setTimeout(() => {
-                    setAnnouncerInnerText(`Let's prepare the board for round ${appState.currentRound+1}!`);
+                    // If it is currently round 3, we don't need to prepare for round 4. 
+                    if(appState.currentRound === 3){
+                        // Do nothing
+                    }
+                    else if(appState.currentRound !== 3){
+                        setAnnouncerInnerText(`Let's prepare the board for round ${appState.currentRound+1}!`);
+                    };
                     appAction({
                         type: ActionType.CLEAN_UP_THE_DROWNED,
                     });
@@ -773,7 +779,6 @@ const GameContainer = () => {
             setTimeout(() => {
                 // Iterate through the appState.tiles array, to figure out the length of the new array to be updated
                 // for the new round. 
-
                 let newTileArrayLength = 0;
                 for(let i = 0; i < appState.tiles.length; i++){
                     if(appState.tiles[i].location === 1){
@@ -788,77 +793,87 @@ const GameContainer = () => {
                 const newCurrentRound = appState.currentRound + 1;
                 // Make a deep clone of the appState.players array, to iterate through, shuffling who is first until
                 // the player who is first, is the player who was the furthest from the submarine. 
-                const reorderedPlayersArray =  JSON.parse(JSON.stringify(appState.players));
-                if(appState.returnedPlayerIDs.length < appState.players.length){
-                    while(reorderedPlayersArray[0].id !== appState.farthestFromTheSub){
-                        reorderedPlayersArray.unshift(reorderedPlayersArray[reorderedPlayersArray.length-1]);
-                        reorderedPlayersArray.pop();
+                // This doesn't need to run if the newCurrentRound is 4. 
+                if(newCurrentRound !== 4){
+                    const reorderedPlayersArray =  JSON.parse(JSON.stringify(appState.players));
+                    if(appState.returnedPlayerIDs.length < appState.players.length){
+                        while(reorderedPlayersArray[0].id !== appState.farthestFromTheSub){
+                            reorderedPlayersArray.unshift(reorderedPlayersArray[reorderedPlayersArray.length-1]);
+                            reorderedPlayersArray.pop();
+                        };
+                        setAnnouncerInnerText(`${reorderedPlayersArray[0].name} is going first this round!`);
                     };
-                    setAnnouncerInnerText(`${reorderedPlayersArray[0].name} is going first this round!`);
+                    // Loop through the reorderedPlayersArray and set everybody's direction to 'forwards'. 
+                    for(const player of reorderedPlayersArray){
+                        player.direction = 'forwards';
+                    };
+                    // Submit the changes made to the players array, update the currentRound, and the tilesArrayLength.
+                    appAction({
+                        type: ActionType.END_OF_ROUND_ADJUSTMENTS,
+                        payload: {
+                            reorderedPlayersArray: reorderedPlayersArray,
+                            currentRound: newCurrentRound,
+                            tilesArrayLength: newTileArrayLength,
+                        }
+                    });
                 }
-
-                // Loop through the reorderedPlayersArray and set everybody's direction to 'forwards'. 
-                for(const player of reorderedPlayersArray){
-                    player.direction = 'forwards';
+                else if(newCurrentRound === 4){
+                    setAnnouncerInnerText(`That was the final round!!`);
+                    appAction({
+                        type: ActionType.END_OF_ROUND_ADJUSTMENTS,
+                        payload: {
+                            reorderedPlayersArray: appState.players,
+                            currentRound: newCurrentRound,
+                            tilesArrayLength: newTileArrayLength,
+                        }
+                    });
                 };
-
-                // Submit the changes made to the players array, update the currentRound, and the tilesArrayLength.
-                appAction({
-                    type: ActionType.END_OF_ROUND_ADJUSTMENTS,
-                    payload: {
-                        reorderedPlayersArray: reorderedPlayersArray,
-                        currentRound: newCurrentRound,
-                        tilesArrayLength: newTileArrayLength,
-                    }
-                });
             }, 2000/gameSpeed);
         };
 
-        // THIS IS CURRENTLY COMMENTED OUT TO TRY AND IMPLEMENT A THREE ROUND GAME. AN ADJUSTED COPY OF THIS OLD CODE IS BEING USED ABOVE FOR THE EXTRA ROUNDS FEATURE.  
-        // THE CODE BELOW CAN BE USED LATER WHEN DETERMINING WHO WON AT THE END OF THE GAME.
-
-        // if(appState.currentStep === 'end_of_round'){
-        //     setAnnouncerInnerText(`The round is over!`);
-        //     // This setTimeout allows 'The round is over!' to briefly display before moving on
-        //     setTimeout(() => {
-        //         setAnnouncerInnerText(`Calculating who won the round!`);
-        //         // 'roundHighScore' is used to determined who won in a single round version of the game.
-        //         let roundHighScore = 0;
-        //         // 'roundWinner' allows us to assign the highest scorer as the winner in a single round version of the game.
-        //         let roundWinner = '';
-        //         // Loop through the players in the game. 
-        //         for(let i = 0; i < appState.players.length; i++){
-        //             // If the player made it back to the submarine.
-        //             if(appState.players[i].mapPosition === 0){
-        //                 // 'newPlayerScore' acts as a place to store the total points of each player as we loop through the player array.
-        //                 let newPlayerScore = appState.players[i].score;
-        //                 // Loop through the loops current players current tokens and add it to their score. 
-        //                 appState.players[i].treasure.forEach((item) => {
-        //                     newPlayerScore += item.value;
-        //                 })
-        //                 // Check if the loops current player beats the high score, if so, make it the high score. 
-        //                 if(newPlayerScore > roundHighScore){
-        //                     roundHighScore = newPlayerScore;
-        //                     roundWinner = `${appState.players[i].name}`;
-        //                 } else if (newPlayerScore === roundHighScore && roundHighScore !== 0){
-        //                     roundWinner += ` and ${appState.players[i].name}`;
-        //                 }
-        //                 // TALLY_SCORES triggers for each player in the player array, with the playerToUpdate communicating
-        //                 // which is the correct player to update. 
-        //                 appAction({
-        //                     type: ActionType.TALLY_SCORES,
-        //                     payload: {
-        //                         newPlayerScore: newPlayerScore,
-        //                         playerToUpdate: i,
-        //                     }
-        //                 })
-        //             }
-        //         }
-        //         setTimeout(() => {
-        //             setAnnouncerInnerText(`${roundWinner} won the round!`);
-        //         }, 2000/gameSpeed)
-        //     }, 2000/gameSpeed)
-        // };
+        if(appState.currentStep === 'end_of_round_adjustments' && appState.currentRound === 4){
+            setAnnouncerInnerText(`Let's see the treasures!`);
+            // This setTimeout allows 'The round is over!' to briefly display before moving on
+            setTimeout(() => {
+                setAnnouncerInnerText(`But who won the game..`);
+                // 'roundHighScore' is used to determined who won in a single round version of the game.
+                let roundHighScore = 0;
+                // 'roundWinner' allows us to assign the highest scorer as the winner in a single round version of the game.
+                let roundWinner = '';
+                // Loop through the players in the game. 
+                for(let i = 0; i < appState.players.length; i++){
+                    // If the player made it back to the submarine.
+                    if(appState.players[i].mapPosition === 0){
+                        // 'newPlayerScore' acts as a place to store the total points of each player as we loop through the player array.
+                        let newPlayerScore = appState.players[i].score;
+                        // Loop through the loops current players current tokens and add it to their score. 
+                        appState.players[i].securedTreasure.forEach((item) => {
+                            newPlayerScore += item.value;
+                        })
+                        // Check if the loops current player beats the high score, if so, make it the high score. 
+                        if(newPlayerScore > roundHighScore){
+                            roundHighScore = newPlayerScore;
+                            roundWinner = `${appState.players[i].name}`;
+                        } else if (newPlayerScore === roundHighScore && roundHighScore !== 0){
+                            roundWinner += ` and ${appState.players[i].name}`;
+                        }
+                        // TALLY_SCORES triggers for each player in the player array, with the playerToUpdate communicating
+                        // which is the correct player to update. 
+                        appAction({
+                            type: ActionType.TALLY_SCORES,
+                            payload: {
+                                newPlayerScore: newPlayerScore,
+                                playerToUpdate: i,
+                            }
+                        })
+                    }
+                }
+                setTimeout(() => {
+                    setAnnouncerInnerText(`${roundWinner} won the game!`);
+                }, 3000/gameSpeed)
+            }, 3000/gameSpeed)
+            console.log(util.inspect(appState, {showHidden: false, depth: null, colors: false}));
+        };
     }, [appState.currentStep]);
 
     return (
