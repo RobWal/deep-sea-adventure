@@ -655,7 +655,8 @@ const GameContainer = () => {
                 }, 2000/gameSpeed);
             };
             // Deep clone the appState.players array, in order to set everyones mapPosition = 0, to update the appState.
-            // This is also used to set the direction for each player back to 'forwards' for the beginning of a new round. 
+            // This is also used to set the direction for each player back to 'forwards' for the beginning of a new round, 
+            // as well as resetting their treasurePickups to 0 for the new round. 
             setTimeout(() => {
                 let newPlayerArray = JSON.parse(JSON.stringify(appState.players));
                 // console.log(`\nWe're checking the players array at the start of the setTimeout() before MOVE_DROWNED_PLAYERS_HOME: ${util.inspect(newPlayerArray, {showHidden: false, depth: null, colors: false})}`);
@@ -667,7 +668,7 @@ const GameContainer = () => {
                         for(let j = 0; j < newPlayerArray[i].treasure.length; j++){
                             newPlayerArray[i].treasure.splice(j, 1);
                             j--;
-                        }
+                        };
                     } 
                     // Here is where we're moving player treasure from the treasure[] to securedTreasure[]. Because we're already looping
                     // through the players array above, we can then loop through the players treasure array and push it to securedTreasure[].
@@ -678,6 +679,8 @@ const GameContainer = () => {
                             j--;
                         };
                     };
+                    // Reset the players treasurePickups to 0 
+                    newPlayerArray[i].treasurePickups = 0;
                 };
                 // console.log(`\nWe're checking the players array before MOVE_DROWNED_PLAYERS_HOME: ${util.inspect(newPlayerArray, {showHidden: false, depth: null, colors: false})}`);
                 // console.log(`\nWe're checking the drownedPlayersTreasures array before MOVE_DROWNED_PLAYERS_HOME: ${util.inspect(newDrownedTreasuresArray, {showHidden: false, depth: null, colors: false})}`);
