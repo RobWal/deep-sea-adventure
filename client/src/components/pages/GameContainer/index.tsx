@@ -142,7 +142,9 @@ const GameContainer = () => {
                             direction: 'backwards',
                         }
                     })
-                } else if (appState.players[appState.currentPlayer].direction === 'forwards'){
+                } 
+                else if (appState.players[appState.currentPlayer].direction === 'forwards'){
+                    // Below is the logic for the human player (player one)
                     if(appState.players[appState.currentPlayer].id === 1){
                         if(appState.players[appState.currentPlayer].mapPosition !== 0){
                             setAnnouncerInnerText('') 
@@ -156,7 +158,10 @@ const GameContainer = () => {
                                 }
                             })
                         }
-                    } else if (appState.players[appState.currentPlayer].id !== 1){
+                    } 
+                    // Below is the logic for bot players
+                    else if (appState.players[appState.currentPlayer].id !== 1){
+                        // If the bot is already home, do nothing
                         if(appState.players[appState.currentPlayer].mapPosition === 0){
                             setAnnouncerInnerText('')
                             appAction({
@@ -166,8 +171,10 @@ const GameContainer = () => {
                                     currentPlayer: appState.currentPlayer,
                                 }
                             })
-                        } else if (appState.players[appState.currentPlayer].mapPosition !== 0){
-                            setAnnouncerInnerText(`${appState.players[appState.currentPlayer].name} is deciding whether to turn back!`);
+                        } 
+                        // If the bot is not in the submarine..
+                        else if (appState.players[appState.currentPlayer].mapPosition !== 0){
+                            // setAnnouncerInnerText(`${appState.players[appState.currentPlayer].name} is deciding whether to turn back!`);
                             setTimeout(() => {
                                 let totalTreasuresOwned = 0;
                                 appState.players.forEach((player) => {
@@ -183,9 +190,16 @@ const GameContainer = () => {
                                 let turnsRequiredToGetHome = appState.players[appState.currentPlayer].mapPosition / currentPlayersAverageMovement;
                                 let  playerDecision = '';
                                 if(turnsRequiredToGetHome > approximateRoundsLeft){
-                                    playerDecision = 'backwards'
-                                } else {
-                                    playerDecision = 'forwards'
+                                    playerDecision = 'backwards';
+                                    setTimeout(() => {
+                                        setAnnouncerInnerText(`${appState.players[appState.currentPlayer].name} is going back!`);
+                                    }, 2000/gameSpeed);
+                                } 
+                                else {
+                                    playerDecision = 'forwards';
+                                    setTimeout(() => {
+                                        setAnnouncerInnerText(`${appState.players[appState.currentPlayer].name} is going deeper!`);
+                                    }, 2000/gameSpeed);
                                 }
                                 appAction({
                                     type: ActionType.DEEPER_OR_BACK,
