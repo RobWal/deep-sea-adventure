@@ -24,7 +24,7 @@ import TreasureThree from "./components/atoms/VisualAssets/TreasureThree";
 import TreasureThreeInventory from "./components/atoms/VisualAssets/TreasureThreeInventory";
 import TreasureTwo from "./components/atoms/VisualAssets/TreasureTwo";
 import TreasureTwoInventory from "./components/atoms/VisualAssets/TreasureTwoInventory";
-import { deflateSync } from "zlib";
+// import { deflateSync } from "zlib";
 // util allows us to read nested objects in the console in a user friendly way, i.e. instead of '[object Object]', it will log '{Tiles:[type:1, value:2]}'.
 const util = require('util');
 
@@ -219,7 +219,7 @@ export interface Players {
     mapPosition: number,
     treasure: any[],
     securedTreasure: any[],
-    // lostTreasure: any[],
+    treasurePickups: number,
     score: number,
     settings: {},
     color: string,
@@ -241,7 +241,7 @@ export const playerGenerator = (totalPlayers: number) => {
             mapPosition: 0,
             treasure: [],
             securedTreasure: [],
-            // lostTreasure: [],
+            treasurePickups: 0,
             score: 0,
             settings: {},
             color: botColorArray[colorArrayIndex],
@@ -283,7 +283,7 @@ export const DefaultGameState: GameState = {
     tiles: tileGenerator(),
     tilesArrayLength: 32,
     remainingOxygen: 25,
-    gameSpeed: 1,
+    gameSpeed: 4,
     returnedPlayerIDs: [],
     drownedPlayersTreasures: [],
     farthestFromTheSub: 0,
@@ -565,7 +565,7 @@ export const GameContextReducer: Reducer<
                     mapPosition: 0,
                     treasure: [],
                     securedTreasure: [],
-                    // lostTreasure: [],
+                    treasurePickups: 0,
                     score: 0,
                     settings: {},
                     color: '#FFFFFF',
@@ -624,7 +624,8 @@ export const GameContextReducer: Reducer<
             let updatedTreasurePlayersPickup = [...state.players];
             updatedTreasurePlayersPickup[action.payload.currentPlayer] = {
                 ...updatedTreasurePlayersPickup[action.payload.currentPlayer],
-                treasure: action.payload.newPlayerTreasureArray,                
+                treasure: action.payload.newPlayerTreasureArray,
+                treasurePickups: updatedTreasurePlayersPickup[action.payload.currentPlayer].treasurePickups + 1,
             }
             return {
                 ...state,
@@ -641,7 +642,8 @@ export const GameContextReducer: Reducer<
             let updatedTreasurePlayersDrop = [...state.players];
             updatedTreasurePlayersDrop[action.payload.currentPlayer] = {
                 ...updatedTreasurePlayersDrop[action.payload.currentPlayer],
-                treasure: action.payload.newPlayerTreasureArray,                
+                treasure: action.payload.newPlayerTreasureArray,
+                treasurePickups: updatedTreasurePlayersDrop[action.payload.currentPlayer].treasurePickups - 1,
             }
             return {
                 ...state,

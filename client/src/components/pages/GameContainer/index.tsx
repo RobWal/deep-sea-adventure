@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from 'react';
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 import AnnouncerMessage from '../../atoms/AnnouncerMessage';
 import OxygenSubmarine from '../../atoms/VisualAssets/OxygenSubmarine';
 import DiceContainer from '../../molecules/DiceContainer';
@@ -8,8 +8,8 @@ import './GameContainer.css'
 import {
     ActionType,
     GameContext,
-    GameContextReducer,
-    DefaultGameState,
+    // GameContextReducer,
+    // DefaultGameState,
     oxygenTokenLocations
 } from "../../../application-context";
 import ScoreBoardContainer from '../../organisms/ScoreBoardContainer';
@@ -38,7 +38,7 @@ const GameContainer = () => {
     const [whoGoesFirstVisibility, setWhoGoesFirstVisibility] = useState(true);
     const [tealOverlayVisibility, setTealOverlayVisibility] = useState(true);
     const [announcerInnerText, setAnnouncerInnerText] = useState("");
-    let navigate = useNavigate();
+    // let navigate = useNavigate();
     const gameSpeed = appState.gameSpeed;
     const soundUrl = bubbleClickSFX;
     const [play] = useSound(soundUrl, { playbackRate: 1.0});
@@ -87,10 +87,17 @@ const GameContainer = () => {
             appState.returnedPlayerIDs.forEach((id) => {
                 if(id === appState.players[appState.currentPlayer].id){
                     isPlayerInSub = true;
-                }
-            })
+                };
+            });
+
+            // *********************************************
+            // ******* We need to alter the way move speed is calculated, not by the amount of tiles in the player inventory, but 
+            // ******* by the amount of treasure 'pickups' the player has done, i.e. the amount of times the player has picked
+            // ******* up treasure. The same thing needs to be done for oxygen. 
+            // *********************************************
+                
             if(!isPlayerInSub){
-                let newOxygenLevel =  (appState.remainingOxygen) - appState.players[appState.currentPlayer].treasure.length;
+                let newOxygenLevel =  (appState.remainingOxygen) - appState.players[appState.currentPlayer].treasurePickups;
                 if(newOxygenLevel < 0) {
                     newOxygenLevel = 0;
                 };
@@ -125,7 +132,7 @@ const GameContainer = () => {
             console.log(util.inspect(appState, {showHidden: false, depth: null, colors: false}));
         // }
 
-        if(appState.currentStep === 'direction_logic' || appState.currentStep === 'end_of_round_adjustments' && appState.currentRound !== 4){
+        if(appState.currentStep === 'direction_logic' || (appState.currentStep === 'end_of_round_adjustments' && appState.currentRound !== 4)){
             setTimeout(() => {
                 if(appState.players[appState.currentPlayer].direction === 'backwards'){
                     appAction({
@@ -244,7 +251,14 @@ const GameContainer = () => {
                         i -= 50;
                     };
                 };
-                let totalPlacesToMove = (appState.dice[0] + appState.dice[1]) - appState.players[appState.currentPlayer].treasure.length;
+
+                // *********************************************
+                // ******* We need to alter the way move speed is calculated, not by the amount of tiles in the player inventory, but 
+                // ******* by the amount of treasure 'pickups' the player has done, i.e. the amount of times the player has picked
+                // ******* up treasure. The same thing needs to be done for oxygen. 
+                // *********************************************
+                
+                let totalPlacesToMove = (appState.dice[0] + appState.dice[1]) - appState.players[appState.currentPlayer].treasurePickups;
                 let simulatedPlayerPosition = appState.players[appState.currentPlayer].mapPosition;
                 if(appState.players[appState.currentPlayer].direction === 'forwards'){
                     // In the event that the player has more tiles in their inventory than pips on their movement dice,
@@ -253,25 +267,6 @@ const GameContainer = () => {
                         totalPlacesToMove = 0;
                     }
                     if(totalPlacesToMove > 0){
-
-                        // **********************************************************************
-                        // ***** This code is outdated - We no longer fine whether or not someone is at the end of the array. 
-                        // ***** We instead find the last unoccupied tile as per the block of code above. 
-                        // **********************************************************************
-                        // // Check to see if there is a player (other than the current player) at the end of the tile array. 
-                        // let anybodyAtTheEnd = false;
-                        // for(let i = 0; i < appState.players.length; i++){
-                        //     if(appState.players[i].mapPosition === appState.tiles[appState.tiles.length - 1].location){
-                        //         // Do nothing if the player who is on the last tile is the current player.
-                        //         if(appState.players[i].id === appState.players[appState.currentPlayer].id){
-                        //         }
-                        //         // If the player at the end ISN'T the current player, set anybodyAtTheEnd to true.
-                        //         else if(appState.players[i].id !== appState.players[appState.currentPlayer].id){
-                        //             anybodyAtTheEnd = true;
-                        //         }
-                        //     };
-                        // };
-
                         // Iterate the moving player through their steps, checking to see whether there's a player to 
                         // 'hop' over or not. If there is, increase the places to move by 1, else, move as normal. 
                         for(let i = 0; i < totalPlacesToMove; i++){

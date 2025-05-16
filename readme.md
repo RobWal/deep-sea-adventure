@@ -61,7 +61,8 @@ Some examples are:
 -   Utilising react JSX components in a dynamic way to populate the UI depending on the useContext
 
 # What I'm working towards now.
-1. Add a way for the player to either navigate back to the home screen, or play another game with the same name. 
+1. Add a way for the player to either navigate back to the home screen, or play another game with the same name.
+1. ~~It turns out that treasure tile stacks are supposed to count as one tile, for the purposes of calculated oxygen depletion, and move speed. It looks like that's taking priority!~~ 
 1. ~~Add an end-of-game section to the game.~~
 1. ~~Fix the game-breaking bugs introduced by a second and third round.~~
     1. ~~Fix the bug that spreads out treasure that has been dropped in rounds 1 & 2.~~ 
