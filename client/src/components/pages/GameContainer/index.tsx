@@ -191,15 +191,15 @@ const GameContainer = () => {
                                 let  playerDecision = '';
                                 if(turnsRequiredToGetHome > approximateRoundsLeft){
                                     playerDecision = 'backwards';
-                                    setTimeout(() => {
+                                    // setTimeout(() => {
                                         setAnnouncerInnerText(`${appState.players[appState.currentPlayer].name} is going back!`);
-                                    }, 2000/gameSpeed);
+                                    // }, 2000/gameSpeed);
                                 } 
                                 else {
                                     playerDecision = 'forwards';
-                                    setTimeout(() => {
+                                    // setTimeout(() => {
                                         setAnnouncerInnerText(`${appState.players[appState.currentPlayer].name} is going deeper!`);
-                                    }, 2000/gameSpeed);
+                                    // }, 2000/gameSpeed);
                                 }
                                 appAction({
                                     type: ActionType.DEEPER_OR_BACK,
@@ -219,12 +219,14 @@ const GameContainer = () => {
             if(appState.players[appState.currentPlayer].id === 1){
                 setAnnouncerInnerText('') 
             } else if(appState.players[appState.currentPlayer].id !== 1){
-                        setAnnouncerInnerText(`${appState.players[appState.currentPlayer].name} is rolling!`);
+                setTimeout(() => {
+                    setAnnouncerInnerText(`${appState.players[appState.currentPlayer].name} is rolling!`);
+                }, 2000/gameSpeed);  
                 setTimeout(() => {
                     appAction({
                         type: ActionType.ROLL_DICE,
                     })
-                }, 2000/gameSpeed);
+                }, 4000/gameSpeed);
             }
         };
 
