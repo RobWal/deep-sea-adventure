@@ -2,8 +2,10 @@ import React, { Reducer } from "react";
 import NoTreasure from "./components/atoms/VisualAssets/NoTreasure";
 import TreasureFour from "./components/atoms/VisualAssets/TreasureFour";
 import TreasureFourInventory from "./components/atoms/VisualAssets/TreasureFourInventory";
+import SecuredTreasureFourInventory from "./components/atoms/VisualAssets/SecuredTreasureFourInventory";
 import TreasureOne from "./components/atoms/VisualAssets/TreasureOne";
 import TreasureOneInventory from "./components/atoms/VisualAssets/TreasureOneInventory";
+import SecuredTreasureOneInventory from "./components/atoms/VisualAssets/SecuredTreasureOneInventory";
 import TreasurePointEight from "./components/atoms/VisualAssets/TreasurePointEight";
 import TreasurePointEleven from "./components/atoms/VisualAssets/TreasurePointEleven";
 import TreasurePointFifteen from "./components/atoms/VisualAssets/TreasurePointFifteen";
@@ -22,8 +24,10 @@ import TreasurePointTwo from "./components/atoms/VisualAssets/TreasurePointTwo";
 import TreasurePointZero from "./components/atoms/VisualAssets/TreasurePointZero";
 import TreasureThree from "./components/atoms/VisualAssets/TreasureThree";
 import TreasureThreeInventory from "./components/atoms/VisualAssets/TreasureThreeInventory";
+import SecuredTreasureThreeInventory from "./components/atoms/VisualAssets/SecuredTreasureThreeInventory";
 import TreasureTwo from "./components/atoms/VisualAssets/TreasureTwo";
 import TreasureTwoInventory from "./components/atoms/VisualAssets/TreasureTwoInventory";
+import SecuredTreasureTwoInventory from "./components/atoms/VisualAssets/SecuredTreasureTwoInventory";
 // import { deflateSync } from "zlib";
 // util allows us to read nested objects in the console in a user friendly way, i.e. instead of '[object Object]', it will log '{Tiles:[type:1, value:2]}'.
 const util = require('util');
@@ -146,7 +150,18 @@ export const inventoryTileTypes: TileTypes = {
     2: <TreasureTwoInventory />,
     3: <TreasureThreeInventory />,
     4: <TreasureFourInventory />,
+    5: <SecuredTreasureOneInventory />,
+    6: <SecuredTreasureTwoInventory />,
+    7: <SecuredTreasureThreeInventory />,
+    8: <SecuredTreasureFourInventory />,
 }
+
+// export const securedInventoryTileTypes: TileTypes = {
+//     1: <TreasureOneInventory />,
+//     2: <TreasureTwoInventory />,
+//     3: <TreasureThreeInventory />,
+//     4: <TreasureFourInventory />,
+// }
 
 export const shownInventoryTileTypes: TileTypes = {
     0: <TreasurePointZero />,

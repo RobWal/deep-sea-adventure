@@ -152,14 +152,14 @@ const AnnouncerButtonContainer = ({style}: any) => {
                             })
                         }}/> 
                         <TwoChoicesButton style={{}} text={'Do nothing!'} onClickFunction={()=>{
-                        appAction({
-                            type: ActionType.TREASURE_LEAVE_DECISION})}}/>
+                            appAction({type: ActionType.TREASURE_LEAVE_DECISION})}}
+                        />
                     </div>
                     :
                     <TwoChoicesButton style={{}} text={'Do nothing!'} onClickFunction={()=>{
-                    
-                    appAction({
-                        type: ActionType.TREASURE_LEAVE_DECISION})}}/>}
+                        appAction({type: ActionType.TREASURE_LEAVE_DECISION})}}
+                    />
+                }
             </div>
         )
     }

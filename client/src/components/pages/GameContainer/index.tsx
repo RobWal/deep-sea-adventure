@@ -129,7 +129,7 @@ const GameContainer = () => {
             // console.log(`The appState.tiles are: `);
             // console.log(util.inspect(appState.tiles, {showHidden: false, depth: null, colors: false}));
             // console.log(`The appState is: `);
-            console.log(util.inspect(appState, {showHidden: false, depth: null, colors: false}));
+            // console.log(util.inspect(appState, {showHidden: false, depth: null, colors: false}));
         // }
 
         if(appState.currentStep === 'direction_logic' || (appState.currentStep === 'end_of_round_adjustments' && appState.currentRound !== 4)){
@@ -675,7 +675,6 @@ const GameContainer = () => {
             // as well as resetting their treasurePickups to 0 for the new round. 
             setTimeout(() => {
                 let newPlayerArray = JSON.parse(JSON.stringify(appState.players));
-                // console.log(`\nWe're checking the players array at the start of the setTimeout() before MOVE_DROWNED_PLAYERS_HOME: ${util.inspect(newPlayerArray, {showHidden: false, depth: null, colors: false})}`);
                 for(let i = 0; i < newPlayerArray.length; i ++){
                     if(newPlayerArray[i].mapPosition !== 0){
                         newPlayerArray[i].mapPosition = 0;
@@ -688,8 +687,11 @@ const GameContainer = () => {
                     } 
                     // Here is where we're moving player treasure from the treasure[] to securedTreasure[]. Because we're already looping
                     // through the players array above, we can then loop through the players treasure array and push it to securedTreasure[].
-                    else {
+                    else if(newPlayerArray[i].mapPosition === 0){
                         for(let j = 0; j < newPlayerArray[i].treasure.length; j++){
+                            // The line below ensures that the treasure being transitioned from .treasure to .securedTreasure in the 
+                            // player array, becomes the 'securedTreasure' type. 
+                            newPlayerArray[i].treasure[j].type += 4;
                             newPlayerArray[i].securedTreasure.push(newPlayerArray[i].treasure[j]);
                             newPlayerArray[i].treasure.splice(j, 1);
                             j--;
@@ -698,9 +700,6 @@ const GameContainer = () => {
                     // Reset the players treasurePickups to 0 
                     newPlayerArray[i].treasurePickups = 0;
                 };
-                // console.log(`\nWe're checking the players array before MOVE_DROWNED_PLAYERS_HOME: ${util.inspect(newPlayerArray, {showHidden: false, depth: null, colors: false})}`);
-                // console.log(`\nWe're checking the drownedPlayersTreasures array before MOVE_DROWNED_PLAYERS_HOME: ${util.inspect(newDrownedTreasuresArray, {showHidden: false, depth: null, colors: false})}`);
-                // console.log(`\nWe're checking the drownedPlayersTreasures array before MOVE_DROWNED_PLAYERS_HOME: ${util.inspect(newDrownedTreasuresArray, {showHidden: false, depth: null, colors: false})}`);
                 appAction({
                     type: ActionType.MOVE_DROWNED_PLAYERS_HOME,
                     payload: {
