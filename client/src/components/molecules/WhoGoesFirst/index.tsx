@@ -38,7 +38,7 @@ const WhoGoesFirst = ({hidden}: any) => {
             setTimeout(() => {
                 setDisplayWhoGoesFirst(true);
                 shufflePlayers(arrayForShuffling);
-            }, 5000/gameSpeed)
+            }, 2500/gameSpeed)
         };
     }, [])
     if(hidden){

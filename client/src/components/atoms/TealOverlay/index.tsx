@@ -24,8 +24,6 @@ const TealOverlay = ({hidden}: any) => {
         })
     }
 
-
-
     if(hidden){
         return (<></>)
     } else {

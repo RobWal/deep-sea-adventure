@@ -28,6 +28,9 @@ import bubbleClickSFX from '../../sfx/bubbleClick.mp3';
 
 // util allows us to read nested objects in the console in a user friendly way, i.e. instead of '[object Object]', it will log '{Tiles:[type:1, value:2]}'.
 const util = require('util');
+// INCREDIBLY HELPFUL CODE TO LET ME SEE THE ENTIRE APPSTATE IN A CONSOLE LOG. 
+// console.log(util.inspect(appState, {showHidden: false, depth: null, colors: false}));
+        
 
 export interface PlayerMapPositions {
     [index: number]: number
@@ -63,7 +66,7 @@ const GameContainer = () => {
             setTimeout(() => {
                 setWhoGoesFirstVisibility(false);
                 setTealOverlayVisibility(false);
-            }, 2000/gameSpeed);
+            }, 1000/gameSpeed);
             setTimeout(() => {
                 setWhoGoesFirstVisibility(true);
                 setTealOverlayVisibility(true);
@@ -71,13 +74,11 @@ const GameContainer = () => {
                 appAction({
                     type: ActionType.START_GAME
                 });
-            }, 7000/gameSpeed)
+            }, 4000/gameSpeed)
         }
     }, [appState.currentStep]);
 
     useEffect(() => {
-        // INCREDIBLY HELPFUL CODE TO LET ME SEE THE ENTIRE APPSTATE IN A CONSOLE LOG. 
-        // console.log(util.inspect(appState, {showHidden: false, depth: null, colors: false}));
         if(appState.currentPlayer === -1) { 
             setAnnouncerInnerText('') 
         };
@@ -89,13 +90,7 @@ const GameContainer = () => {
                     isPlayerInSub = true;
                 };
             });
-
-            // *********************************************
-            // ******* We need to alter the way move speed is calculated, not by the amount of tiles in the player inventory, but 
-            // ******* by the amount of treasure 'pickups' the player has done, i.e. the amount of times the player has picked
-            // ******* up treasure. The same thing needs to be done for oxygen. 
-            // *********************************************
-                
+    
             if(!isPlayerInSub){
                 let newOxygenLevel =  (appState.remainingOxygen) - appState.players[appState.currentPlayer].treasurePickups;
                 if(newOxygenLevel < 0) {
@@ -208,11 +203,11 @@ const GameContainer = () => {
                                         direction: playerDecision,
                                     }
                                 })
-                            }, 2000/gameSpeed);
+                            }, 500/gameSpeed);
                         }
                     }
                 }
-            }, 2000/gameSpeed);
+            }, 1500/gameSpeed);
         };
 
         if(appState.currentStep === 'rolling'){
@@ -221,12 +216,12 @@ const GameContainer = () => {
             } else if(appState.players[appState.currentPlayer].id !== 1){
                 setTimeout(() => {
                     setAnnouncerInnerText(`${appState.players[appState.currentPlayer].name} is rolling!`);
-                }, 2000/gameSpeed);  
+                }, 1000/gameSpeed);  
                 setTimeout(() => {
                     appAction({
                         type: ActionType.ROLL_DICE,
                     })
-                }, 4000/gameSpeed);
+                }, 1500/gameSpeed);
             }
         };
 
@@ -237,8 +232,8 @@ const GameContainer = () => {
                     appAction({
                         type: ActionType.SHOW_DICE_RESULTS,
                     })
-                }, 2000/gameSpeed);
-            }, 2000/gameSpeed);
+                }, 500/gameSpeed);
+            }, 500/gameSpeed);
         };
         
         if(appState.currentStep === 'moving'){
@@ -267,12 +262,6 @@ const GameContainer = () => {
                         i -= 50;
                     };
                 };
-
-                // *********************************************
-                // ******* We need to alter the way move speed is calculated, not by the amount of tiles in the player inventory, but 
-                // ******* by the amount of treasure 'pickups' the player has done, i.e. the amount of times the player has picked
-                // ******* up treasure. The same thing needs to be done for oxygen. 
-                // *********************************************
                 
                 let totalPlacesToMove = (appState.dice[0] + appState.dice[1]) - appState.players[appState.currentPlayer].treasurePickups;
                 let simulatedPlayerPosition = appState.players[appState.currentPlayer].mapPosition;
@@ -308,23 +297,6 @@ const GameContainer = () => {
                                 totalPlacesToMove++;
                                 simulatedPlayerPosition++;
                             };
-
-                            
-
-                            // **********************************************************************
-                            // ***** This code is outdated - We no longer fine whether or not someone is at the end of the array. 
-                            // ***** We instead find the last unoccupied tile. 
-                            // **********************************************************************
-                            // // Check to see if the players simulated map position reaches the end of the tile array. If not, 
-                            // // increase the players simulated player position. 
-                            // if(simulatedPlayerPosition !== appState.tiles[appState.tilesArrayLength - 1].location){
-                            //     simulatedPlayerPosition++;
-                            // };
-                            // // If there is a player at the end of the tiles, and the player is going to land on it, find the 
-                            // // last unoccupied tile to land on, excluding the player themselves. 
-                            // if(anybodyAtTheEnd === true && simulatedPlayerPosition === appState.tiles[appState.tilesArrayLength - 1].location){
-                                
-                            // };
                         };
                     };
                     appAction({
@@ -358,7 +330,7 @@ const GameContainer = () => {
                     })
                 }
                 playerMapPositions = {100: 100};
-            }, 2000/gameSpeed);
+            }, 1000/gameSpeed);
         };
         
         if(appState.currentStep === 'moved'){
@@ -541,7 +513,7 @@ const GameContainer = () => {
                         }
                     }
                 }
-            }, 2000/gameSpeed)
+            }, 1000/gameSpeed)
         }
         
         if(appState.currentStep === 'decided_leave_treasure' || appState.currentStep === 'decided_pickup_treasure' || appState.currentStep === 'decided_drop_treasure' || appState.currentStep === 'player_got_back'){
@@ -569,7 +541,7 @@ const GameContainer = () => {
                         type: ActionType.NEXT_PLAYER_LOGIC
                     })
                 }
-            }, 2000/gameSpeed);
+            }, 1000/gameSpeed);
         };
 
         if(appState.currentStep === 'next_player_logic'){
@@ -885,7 +857,7 @@ const GameContainer = () => {
                     setAnnouncerInnerText(`${roundWinner} won the game!`);
                 }, 3000/gameSpeed)
             }, 3000/gameSpeed)
-            console.log(util.inspect(appState, {showHidden: false, depth: null, colors: false}));
+            // console.log(util.inspect(appState, {showHidden: false, depth: null, colors: false}));
         };
     }, [appState.currentStep]);
 
@@ -903,6 +875,7 @@ const GameContainer = () => {
             {(appState.currentStep === 'direction_logic' && appState.players[appState.currentPlayer].id === 1 && appState.players[appState.currentPlayer].mapPosition !== 0 && appState.players[appState.currentPlayer].direction === 'forwards') ? <ForwardsOrBackwardsContainer /> : <></>}
             {(appState.currentStep === 'rolling' || appState.currentStep === 'next_players_turn') && appState.players[appState.currentPlayer].id === 1 ? <RollTheDiceContainer /> : <></>}
             {appState.currentStep === 'moved' && appState.players[appState.currentPlayer].id === 1 && appState.players[appState.currentPlayer].mapPosition !== 0? <PickupTreasureContainer /> : <></>}
+            
             <TealOverlay hidden={tealOverlayVisibility} />
             <WhoGoesFirst hidden={whoGoesFirstVisibility} /> 
         </div>

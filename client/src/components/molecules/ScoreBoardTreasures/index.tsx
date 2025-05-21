@@ -49,7 +49,6 @@ const ScoreBoardTreasures = ({playerId}: any) => {
     // If it is the end of the round, display the value of the tokens. 
     // This code displays the values of the tiles by changing 'inventoryTileTypes[tile.type] to shownInventoryTileTypes[tile.value]
     else if(playerId !== undefined && appState.currentStep === 'end_of_round_adjustments' && appState.currentRound === 4){
-        console.log(`We're trying to display the treasures`);
         return (
             <div className='score-board-treasures'>
                 {appState.players[playerId].securedTreasure.map((tile: Tile, index) => {

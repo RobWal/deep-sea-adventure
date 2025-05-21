@@ -156,13 +156,6 @@ export const inventoryTileTypes: TileTypes = {
     8: <SecuredTreasureFourInventory />,
 }
 
-// export const securedInventoryTileTypes: TileTypes = {
-//     1: <TreasureOneInventory />,
-//     2: <TreasureTwoInventory />,
-//     3: <TreasureThreeInventory />,
-//     4: <TreasureFourInventory />,
-// }
-
 export const shownInventoryTileTypes: TileTypes = {
     0: <TreasurePointZero />,
     1: <TreasurePointOne />,
@@ -298,7 +291,7 @@ export const DefaultGameState: GameState = {
     tiles: tileGenerator(),
     tilesArrayLength: 32,
     remainingOxygen: 25,
-    gameSpeed: 2.5,
+    gameSpeed: 1,
     returnedPlayerIDs: [],
     drownedPlayersTreasures: [],
     farthestFromTheSub: 0,
