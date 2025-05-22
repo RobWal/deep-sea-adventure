@@ -25,6 +25,7 @@ import PickupTreasureContainer from '../../molecules/PickupTreasureContainer';
 import ForwardsOrBackwardsContainer from '../../molecules/ForwardsOrBackwardsContainer';
 import useSound from 'use-sound';
 import bubbleClickSFX from '../../sfx/bubbleClick.mp3';
+import TealOverlayEndGame from '../../atoms/TealOverlayEndGame';
 
 // util allows us to read nested objects in the console in a user friendly way, i.e. instead of '[object Object]', it will log '{Tiles:[type:1, value:2]}'.
 const util = require('util');
@@ -40,6 +41,7 @@ const GameContainer = () => {
     const [appState, appAction] = useContext(GameContext);
     const [whoGoesFirstVisibility, setWhoGoesFirstVisibility] = useState(true);
     const [tealOverlayVisibility, setTealOverlayVisibility] = useState(true);
+    const [tealOverlayEndGameStyle, setTealOverlayEndGameStyle] = useState('teal-overlay-end-game-invisible');
     const [announcerInnerText, setAnnouncerInnerText] = useState("");
     // let navigate = useNavigate();
     const gameSpeed = appState.gameSpeed;
@@ -82,7 +84,7 @@ const GameContainer = () => {
         if(appState.currentPlayer === -1) { 
             setAnnouncerInnerText('') 
         };
-        // This code checks to see if a player is in the submarine.
+
         if(appState.currentStep === 'is_player_in_sub'){
             let isPlayerInSub = false;
             appState.returnedPlayerIDs.forEach((id) => {
@@ -108,24 +110,6 @@ const GameContainer = () => {
                 })
             }
         };
-
-        // This small section is used to give necessary information for troubleshooting, to prevent clogging of more important
-        // sections. 
-
-        // if(appState.currentStep === 'remove_empty_tile_locations' || appState.currentStep ===  'move_drowned_players_home' || appState.currentStep ===  'direction_logic'){
-        // if(appState.currentStep ===  'direction_logic'){
-            // console.log(`\n\nThe appState.currentStep is: ${appState.currentStep}`);
-            // for(let i = 0; i < appState.players.length; i++){
-            //     console.log(`${appState.players[i].name}'s tiles are: `);
-            //     console.log(`Treasure: \n${util.inspect(appState.players[i].treasure, {showHidden: false, depth: null, colors: false})}`);
-            //     console.log(`Secured Treasure: \n${util.inspect(appState.players[i].securedTreasure, {showHidden: false, depth: null, colors: false})}`);
-            // }
-            // console.log(`The tilesArrayLength is: ${appState.tilesArrayLength}`);
-            // console.log(`The appState.tiles are: `);
-            // console.log(util.inspect(appState.tiles, {showHidden: false, depth: null, colors: false}));
-            // console.log(`The appState is: `);
-            // console.log(util.inspect(appState, {showHidden: false, depth: null, colors: false}));
-        // }
 
         if(appState.currentStep === 'direction_logic' || (appState.currentStep === 'end_of_round_adjustments' && appState.currentRound !== 4)){
             setTimeout(() => {
@@ -780,84 +764,90 @@ const GameContainer = () => {
                 // the player who is first, is the player who was the furthest from the submarine. 
                 // This doesn't need to run if the newCurrentRound is 4. 
                 if(newCurrentRound !== 4){
-                    const reorderedPlayersArray =  JSON.parse(JSON.stringify(appState.players));
-                    if(appState.returnedPlayerIDs.length < appState.players.length){
-                        while(reorderedPlayersArray[0].id !== appState.farthestFromTheSub){
-                            reorderedPlayersArray.unshift(reorderedPlayersArray[reorderedPlayersArray.length-1]);
-                            reorderedPlayersArray.pop();
+                        const reorderedPlayersArray =  JSON.parse(JSON.stringify(appState.players));
+                        if(appState.returnedPlayerIDs.length < appState.players.length){
+                            while(reorderedPlayersArray[0].id !== appState.farthestFromTheSub){
+                                reorderedPlayersArray.unshift(reorderedPlayersArray[reorderedPlayersArray.length-1]);
+                                reorderedPlayersArray.pop();
+                            };
+                            setAnnouncerInnerText(`${reorderedPlayersArray[0].name} is going first this round!`);
                         };
-                        setAnnouncerInnerText(`${reorderedPlayersArray[0].name} is going first this round!`);
-                    };
-                    // Loop through the reorderedPlayersArray and set everybody's direction to 'forwards'. 
-                    for(const player of reorderedPlayersArray){
-                        player.direction = 'forwards';
-                    };
-                    // Submit the changes made to the players array, update the currentRound, and the tilesArrayLength.
-                    appAction({
-                        type: ActionType.END_OF_ROUND_ADJUSTMENTS,
-                        payload: {
-                            reorderedPlayersArray: reorderedPlayersArray,
-                            currentRound: newCurrentRound,
-                            tilesArrayLength: newTileArrayLength,
-                        }
-                    });
+                        // Loop through the reorderedPlayersArray and set everybody's direction to 'forwards'. 
+                        for(const player of reorderedPlayersArray){
+                            player.direction = 'forwards';
+                        };
+                        // Submit the changes made to the players array, update the currentRound, and the tilesArrayLength.
+                        appAction({
+                            type: ActionType.END_OF_ROUND_ADJUSTMENTS,
+                            payload: {
+                                reorderedPlayersArray: reorderedPlayersArray,
+                                currentRound: newCurrentRound,
+                                tilesArrayLength: newTileArrayLength,
+                            }
+                        });
                 }
                 else if(newCurrentRound === 4){
-                    setAnnouncerInnerText(`That was the final round!!`);
-                    appAction({
-                        type: ActionType.END_OF_ROUND_ADJUSTMENTS,
-                        payload: {
-                            reorderedPlayersArray: appState.players,
-                            currentRound: newCurrentRound,
-                            tilesArrayLength: newTileArrayLength,
-                        }
-                    });
+                        setAnnouncerInnerText(`That was the final round!!`);
+                        appAction({
+                            type: ActionType.END_OF_ROUND_ADJUSTMENTS,
+                            payload: {
+                                reorderedPlayersArray: appState.players,
+                                currentRound: newCurrentRound,
+                                tilesArrayLength: newTileArrayLength,
+                            }
+                        });
                 };
             }, 2000/gameSpeed);
         };
 
         if(appState.currentStep === 'end_of_round_adjustments' && appState.currentRound === 4){
-            setAnnouncerInnerText(`Let's see the treasures!`);
-            // This setTimeout allows 'The round is over!' to briefly display before moving on
             setTimeout(() => {
-                setAnnouncerInnerText(`But who won the game..`);
-                // 'roundHighScore' is used to determined who won in a single round version of the game.
-                let roundHighScore = 0;
-                // 'roundWinner' allows us to assign the highest scorer as the winner in a single round version of the game.
-                let roundWinner = '';
-                // Loop through the players in the game. 
-                for(let i = 0; i < appState.players.length; i++){
-                    // If the player made it back to the submarine.
-                    if(appState.players[i].mapPosition === 0){
-                        // 'newPlayerScore' acts as a place to store the total points of each player as we loop through the player array.
-                        let newPlayerScore = appState.players[i].score;
-                        // Loop through the loops current players current tokens and add it to their score. 
-                        appState.players[i].securedTreasure.forEach((item) => {
-                            newPlayerScore += item.value;
-                        })
-                        // Check if the loops current player beats the high score, if so, make it the high score. 
-                        if(newPlayerScore > roundHighScore){
-                            roundHighScore = newPlayerScore;
-                            roundWinner = `${appState.players[i].name}`;
-                        } else if (newPlayerScore === roundHighScore && roundHighScore !== 0){
-                            roundWinner += ` and ${appState.players[i].name}`;
-                        }
-                        // TALLY_SCORES triggers for each player in the player array, with the playerToUpdate communicating
-                        // which is the correct player to update. 
-                        appAction({
-                            type: ActionType.TALLY_SCORES,
-                            payload: {
-                                newPlayerScore: newPlayerScore,
-                                playerToUpdate: i,
-                            }
-                        })
-                    }
-                }
+                setAnnouncerInnerText(`Let's see the treasures!`);
+                // This setTimeout allows 'The round is over!' to briefly display before moving on
                 setTimeout(() => {
-                    setAnnouncerInnerText(`${roundWinner} won the game!`);
+                    setAnnouncerInnerText(`But who won the game..`);
+                    // 'roundHighScore' is used to determined who won in a single round version of the game.
+                    let roundHighScore = 0;
+                    // 'roundWinner' allows us to assign the highest scorer as the winner in a single round version of the game.
+                    let roundWinner = '';
+                    // Loop through the players in the game. 
+                    for(let i = 0; i < appState.players.length; i++){
+                        // If the player made it back to the submarine.
+                        if(appState.players[i].mapPosition === 0){
+                            // 'newPlayerScore' acts as a place to store the total points of each player as we loop through the player array.
+                            let newPlayerScore = appState.players[i].score;
+                            // Loop through the loops current players current tokens and add it to their score. 
+                            appState.players[i].securedTreasure.forEach((item) => {
+                                newPlayerScore += item.value;
+                            })
+                            // Check if the loops current player beats the high score, if so, make it the high score. 
+                            if(newPlayerScore > roundHighScore){
+                                roundHighScore = newPlayerScore;
+                                roundWinner = `${appState.players[i].name}`;
+                            } else if (newPlayerScore === roundHighScore && roundHighScore !== 0){
+                                roundWinner += ` and ${appState.players[i].name}`;
+                            }
+                            // TALLY_SCORES triggers for each player in the player array, with the playerToUpdate communicating
+                            // which is the correct player to update. 
+                            appAction({
+                                type: ActionType.TALLY_SCORES,
+                                payload: {
+                                    newPlayerScore: newPlayerScore,
+                                    playerToUpdate: i,
+                                }
+                            })
+                        }
+                    }
+                    setTimeout(() => {
+                        setAnnouncerInnerText(`${roundWinner} won the game!`);
+                    }, 3000/gameSpeed)
                 }, 3000/gameSpeed)
-            }, 3000/gameSpeed)
-            // console.log(util.inspect(appState, {showHidden: false, depth: null, colors: false}));
+            }, 2000/gameSpeed)
+        };
+        if(appState.currentStep === 'tally_scores'){
+            setTimeout(() => {
+                setTealOverlayEndGameStyle('teal-overlay-end-game-visible');
+            }, 4500/gameSpeed)
         };
     }, [appState.currentStep]);
 
@@ -866,7 +856,6 @@ const GameContainer = () => {
             <TileLayout />
             <PlayerTokens />
             <EscapeButton buttonFunction={handleEscapeButtonSubmit} style={{position: 'absolute', top: '15px', right: '0px'}}/>
-            {/* <HelpButton buttonFunction={handleLoadButtonSubmit} style={{position: 'absolute', top:'5px', right:'245px', margin:'15px', zIndex:'1'}}/> */}
             <LoadButton buttonFunction={handleHelpButtonSubmit} style={{position: 'absolute', top: '15px', right: '50px'}}/>
             <OxygenSubmarine style={{position: 'absolute', top: '20px', left: '500px'}}/>
             <OxygenMarker style={{position: 'absolute', top: oxygenTokenLocations[appState.remainingOxygen].top, left: oxygenTokenLocations[appState.remainingOxygen].left}}/>
@@ -878,6 +867,7 @@ const GameContainer = () => {
             
             <TealOverlay hidden={tealOverlayVisibility} />
             <WhoGoesFirst hidden={whoGoesFirstVisibility} /> 
+            <TealOverlayEndGame className={tealOverlayEndGameStyle} />
         </div>
     )
 }

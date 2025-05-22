@@ -750,6 +750,7 @@ export const GameContextReducer: Reducer<
             return {
                 ...state,
                 players: updatedScorePlayers,
+                currentStep: 'tally_scores',
         }
     }
 };

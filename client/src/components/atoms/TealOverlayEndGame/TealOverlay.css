@@ -1,0 +1,17 @@
+.teal-overlay-end-game-invisible {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    background-color: #2ad2c5;
+    opacity: 0%;
+    transition-duration: 2s;
+}
+
+.teal-overlay-end-game-visible {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    background-color: #2ad2c5;
+    opacity: 60%;
+    transition-duration: 2s;
+}
