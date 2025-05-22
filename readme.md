@@ -62,7 +62,7 @@ Some examples are:
 
 # What I'm working towards now.
 1. ~~Display secured treasure tiles in a way that distinguishes them from treasure tiles picked up this round.~~**
-    1. **Caveat - The current visual distinction (being slightly smaller) is a placeholder for the intended long term solution, to have a colour tint. 
+    1.~~**Caveat - The current visual distinction (being slightly smaller) is a placeholder for the intended long term solution, to have a colour tint.~~
 1. ~~Display treasure tile stacks in a way that allows players to see what's there, instead of all lumped on top of each other making it difficult, if not impossible.~~
 1. Add a way for the player to either navigate back to the home screen, or play another game with the same name.
 1. ~~It turns out that treasure tile stacks are supposed to count as one tile, for the purposes of calculated oxygen depletion, and move speed. It looks like that's taking priority!~~ 
