@@ -1,11 +1,49 @@
-.teal-overlay-visible {
+.teal-overlay-name-players-container-visible {
     top: 0px;
     width: 100%;
     height: 100%;
     position: absolute;
     background-color: #2ad2c5;
     opacity: 60%;
-    transition-duration: 1s;
+    /* transition-duration: 1s; */
+    /* z-index: 1; */
+    animation: namePlayersContainerVisibility 1s;
+}
+
+@keyframes namePlayersContainerVisibility {
+    0% {top: 0px; opacity: 0%}
+    40% {top: 0px; opacity: 60%}
+    100% {top: 0px; opacity: 60%}
+}
+
+.teal-overlay-name-players-container-invisible {
+    top: -730px;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    background-color: #2ad2c5;
+    opacity: 0%;
+    animation: namePlayersContainerInvisibility 1s;
+    /* transition-duration: 1s; */
+    /* z-index: -1; */
+}
+
+@keyframes namePlayersContainerInvisibility {
+    0% {top: 0px; opacity: 60%}
+    40% {top: 0px; opacity: 0%}
+    100% {top: 0px; opacity: 0%}
+}
+
+
+
+.teal-overlay-who-goes-first-visible {
+    top: 0px;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    background-color: #2ad2c5;
+    opacity: 60%;
+    /* transition-duration: 1s; */
     /* z-index: 1; */
     animation: whoGoesFirstVisibility 4.5s;
 }
@@ -19,13 +57,13 @@
     100% {top: -730px; opacity: 0%}
 }
 
-.teal-overlay-invisible {
+.teal-overlay-who-goes-first-invisible {
     top: -730px;
     width: 100%;
     height: 100%;
     position: absolute;
     background-color: #2ad2c5;
     opacity: 0%;
-    transition-duration: 1s;
+    /* transition-duration: 1s; */
     /* z-index: -1; */
 }

@@ -41,7 +41,7 @@ export interface PlayerMapPositions {
 const GameContainer = () => {
     const [appState, appAction] = useContext(GameContext);
     // const [whoGoesFirstVisibility, setWhoGoesFirstVisibility] = useState(true);
-    const [tealOverlayClassName, setTealOverlayClassName] = useState('teal-overlay-invisible');
+    const [tealOverlayWhoGoesFirstClassName, setTealOverlayWhoGoesFirstClassName] = useState('teal-overlay-who-goes-first-invisible');
     const [tealOverlayEndGameClassName, setTealOverlayEndGameClassName] = useState('teal-overlay-end-game-invisible');
     const [whoGoesFirstTestingClassName, setWhoGoesFirstTestingClassName] = useState('who-goes-first-TESTING-invisible');
     const [announcerInnerText, setAnnouncerInnerText] = useState("");
@@ -71,13 +71,13 @@ const GameContainer = () => {
                 // setWhoGoesFirstVisibility(false);
                 // setTealOverlayVisibility(false);
                 setWhoGoesFirstTestingClassName('who-goes-first-TESTING-visible');
-                setTealOverlayClassName('teal-overlay-visible');
+                setTealOverlayWhoGoesFirstClassName('teal-overlay-who-goes-first-visible');
             }, 1000/gameSpeed);
             setTimeout(() => {
                 // setWhoGoesFirstVisibility(true);
                 // setTealOverlayVisibility(true);
                 setWhoGoesFirstTestingClassName('who-goes-first-TESTING-invisible');
-                setTealOverlayClassName('teal-overlay-invisible');
+                setTealOverlayWhoGoesFirstClassName('teal-overlay-who-goes-first-invisible');
                 // This sets appState.currentRound: 1, currentPlayer: 0, and currentStep: 'rolling'. 
                 appAction({
                     type: ActionType.START_GAME
@@ -881,7 +881,7 @@ const GameContainer = () => {
             TealOverlayEndGame, you can allow for smooth transitions and repositions by adding class specific names. 
 
             */}
-            <TealOverlay className={tealOverlayClassName} />
+            <TealOverlay className={tealOverlayWhoGoesFirstClassName} />
             <WhoGoesFirstTESTING className={whoGoesFirstTestingClassName} /> 
             {/* <WhoGoesFirst hidden={whoGoesFirstVisibility} />  */}
             {/* <TealOverlayEndGame className={tealOverlayEndGameClassName} /> */}

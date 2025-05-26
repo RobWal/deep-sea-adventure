@@ -17,10 +17,13 @@ import './HomeScreen.css';
 import useSound from 'use-sound';
 import bubbleClickSFX from '../../sfx/bubbleClick.mp3';
 
+
 const HomeScreen = () => {
     const [appState, appAction] = useContext(GameContext);
     const soundUrl = bubbleClickSFX;
     const [play] = useSound(soundUrl, { playbackRate: 1.0});
+    const [tealOverlayHomescreenClassName, setTealOverlayHomescreenClassName] = useState('teal-overlay-name-players-container-invisible');
+    const [namePlayersContainerClassName, setNamePlayersContainerClassName] = useState('name-players-container-invisible');
 
     const playAudio = () => {
         const newPlaybackRate = 0.5 + Math.random();
@@ -29,6 +32,8 @@ const HomeScreen = () => {
 
     const selectNamePlayers = () => {        
         if(appState.currentStep === 'returnToHomeScreen'){
+            setNamePlayersContainerClassName('name-players-container-visible')
+            setTealOverlayHomescreenClassName('teal-overlay-name-players-container-visible');
             playAudio();
             appAction({
                 type: ActionType.SELECT_NAME_PLAYERS,
@@ -37,6 +42,25 @@ const HomeScreen = () => {
             //Currently does nothing
         };
     };
+
+    const handleTealOverlayClick = () => {
+        setNamePlayersContainerClassName('name-players-container-invisible')
+        setTealOverlayHomescreenClassName('teal-overlay-name-players-container-invisible');
+        playAudio();
+        appAction({
+            type: ActionType.RETURN_TO_HOMESCREEN
+        })
+    }
+
+    const handleEscapeButtonSubmit = () => {
+        console.log(`We're clicking the escape button.`);
+        setNamePlayersContainerClassName('name-players-container-invisible')
+        setTealOverlayHomescreenClassName('teal-overlay-name-players-container-invisible');
+        playAudio();
+        appAction({
+            type: ActionType.HOMESCREEN_HELP_BUTTON
+        })
+    }
 
     return (
         <div>
@@ -63,9 +87,12 @@ const HomeScreen = () => {
                     <TreasureFour style={{position: 'absolute', top: '450px', left: '330px'}}/>
                 </div>
                 
+                <TealOverlay className={tealOverlayHomescreenClassName} onClickFunction={handleTealOverlayClick} />
+                <NamePlayersContainer className={namePlayersContainerClassName} escapeButtonFunction={handleEscapeButtonSubmit}/>
+
                 {/* TEST CODE #2 TO COMBINE THE CURRENTSTEP CHECKS USING NESTED TERNARY OPERATORS - */}
-                {appState.currentStep === 'selectNamePlayers' ? <TealOverlay /> : appState.currentStep === 'homescreenHelpButton' ? <TealOverlay /> : <></>}
-                {appState.currentStep === 'selectNamePlayers' ? <NamePlayersContainer /> : appState.currentStep === 'homescreenHelpButton' ? <NamePlayersContainer /> : <></>}
+                {/* {appState.currentStep === 'selectNamePlayers' ? <TealOverlay className={tealOverlayHomescreenClassName} onClickFunction={handleTealClick}/> : appState.currentStep === 'homescreenHelpButton' ? <TealOverlay className={tealOverlayHomescreenClassName} onClickFunction={handleTealClick}/> : <TealOverlay className={tealOverlayHomescreenClassName} onClickFunction={handleTealClick}/>} */}
+                {/* {appState.currentStep === 'selectNamePlayers' ? <NamePlayersContainer /> : appState.currentStep === 'homescreenHelpButton' ? <NamePlayersContainer /> : <></>} */}
 
                 {/* ALTERNATIVE CODE THAT WORKS TO SHOW <TEALOVERLAY/> AND <NAMEPLAYERSCONTAINER/> */}
                 {/* {appState.currentStep === 'selectNamePlayers' ? <TealOverlay /> : <></>}

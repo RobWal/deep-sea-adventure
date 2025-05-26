@@ -19,7 +19,7 @@ import bubbleClickSFX from '../../sfx/bubbleClick.mp3';
 const util = require('util');
 
 
-const NamePlayersContainer = () => {
+const NamePlayersContainer = ({className, escapeButtonFunction}: any) => {
     let navigate = useNavigate();
     const [appState, appAction] = useContext(GameContext);
     const soundUrl = bubbleClickSFX;
@@ -30,12 +30,12 @@ const NamePlayersContainer = () => {
         play({ playbackRate: newPlaybackRate});
     };
 
-    const handleEscapeButtonSubmit = () => {
-        playAudio();
-        appAction({
-            type: ActionType.RETURN_TO_HOMESCREEN
-        })
-    }
+    // const handleEscapeButtonSubmit = () => {
+    //     playAudio();
+    //     appAction({
+    //         type: ActionType.RETURN_TO_HOMESCREEN
+    //     })
+    // }
 
     // This is a function for a temporary button, to test and see if we can load the game state from Local Storage. 
     const handleLoadButtonSubmit = () => {
@@ -98,13 +98,13 @@ const NamePlayersContainer = () => {
 
     return (
         <div>
-            <div className='name-players-container'>
+            <div className={className}>
                 <HelpButton buttonFunction={handleHelpButtonSubmit} style={{position: 'absolute', top:'15px', right:'15px', margin:'15px', zIndex:'1'}}/>
-                <EscapeButton buttonFunction={handleEscapeButtonSubmit} style={{position: 'absolute', top:'15px', left:'15px', margin:'15px', zIndex:'1'}}/>
+                <EscapeButton buttonFunction={escapeButtonFunction} style={{position: 'absolute', top:'15px', left:'15px', margin:'15px', zIndex:'1'}}/>
                 <NameForm setTotalPlayers={setTotalPlayers} addUser={addNewUser} beginPrestart={beginPrestart} style={{position: 'absolute', top:'50px'}}/>
                 <LoadButton buttonFunction={handleLoadButtonSubmit} style={{position: 'absolute', top:'5px', right:'245px', margin:'15px', zIndex:'1'}}/>
             </div>
-        </div>
+         </div>
     )
 }
 
