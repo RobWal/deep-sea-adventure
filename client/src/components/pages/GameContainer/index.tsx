@@ -26,6 +26,7 @@ import ForwardsOrBackwardsContainer from '../../molecules/ForwardsOrBackwardsCon
 import useSound from 'use-sound';
 import bubbleClickSFX from '../../sfx/bubbleClick.mp3';
 import TealOverlayEndGame from '../../atoms/TealOverlayEndGame';
+import WhoGoesFirstTESTING from '../../molecules/WhoGoesFirstTESTING';
 
 // util allows us to read nested objects in the console in a user friendly way, i.e. instead of '[object Object]', it will log '{Tiles:[type:1, value:2]}'.
 const util = require('util');
@@ -39,9 +40,10 @@ export interface PlayerMapPositions {
 
 const GameContainer = () => {
     const [appState, appAction] = useContext(GameContext);
-    const [whoGoesFirstVisibility, setWhoGoesFirstVisibility] = useState(true);
-    const [tealOverlayVisibility, setTealOverlayVisibility] = useState(true);
-    const [tealOverlayEndGameStyle, setTealOverlayEndGameStyle] = useState('teal-overlay-end-game-invisible');
+    // const [whoGoesFirstVisibility, setWhoGoesFirstVisibility] = useState(true);
+    const [tealOverlayClassName, setTealOverlayClassName] = useState('teal-overlay-invisible');
+    const [tealOverlayEndGameClassName, setTealOverlayEndGameClassName] = useState('teal-overlay-end-game-invisible');
+    const [whoGoesFirstTestingClassName, setWhoGoesFirstTestingClassName] = useState('who-goes-first-TESTING-invisible');
     const [announcerInnerText, setAnnouncerInnerText] = useState("");
     // let navigate = useNavigate();
     const gameSpeed = appState.gameSpeed;
@@ -66,17 +68,21 @@ const GameContainer = () => {
     useEffect(() => {
         if(appState.currentStep === 'begin_prestart'){
             setTimeout(() => {
-                setWhoGoesFirstVisibility(false);
-                setTealOverlayVisibility(false);
+                // setWhoGoesFirstVisibility(false);
+                // setTealOverlayVisibility(false);
+                setWhoGoesFirstTestingClassName('who-goes-first-TESTING-visible');
+                setTealOverlayClassName('teal-overlay-visible');
             }, 1000/gameSpeed);
             setTimeout(() => {
-                setWhoGoesFirstVisibility(true);
-                setTealOverlayVisibility(true);
+                // setWhoGoesFirstVisibility(true);
+                // setTealOverlayVisibility(true);
+                setWhoGoesFirstTestingClassName('who-goes-first-TESTING-invisible');
+                setTealOverlayClassName('teal-overlay-invisible');
                 // This sets appState.currentRound: 1, currentPlayer: 0, and currentStep: 'rolling'. 
                 appAction({
                     type: ActionType.START_GAME
                 });
-            }, 4000/gameSpeed)
+            }, 5000/gameSpeed)
         }
     }, [appState.currentStep]);
 
@@ -669,11 +675,11 @@ const GameContainer = () => {
         };
 
         if(appState.currentStep === 'move_drowned_players_home'){
+            // console.log(`\nAppstate: ${util.inspect(appState, {showHidden: false, depth: null, colors: false})}`);
             setTimeout(() => {
                 // First, we're going to loop through the array to remove any tiles where type === 0. 
                 let currentTileLocation = 1;
                 let newTileArray = JSON.parse(JSON.stringify(appState.tiles));
-                // console.log(`\nWe're checking the newTileArray at the very start: ${util.inspect(newTileArray, {showHidden: false, depth: null, colors: false})}`);
                 for(let i = 0; i < newTileArray.length; i++){
                     // This variable allows us to track any stacks of tiles we loop through, 
                     // allowing us to tell the loop to skip past those tiles, by iterating 'i' that many times. 
@@ -846,7 +852,7 @@ const GameContainer = () => {
         };
         if(appState.currentStep === 'tally_scores'){
             setTimeout(() => {
-                setTealOverlayEndGameStyle('teal-overlay-end-game-visible');
+                setTealOverlayEndGameClassName('teal-overlay-end-game-visible');
             }, 4500/gameSpeed)
         };
     }, [appState.currentStep]);
@@ -865,9 +871,20 @@ const GameContainer = () => {
             {(appState.currentStep === 'rolling' || appState.currentStep === 'next_players_turn') && appState.players[appState.currentPlayer].id === 1 ? <RollTheDiceContainer /> : <></>}
             {appState.currentStep === 'moved' && appState.players[appState.currentPlayer].id === 1 && appState.players[appState.currentPlayer].mapPosition !== 0? <PickupTreasureContainer /> : <></>}
             
-            <TealOverlay hidden={tealOverlayVisibility} />
-            <WhoGoesFirst hidden={whoGoesFirstVisibility} /> 
-            <TealOverlayEndGame className={tealOverlayEndGameStyle} />
+            {/* 
+            
+            The two components below are using hidden as a variable, as opposed to TealOverlayEndgame using className 
+            to provide the same functionality, by editing visibility in the CSS classname more directly. 
+            
+            There is an important distinction between the two methods, namely, the former doesn't allow for smooth transitions
+            due to the way it simply renders or does not render the component. By having it always rendered, as is the case with 
+            TealOverlayEndGame, you can allow for smooth transitions and repositions by adding class specific names. 
+
+            */}
+            <TealOverlay className={tealOverlayClassName} />
+            <WhoGoesFirstTESTING className={whoGoesFirstTestingClassName} /> 
+            {/* <WhoGoesFirst hidden={whoGoesFirstVisibility} />  */}
+            {/* <TealOverlayEndGame className={tealOverlayEndGameClassName} /> */}
         </div>
     )
 }

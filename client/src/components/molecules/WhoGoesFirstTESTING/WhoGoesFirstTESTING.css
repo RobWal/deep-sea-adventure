@@ -1,0 +1,49 @@
+.who-goes-first-TESTING-visible {
+    position: absolute;
+    /* top: 170px; */
+    left: 350px;
+    width: 550px;
+    height: 370px;
+    background-color: #004489;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /* transition-duration: 1s; */
+    /* opacity: 0%; */
+    animation: dropDownAndShow 4.5s; 
+    /* z-index: 1; */
+}
+
+@keyframes dropDownAndShow {
+    0% {top: -730px; opacity: 0%}
+    5% {top: 170px; opacity: 0%}
+    15% {top: 170px; opacity: 100%}
+    85% {top: 170px; opacity: 100%}
+    95% {top: 170px; opacity: 0%}
+    100% {top: -730px; opacity: 0%}
+}
+
+
+.who-goes-first-TESTING-invisible {
+    position: absolute;
+    top: -730px;
+    left: 350px;
+    width: 550px;
+    height: 370px;
+    background-color: #004489;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    opacity: 0%;
+}
+
+.player-tokens-container {
+    width: 400px;
+    height: 60px;
+    margin: 50px 0 0 0;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}

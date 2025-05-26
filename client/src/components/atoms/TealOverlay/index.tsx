@@ -1,14 +1,13 @@
-import NamePlayersContainer from '../../organisms/NamePlayersContainer';
 import {
     ActionType,
     GameContext,
 } from "../../../application-context";
-import { useContext, useEffect, useState } from 'react';
+import { useContext } from 'react';
 import './TealOverlay.css'
 import useSound from 'use-sound';
 import bubbleClickSFX from '../../sfx/bubbleClick.mp3';
 
-const TealOverlay = ({hidden}: any) => {
+const TealOverlay = ({className}: any) => {
     const [appState, appAction] = useContext(GameContext);
     const soundUrl = bubbleClickSFX;
     const [play] = useSound(soundUrl, { playbackRate: 1.0});
@@ -23,14 +22,9 @@ const TealOverlay = ({hidden}: any) => {
             type: ActionType.RETURN_TO_HOMESCREEN
         })
     }
-
-    if(hidden){
-        return (<></>)
-    } else {
-        return (
-            <div onClick={()=>handleTealClick()} className='teal-overlay'></div>
-        )
-    }
+    return (
+        <div onClick={()=>handleTealClick()} className={className}></div>
+    )
 }
 
 export default TealOverlay;
