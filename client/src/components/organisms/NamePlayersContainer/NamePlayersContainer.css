@@ -16,7 +16,15 @@
     height: 370px;
     background-color: #004489;
     border-radius: 10px;
+    animation: namePlayersContainerInvisibility 0.5s;
 }
+
+@keyframes namePlayersContainerInvisibility {
+    0% {top: 170px; opacity: 100%}
+    40% {top: 170px; opacity: 0%}
+    100% {top: -730px; opacity: 0%}
+}
+
 
 .name-players-container-visible {
     position: absolute;
@@ -26,4 +34,11 @@
     height: 370px;
     background-color: #004489;
     border-radius: 10px;
+    animation: namePlayersContainerVisibility 0.5s;
+}
+
+@keyframes namePlayersContainerVisibility {
+    0% {top: -730px; opacity: 0%}
+    40% {top: 170px; opacity: 0%;}
+    100% {top: 170px; opacity: 100%}
 }

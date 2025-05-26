@@ -30,6 +30,8 @@ const NamePlayersContainer = ({className, escapeButtonFunction}: any) => {
         play({ playbackRate: newPlaybackRate});
     };
 
+    // This has been moved to the parent component. I'll keep this here for now! 
+
     // const handleEscapeButtonSubmit = () => {
     //     playAudio();
     //     appAction({

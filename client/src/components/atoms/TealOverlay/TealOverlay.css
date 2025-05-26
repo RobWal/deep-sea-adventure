@@ -7,10 +7,10 @@
     opacity: 60%;
     /* transition-duration: 1s; */
     /* z-index: 1; */
-    animation: namePlayersContainerVisibility 1s;
+    animation: tealOverlayNamePlayersContainerVisibility 1s;
 }
 
-@keyframes namePlayersContainerVisibility {
+@keyframes tealOverlayNamePlayersContainerVisibility {
     0% {top: 0px; opacity: 0%}
     40% {top: 0px; opacity: 60%}
     100% {top: 0px; opacity: 60%}
@@ -23,12 +23,10 @@
     position: absolute;
     background-color: #2ad2c5;
     opacity: 0%;
-    animation: namePlayersContainerInvisibility 1s;
-    /* transition-duration: 1s; */
-    /* z-index: -1; */
+    animation: tealOverlayNamePlayersContainerInvisibility 1s;
 }
 
-@keyframes namePlayersContainerInvisibility {
+@keyframes tealOverlayNamePlayersContainerInvisibility {
     0% {top: 0px; opacity: 60%}
     40% {top: 0px; opacity: 0%}
     100% {top: 0px; opacity: 0%}

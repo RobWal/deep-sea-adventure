@@ -53,12 +53,11 @@ const HomeScreen = () => {
     }
 
     const handleEscapeButtonSubmit = () => {
-        console.log(`We're clicking the escape button.`);
         setNamePlayersContainerClassName('name-players-container-invisible')
         setTealOverlayHomescreenClassName('teal-overlay-name-players-container-invisible');
         playAudio();
         appAction({
-            type: ActionType.HOMESCREEN_HELP_BUTTON
+            type: ActionType.RETURN_TO_HOMESCREEN
         })
     }
 
