@@ -1,3 +1,5 @@
+/* The code below is used for the teal overlay present with the namePlayersContainer at the start of the game. */
+
 .teal-overlay-name-players-container-visible {
     top: 0px;
     width: 100%;
@@ -5,8 +7,6 @@
     position: absolute;
     background-color: #2ad2c5;
     opacity: 60%;
-    /* transition-duration: 1s; */
-    /* z-index: 1; */
     animation: tealOverlayNamePlayersContainerVisibility 1s;
 }
 
@@ -32,7 +32,8 @@
     100% {top: 0px; opacity: 0%}
 }
 
-
+/* The code below is used for the teal overlay that appears at the start of the game when shuffling and finding out who
+will go first. */
 
 .teal-overlay-who-goes-first-visible {
     top: 0px;
@@ -41,8 +42,6 @@
     position: absolute;
     background-color: #2ad2c5;
     opacity: 60%;
-    /* transition-duration: 1s; */
-    /* z-index: 1; */
     animation: whoGoesFirstVisibility 4.5s;
 }
 
@@ -62,6 +61,4 @@
     position: absolute;
     background-color: #2ad2c5;
     opacity: 0%;
-    /* transition-duration: 1s; */
-    /* z-index: -1; */
 }

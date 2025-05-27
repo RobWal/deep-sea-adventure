@@ -1,4 +1,5 @@
 import { useContext, useEffect, useState } from 'react';
+import { useNavigate } from "react-router-dom";
 import {
     ActionType,
     GameContext,
@@ -17,14 +18,13 @@ import './HomeScreen.css';
 import useSound from 'use-sound';
 import bubbleClickSFX from '../../sfx/bubbleClick.mp3';
 
-
 const HomeScreen = () => {
     const [appState, appAction] = useContext(GameContext);
+    let navigate = useNavigate();
     const soundUrl = bubbleClickSFX;
     const [play] = useSound(soundUrl, { playbackRate: 1.0});
     const [tealOverlayHomescreenClassName, setTealOverlayHomescreenClassName] = useState('teal-overlay-name-players-container-invisible');
     const [namePlayersContainerClassName, setNamePlayersContainerClassName] = useState('name-players-container-invisible');
-
     const playAudio = () => {
         const newPlaybackRate = 0.5 + Math.random();
         play({ playbackRate: newPlaybackRate});
@@ -50,6 +50,23 @@ const HomeScreen = () => {
         appAction({
             type: ActionType.RETURN_TO_HOMESCREEN
         })
+    }
+
+    // This is a function for a temporary button, to test and see if we can load the game state from Local Storage. 
+    const handleLoadButtonSubmit = () => {
+        // This checks to see if there is a save file, running an error message if there is no file.
+        if(localStorage.getItem("currentGame") === null){
+            // Placeholder message, need to imlpement a user friendly error message.
+            console.log(`There is no save file`);
+        } 
+        // If there is a save file, the game will load the save file and continue the game. 
+        else if(localStorage.getItem("currentGame") !== null){
+            playAudio();
+            appAction({
+                type: ActionType.HOMESCREEN_LOAD_BUTTON
+            });
+            navigate("/gamecontainer");
+        }
     }
 
     const handleEscapeButtonSubmit = () => {
@@ -84,20 +101,11 @@ const HomeScreen = () => {
                     <TreasureThree style={{position: 'absolute', top: '380px', left: '500px'}}/>
                     <TreasureFour style={{position: 'absolute', top: '400px', left: '410px'}}/>
                     <TreasureFour style={{position: 'absolute', top: '450px', left: '330px'}}/>
-                </div>
-                
+                </div> 
                 <TealOverlay className={tealOverlayHomescreenClassName} onClickFunction={handleTealOverlayClick} />
-                <NamePlayersContainer className={namePlayersContainerClassName} escapeButtonFunction={handleEscapeButtonSubmit}/>
-
-                {/* TEST CODE #2 TO COMBINE THE CURRENTSTEP CHECKS USING NESTED TERNARY OPERATORS - */}
-                {/* {appState.currentStep === 'selectNamePlayers' ? <TealOverlay className={tealOverlayHomescreenClassName} onClickFunction={handleTealClick}/> : appState.currentStep === 'homescreenHelpButton' ? <TealOverlay className={tealOverlayHomescreenClassName} onClickFunction={handleTealClick}/> : <TealOverlay className={tealOverlayHomescreenClassName} onClickFunction={handleTealClick}/>} */}
-                {/* {appState.currentStep === 'selectNamePlayers' ? <NamePlayersContainer /> : appState.currentStep === 'homescreenHelpButton' ? <NamePlayersContainer /> : <></>} */}
-
-                {/* ALTERNATIVE CODE THAT WORKS TO SHOW <TEALOVERLAY/> AND <NAMEPLAYERSCONTAINER/> */}
-                {/* {appState.currentStep === 'selectNamePlayers' ? <TealOverlay /> : <></>}
-                {appState.currentStep === 'selectNamePlayers' ? <NamePlayersContainer /> : <></>}
-                {appState.currentStep === 'homescreenHelpButton' ? <TealOverlay /> : <></>}
-                {appState.currentStep === 'homescreenHelpButton' ? <NamePlayersContainer /> : <></>} */}
+                <NamePlayersContainer className={namePlayersContainerClassName} 
+                escapeButtonFunction={handleEscapeButtonSubmit}
+                loadButtonFunction={handleLoadButtonSubmit}/>
             </div>
         </div>
     )

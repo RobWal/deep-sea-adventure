@@ -61,15 +61,7 @@ Some examples are:
 -   Utilising react JSX components in a dynamic way to populate the UI depending on the useContext
 
 # What I'm working towards now.
-1. ~~Display secured treasure tiles in a way that distinguishes them from treasure tiles picked up this round.~~**
-    1.~~**Caveat - The current visual distinction (being slightly smaller) is a placeholder for the intended long term solution, to have a colour tint.~~
-1. ~~Display treasure tile stacks in a way that allows players to see what's there, instead of all lumped on top of each other making it difficult, if not impossible.~~
-1. Add a way for the player to either navigate back to the home screen, or play another game with the same name.
-1. ~~It turns out that treasure tile stacks are supposed to count as one tile, for the purposes of calculated oxygen depletion, and move speed. It looks like that's taking priority!~~ 
-1. ~~Add an end-of-game section to the game.~~
-1. ~~Fix the game-breaking bugs introduced by a second and third round.~~
-    1. ~~Fix the bug that spreads out treasure that has been dropped in rounds 1 & 2.~~ 
-    1. ~~Successully addressed the 'bug' that prevented players from correctly dropping treasure (hint: it wasn't a bug, it just wasn't coded yet).~~
+1. Bug #1 on the list. 
 1. ~~User friendly buttons need to be added to replace the currently unhelpful ? buttons used to save and load the game.~~ This will likely require the addition of a menu, to also add the ability for users to change the game speed in game, leave the current game, etc..". **Please note that I have decided I don't want to do this yet, to all my adoring fans, please sit tightly for these updates and enjoy the weird load/save buttons for now.
 
 # Ongoing improvements
@@ -89,16 +81,5 @@ Some examples are:
 
 # Bugs
 
-1. Now that we can play a second and third round, we've opened up a can of ~~worms~~ bugs. Including, but not limited to:
-    1. ~~More! When one player is already positioned at the end of the tile array, another can land on the end tile as well.~~
-    1. ~~It seems there's a bug that occurs when a player drowns with no treasure in their inventory. It may be due to the logic iterating through map positions per drowned player, even if they have no treasure, but investigation is required.~~
-    1. ~~Dropping a treasure tile now causes tiles in the array to randomly be picked up and dropped off. This is likely due to the fixes increasingly decoupling the treasure tile array ORDER from the treasure tile LOCATIONS. Some code relies on the order to be in the correct order, but growing complexity has meant decoupling it in some areas - causing problems.~~
-    1. ~~'Empty' tile tokens are appearing in the dropped stacks of treasure from players.~~
-    1. ~~Players pick up one treasure from a stack of treasure, rather than picking up the entire stack.~~
-    1. ~~Players being able to pick up 'empty' tiles (i.e. tile type === 0).~~
-    1. ~~Players being able to move onto tiles which no longer contain treasure.~~ This is theoretically fixed, but requires further testing. 
-    1. ~~On round three, the treasure tile array bugs out and spreads stacked tiles of treasure from drowned players, out over multiple tiles.~~ 
-    1. ~~Players are able to move past the last tile in the tile array, as though there were still treasure tiles there.~~
-    1. ~~When moving to the end of the tile array, players do not currently 'sit' at the very end, but instead 'bounce' back.~~
-    1. Probably more! 
+1. There is a bug causing the namePlayersContainer to flash for half a second on load of the homescreen. 
 1. While using the game speed feature, player tile animations using the style={style} syntax aren't sped up, causing a lag between player tokens and potential player decisions. 

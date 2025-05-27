@@ -2,13 +2,13 @@ import LoadCircle from "../../atoms/VisualAssets/LoadCircle";
 import './LoadButton.css'
 
 type LoadButton = {
-    buttonFunction: any,
+    loadButtonFunction: ()=>void,
     style: object,
 }
 
-const LoadButton = ({buttonFunction, style}: any) => {
+const LoadButton = ({loadButtonFunction, style}: LoadButton) => {
     return (
-        <div onClick={buttonFunction} style={style}>
+        <div onClick={loadButtonFunction} style={style}>
             <LoadCircle />
         </div>
     )

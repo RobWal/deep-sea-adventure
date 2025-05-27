@@ -16,6 +16,7 @@
     height: 370px;
     background-color: #004489;
     border-radius: 10px;
+    opacity: 0%;
     animation: namePlayersContainerInvisibility 0.5s;
 }
 

@@ -1,5 +1,4 @@
 import { useContext } from "react";
-import { useNavigate } from "react-router-dom";
 import EscapeButton from "../../molecules/EscapeButton";
 import HelpButton from "../../molecules/HelpButton";
 import LoadButton from "../../molecules/LoadButton";
@@ -19,8 +18,7 @@ import bubbleClickSFX from '../../sfx/bubbleClick.mp3';
 const util = require('util');
 
 
-const NamePlayersContainer = ({className, escapeButtonFunction}: any) => {
-    let navigate = useNavigate();
+const NamePlayersContainer = ({className, escapeButtonFunction, loadButtonFunction}: any) => {
     const [appState, appAction] = useContext(GameContext);
     const soundUrl = bubbleClickSFX;
     const [play] = useSound(soundUrl, { playbackRate: 1.0});
@@ -29,32 +27,6 @@ const NamePlayersContainer = ({className, escapeButtonFunction}: any) => {
         const newPlaybackRate = 0.5 + Math.random();
         play({ playbackRate: newPlaybackRate});
     };
-
-    // This has been moved to the parent component. I'll keep this here for now! 
-
-    // const handleEscapeButtonSubmit = () => {
-    //     playAudio();
-    //     appAction({
-    //         type: ActionType.RETURN_TO_HOMESCREEN
-    //     })
-    // }
-
-    // This is a function for a temporary button, to test and see if we can load the game state from Local Storage. 
-    const handleLoadButtonSubmit = () => {
-        // This checks to see if there is a save file, running an error message if there is no file.
-        if(localStorage.getItem("currentGame") === null){
-            // Placeholder message, need to imlpement a user friendly error message.
-            console.log(`There is no save file`);
-        } 
-        // If there is a save file, the game will load the save file and continue the game. 
-        else if(localStorage.getItem("currentGame") !== null){
-            playAudio();
-            appAction({
-                type: ActionType.HOMESCREEN_LOAD_BUTTON
-            });
-            navigate("/gamecontainer");
-        }
-    }
 
     // This is a currently useless button that only plays audio and console logs that it's being clicked.
     // This will be turned into a button that explains this menu - That You must enter a name of at least one character, and
@@ -102,9 +74,9 @@ const NamePlayersContainer = ({className, escapeButtonFunction}: any) => {
         <div>
             <div className={className}>
                 <HelpButton buttonFunction={handleHelpButtonSubmit} style={{position: 'absolute', top:'15px', right:'15px', margin:'15px', zIndex:'1'}}/>
-                <EscapeButton buttonFunction={escapeButtonFunction} style={{position: 'absolute', top:'15px', left:'15px', margin:'15px', zIndex:'1'}}/>
+                <EscapeButton escapeButtonFunction={escapeButtonFunction} style={{position: 'absolute', top:'15px', left:'15px', margin:'15px', zIndex:'1'}}/>
                 <NameForm setTotalPlayers={setTotalPlayers} addUser={addNewUser} beginPrestart={beginPrestart} style={{position: 'absolute', top:'50px'}}/>
-                <LoadButton buttonFunction={handleLoadButtonSubmit} style={{position: 'absolute', top:'5px', right:'245px', margin:'15px', zIndex:'1'}}/>
+                <LoadButton loadButtonFunction={loadButtonFunction} style={{position: 'absolute', top:'5px', right:'245px', margin:'15px', zIndex:'1'}}/>
             </div>
          </div>
     )
