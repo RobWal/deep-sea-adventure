@@ -5,7 +5,7 @@ import PlayerToken from '../../atoms/PlayerToken';
 import PlayerTokenBig from '../../atoms/PlayerTokenBig';
 import './WhoGoesFirst.css'
 
-const WhoGoesFirst = ({hidden}: any) => {
+const WhoGoesFirst = ({className}: any) => {
     const [appState, appAction] = useContext(GameContext);
     const [displayWhoGoesFirst, setDisplayWhoGoesFirst] = useState(false);
     const gameSpeed = appState.gameSpeed;
@@ -41,27 +41,21 @@ const WhoGoesFirst = ({hidden}: any) => {
             }, 2500/gameSpeed)
         };
     }, [])
-    if(hidden){
-        return (
-            <div></div>
-        )
-    } else {
-        return (
-            <div>
-                <div className='who-goes-first' >
-                    {displayWhoGoesFirst ?  <H1 text={`${appState.players[0].name} is going first!`} style={{display: 'block', textAlign: 'center', color: 'white', fontSize: '45px', margin: '50px 0 10px 0'}}></H1> : <H1 style={{display: 'block', textAlign: 'center', color: 'white', fontSize: '45px', margin: '50px 0 10px 0'}} text='Who will go first?'/>}
-                    <div className='player-tokens-container'>
-                        {appState.players.map((player: Players, index) => {
-                            return (
-                                <PlayerToken key={index} style={{margin: '0px', position: 'relative', display: 'inline'}} fill={player.color}/>
-                            )
-                        })}
-                    </div>
-                    {displayWhoGoesFirst ? <PlayerTokenBig style={{position: 'absolute', top: '140px'}} fill={appState.players[0].color}/> : <></>}
+    return (
+        <div>
+            <div className={className} >
+                {displayWhoGoesFirst ?  <H1 text={`${appState.players[0].name} is going first!`} style={{display: 'block', textAlign: 'center', color: 'white', fontSize: '45px', margin: '50px 0 10px 0'}}></H1> : <H1 style={{display: 'block', textAlign: 'center', color: 'white', fontSize: '45px', margin: '50px 0 10px 0'}} text='Who will go first?'/>}
+                <div className='player-tokens-container'>
+                    {appState.players.map((player: Players, index) => {
+                        return (
+                            <PlayerToken key={index} style={{margin: '0px', position: 'relative', display: 'inline'}} fill={player.color}/>
+                        )
+                    })}
                 </div>
+                {displayWhoGoesFirst ? <PlayerTokenBig style={{position: 'absolute', top: '140px'}} fill={appState.players[0].color}/> : <></>}
             </div>
-        )
-    }
+        </div>
+    )
 }
 
 

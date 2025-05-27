@@ -25,8 +25,6 @@ import PickupTreasureContainer from '../../molecules/PickupTreasureContainer';
 import ForwardsOrBackwardsContainer from '../../molecules/ForwardsOrBackwardsContainer';
 import useSound from 'use-sound';
 import bubbleClickSFX from '../../sfx/bubbleClick.mp3';
-import TealOverlayEndGame from '../../atoms/TealOverlayEndGame';
-import WhoGoesFirstTESTING from '../../molecules/WhoGoesFirstTESTING';
 
 // util allows us to read nested objects in the console in a user friendly way, i.e. instead of '[object Object]', it will log '{Tiles:[type:1, value:2]}'.
 const util = require('util');
@@ -43,7 +41,7 @@ const GameContainer = () => {
     // const [whoGoesFirstVisibility, setWhoGoesFirstVisibility] = useState(true);
     const [tealOverlayWhoGoesFirstClassName, setTealOverlayWhoGoesFirstClassName] = useState('teal-overlay-who-goes-first-invisible');
     const [tealOverlayEndGameClassName, setTealOverlayEndGameClassName] = useState('teal-overlay-end-game-invisible');
-    const [whoGoesFirstTestingClassName, setWhoGoesFirstTestingClassName] = useState('who-goes-first-TESTING-invisible');
+    const [whoGoesFirstClassName, setWhoGoesFirstClassName] = useState('who-goes-first-invisible');
     const [announcerInnerText, setAnnouncerInnerText] = useState("");
     // let navigate = useNavigate();
     const gameSpeed = appState.gameSpeed;
@@ -70,13 +68,13 @@ const GameContainer = () => {
             setTimeout(() => {
                 // setWhoGoesFirstVisibility(false);
                 // setTealOverlayVisibility(false);
-                setWhoGoesFirstTestingClassName('who-goes-first-TESTING-visible');
+                setWhoGoesFirstClassName('who-goes-first-visible');
                 setTealOverlayWhoGoesFirstClassName('teal-overlay-who-goes-first-visible');
             }, 1000/gameSpeed);
             setTimeout(() => {
                 // setWhoGoesFirstVisibility(true);
                 // setTealOverlayVisibility(true);
-                setWhoGoesFirstTestingClassName('who-goes-first-TESTING-invisible');
+                setWhoGoesFirstClassName('who-goes-first-invisible');
                 setTealOverlayWhoGoesFirstClassName('teal-overlay-who-goes-first-invisible');
                 // This sets appState.currentRound: 1, currentPlayer: 0, and currentStep: 'rolling'. 
                 appAction({
@@ -861,8 +859,8 @@ const GameContainer = () => {
         <div className="game-container">
             <TileLayout />
             <PlayerTokens />
-            <EscapeButton buttonFunction={handleEscapeButtonSubmit} style={{position: 'absolute', top: '15px', right: '0px'}}/>
-            <LoadButton buttonFunction={handleHelpButtonSubmit} style={{position: 'absolute', top: '15px', right: '50px'}}/>
+            <EscapeButton escapeButtonFunction={handleEscapeButtonSubmit} style={{position: 'absolute', top: '15px', right: '0px'}}/>
+            <LoadButton loadButtonFunction={handleHelpButtonSubmit} style={{position: 'absolute', top: '15px', right: '50px'}}/>
             <OxygenSubmarine style={{position: 'absolute', top: '20px', left: '500px'}}/>
             <OxygenMarker style={{position: 'absolute', top: oxygenTokenLocations[appState.remainingOxygen].top, left: oxygenTokenLocations[appState.remainingOxygen].left}}/>
             <AnnouncerContainer dice={<DiceContainer />} announcerMessage={<AnnouncerMessage text={announcerInnerText}/>}/>
@@ -882,7 +880,7 @@ const GameContainer = () => {
 
             */}
             <TealOverlay className={tealOverlayWhoGoesFirstClassName} />
-            <WhoGoesFirstTESTING className={whoGoesFirstTestingClassName} /> 
+            <WhoGoesFirst className={whoGoesFirstClassName} /> 
             {/* <WhoGoesFirst hidden={whoGoesFirstVisibility} />  */}
             {/* <TealOverlayEndGame className={tealOverlayEndGameClassName} /> */}
         </div>

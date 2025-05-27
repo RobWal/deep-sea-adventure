@@ -61,6 +61,7 @@ Some examples are:
 -   Utilising react JSX components in a dynamic way to populate the UI depending on the useContext
 
 # What I'm working towards now.
+1. I was informed that when players drown, they drop treasure in stacks of three at most. E.g. if they had seven treasures, there would be true stacks of three and one of one. Well, that's what I'm working towards now! 
 1. ~~User friendly buttons need to be added to replace the currently unhelpful ? buttons used to save and load the game.~~ This will likely require the addition of a menu, to also add the ability for users to change the game speed in game, leave the current game, etc..". **Please note that I have decided I don't want to do this yet, to all my adoring fans, please sit tightly for these updates and enjoy the weird load/save buttons for now.
 
 # Ongoing improvements
