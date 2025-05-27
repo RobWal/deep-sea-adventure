@@ -6,7 +6,7 @@ import './NameForm.css';
 import useSound from 'use-sound';
 import bubbleClickSFX from '../../sfx/bubbleClick.mp3';
 
-const NameForm = ({style, addUser, setTotalPlayers, beginPrestart}: any) => {
+const NameForm = ({style, addNewUser, setTotalPlayers, beginPrestart}: any) => {
     const [nameIsValid, setNameIsValid] = useState(false);
     let navigate = useNavigate();
     const [playerName, setPlayerName] = useState("");
@@ -33,7 +33,7 @@ const NameForm = ({style, addUser, setTotalPlayers, beginPrestart}: any) => {
     const handleSubmit = (e: any) => {
         playAudio();
         setTotalPlayers(e.target.innerHTML)
-        addUser(playerName);
+        addNewUser(playerName);
         beginPrestart();
         navigate("/gamecontainer");
     }

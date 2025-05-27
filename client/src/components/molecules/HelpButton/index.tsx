@@ -6,9 +6,9 @@ type HelpButton = {
     style: object,
 }
 
-const HelpButton = ({buttonFunction, style}: any) => {
+const HelpButton = ({helpButtonFunction, style}: any) => {
     return (
-        <div onClick={buttonFunction} style={style}>
+        <div onClick={helpButtonFunction} style={style}>
             <HelpCircle />
         </div>
     )

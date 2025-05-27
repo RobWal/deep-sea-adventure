@@ -30,6 +30,7 @@ const HomeScreen = () => {
         play({ playbackRate: newPlaybackRate});
     };
 
+
     const selectNamePlayers = () => {        
         if(appState.currentStep === 'returnToHomeScreen'){
             setNamePlayersContainerClassName('name-players-container-visible')
@@ -42,7 +43,6 @@ const HomeScreen = () => {
             //Currently does nothing
         };
     };
-
     const handleTealOverlayClick = () => {
         setNamePlayersContainerClassName('name-players-container-invisible')
         setTealOverlayHomescreenClassName('teal-overlay-name-players-container-invisible');
@@ -50,9 +50,10 @@ const HomeScreen = () => {
         appAction({
             type: ActionType.RETURN_TO_HOMESCREEN
         })
-    }
+    };
 
-    // This is a function for a temporary button, to test and see if we can load the game state from Local Storage. 
+
+    // The functions below all handle functions used in the namePlayersContainer
     const handleLoadButtonSubmit = () => {
         // This checks to see if there is a save file, running an error message if there is no file.
         if(localStorage.getItem("currentGame") === null){
@@ -66,17 +67,25 @@ const HomeScreen = () => {
                 type: ActionType.HOMESCREEN_LOAD_BUTTON
             });
             navigate("/gamecontainer");
-        }
-    }
-
+        };
+    };
     const handleEscapeButtonSubmit = () => {
         setNamePlayersContainerClassName('name-players-container-invisible')
         setTealOverlayHomescreenClassName('teal-overlay-name-players-container-invisible');
         playAudio();
         appAction({
             type: ActionType.RETURN_TO_HOMESCREEN
-        })
-    }
+        });
+    };
+    // This is a currently useless button that only plays audio and console logs that it's being clicked.
+    // This will be turned into a button that explains this menu - That You must enter a name of at least one character, and
+    // select the amount of opponents you want to play with. 
+    const handleHelpButtonSubmit = () => {
+        playAudio();
+        appAction({
+            type: ActionType.HOMESCREEN_HELP_BUTTON
+        });
+    };
 
     return (
         <div>
@@ -105,7 +114,8 @@ const HomeScreen = () => {
                 <TealOverlay className={tealOverlayHomescreenClassName} onClickFunction={handleTealOverlayClick} />
                 <NamePlayersContainer className={namePlayersContainerClassName} 
                 escapeButtonFunction={handleEscapeButtonSubmit}
-                loadButtonFunction={handleLoadButtonSubmit}/>
+                helpButtonFunction={handleHelpButtonSubmit}
+                loadButtonFunction={handleLoadButtonSubmit} />
             </div>
         </div>
     )

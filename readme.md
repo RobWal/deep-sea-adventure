@@ -61,7 +61,6 @@ Some examples are:
 -   Utilising react JSX components in a dynamic way to populate the UI depending on the useContext
 
 # What I'm working towards now.
-1. Bug #1 on the list. 
 1. ~~User friendly buttons need to be added to replace the currently unhelpful ? buttons used to save and load the game.~~ This will likely require the addition of a menu, to also add the ability for users to change the game speed in game, leave the current game, etc..". **Please note that I have decided I don't want to do this yet, to all my adoring fans, please sit tightly for these updates and enjoy the weird load/save buttons for now.
 
 # Ongoing improvements
@@ -81,5 +80,4 @@ Some examples are:
 
 # Bugs
 
-1. There is a bug causing the namePlayersContainer to flash for half a second on load of the homescreen. 
 1. While using the game speed feature, player tile animations using the style={style} syntax aren't sped up, causing a lag between player tokens and potential player decisions. 
