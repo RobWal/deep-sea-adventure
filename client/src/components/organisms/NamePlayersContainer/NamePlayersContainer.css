@@ -1,4 +1,4 @@
-/* .name-players-container {
+.name-players-container-on-load {
     position: absolute;
     top: 170px;
     left: 350px;
@@ -6,7 +6,8 @@
     height: 370px;
     background-color: #004489;
     border-radius: 10px;
-} */
+    opacity: 0%;
+}
 
 .name-players-container-invisible {
     position: absolute;
@@ -35,6 +36,7 @@
     height: 370px;
     background-color: #004489;
     border-radius: 10px;
+    opacity: 100%;
     animation: namePlayersContainerVisibility 0.5s;
 }
 

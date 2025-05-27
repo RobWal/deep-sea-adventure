@@ -23,8 +23,8 @@ const HomeScreen = () => {
     let navigate = useNavigate();
     const soundUrl = bubbleClickSFX;
     const [play] = useSound(soundUrl, { playbackRate: 1.0});
-    const [tealOverlayHomescreenClassName, setTealOverlayHomescreenClassName] = useState('teal-overlay-name-players-container-invisible');
-    const [namePlayersContainerClassName, setNamePlayersContainerClassName] = useState('name-players-container-invisible');
+    const [tealOverlayHomescreenClassName, setTealOverlayHomescreenClassName] = useState('teal-overlay-name-players-container-on-load');
+    const [namePlayersContainerClassName, setNamePlayersContainerClassName] = useState('name-players-container-on-load');
     const playAudio = () => {
         const newPlaybackRate = 0.5 + Math.random();
         play({ playbackRate: newPlaybackRate});

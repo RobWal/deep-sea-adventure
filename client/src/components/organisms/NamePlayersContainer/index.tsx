@@ -32,7 +32,6 @@ const NamePlayersContainer = ({className, escapeButtonFunction, loadButtonFuncti
     // This will be turned into a button that explains this menu - That You must enter a name of at least one character, and
     // select the amount of opponents you want to play with. 
     const handleHelpButtonSubmit = () => {
-        console.log(`We're clicking the help button.`);
         playAudio();
         appAction({
             type: ActionType.HOMESCREEN_HELP_BUTTON
