@@ -1,5 +1,4 @@
 import { useContext, useEffect, useState } from 'react';
-// import { useNavigate } from "react-router-dom";
 import AnnouncerMessage from '../../atoms/AnnouncerMessage';
 import OxygenSubmarine from '../../atoms/VisualAssets/OxygenSubmarine';
 import DiceContainer from '../../molecules/DiceContainer';
@@ -8,8 +7,6 @@ import './GameContainer.css'
 import {
     ActionType,
     GameContext,
-    // GameContextReducer,
-    // DefaultGameState,
     oxygenTokenLocations
 } from "../../../application-context";
 import ScoreBoardContainer from '../../organisms/ScoreBoardContainer';
@@ -38,12 +35,10 @@ export interface PlayerMapPositions {
 
 const GameContainer = () => {
     const [appState, appAction] = useContext(GameContext);
-    // const [whoGoesFirstVisibility, setWhoGoesFirstVisibility] = useState(true);
     const [tealOverlayWhoGoesFirstClassName, setTealOverlayWhoGoesFirstClassName] = useState('teal-overlay-who-goes-first-invisible');
     const [tealOverlayEndGameClassName, setTealOverlayEndGameClassName] = useState('teal-overlay-end-game-invisible');
     const [whoGoesFirstClassName, setWhoGoesFirstClassName] = useState('who-goes-first-invisible');
     const [announcerInnerText, setAnnouncerInnerText] = useState("");
-    // let navigate = useNavigate();
     const gameSpeed = appState.gameSpeed;
     const soundUrl = bubbleClickSFX;
     const [play] = useSound(soundUrl, { playbackRate: 1.0});
@@ -66,14 +61,10 @@ const GameContainer = () => {
     useEffect(() => {
         if(appState.currentStep === 'begin_prestart'){
             setTimeout(() => {
-                // setWhoGoesFirstVisibility(false);
-                // setTealOverlayVisibility(false);
                 setWhoGoesFirstClassName('who-goes-first-visible');
                 setTealOverlayWhoGoesFirstClassName('teal-overlay-who-goes-first-visible');
             }, 1000/gameSpeed);
             setTimeout(() => {
-                // setWhoGoesFirstVisibility(true);
-                // setTealOverlayVisibility(true);
                 setWhoGoesFirstClassName('who-goes-first-invisible');
                 setTealOverlayWhoGoesFirstClassName('teal-overlay-who-goes-first-invisible');
                 // This sets appState.currentRound: 1, currentPlayer: 0, and currentStep: 'rolling'. 
@@ -869,20 +860,9 @@ const GameContainer = () => {
             {(appState.currentStep === 'rolling' || appState.currentStep === 'next_players_turn') && appState.players[appState.currentPlayer].id === 1 ? <RollTheDiceContainer /> : <></>}
             {appState.currentStep === 'moved' && appState.players[appState.currentPlayer].id === 1 && appState.players[appState.currentPlayer].mapPosition !== 0? <PickupTreasureContainer /> : <></>}
             
-            {/* 
-            
-            The two components below are using hidden as a variable, as opposed to TealOverlayEndgame using className 
-            to provide the same functionality, by editing visibility in the CSS classname more directly. 
-            
-            There is an important distinction between the two methods, namely, the former doesn't allow for smooth transitions
-            due to the way it simply renders or does not render the component. By having it always rendered, as is the case with 
-            TealOverlayEndGame, you can allow for smooth transitions and repositions by adding class specific names. 
-
-            */}
             <TealOverlay className={tealOverlayWhoGoesFirstClassName} />
             <WhoGoesFirst className={whoGoesFirstClassName} /> 
-            {/* <WhoGoesFirst hidden={whoGoesFirstVisibility} />  */}
-            {/* <TealOverlayEndGame className={tealOverlayEndGameClassName} /> */}
+            <TealOverlay className={tealOverlayEndGameClassName} />
         </div>
     )
 }
