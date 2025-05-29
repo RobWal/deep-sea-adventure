@@ -1,0 +1,31 @@
+.no-treasure-homescreen-one {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+}
+
+.no-treasure-homescreen-two {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+}
+.no-treasure-homescreen-three {
+    position: absolute;
+    bottom: 20px;
+    left:20px;
+}
+.no-treasure-homescreen-four {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+}
+
+
+
+/* @keyframes noTreasureHomescreenDanceOne {
+    0% {top: 20px; left: 20px; transform: rotate(0deg);}
+    94% {top: 20px; left: 20px; transform: rotate(0deg);}
+    96% {top: 20px; left: 20px; transform: rotate(25deg);}
+    98% {top: 20px; left: 20px; transform: rotate(-25deg);}
+    100% {top: 20px; left: 20px; transform: rotate(0deg);}
+} */

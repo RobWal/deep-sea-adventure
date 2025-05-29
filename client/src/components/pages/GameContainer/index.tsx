@@ -860,8 +860,11 @@ const GameContainer = () => {
             {(appState.currentStep === 'rolling' || appState.currentStep === 'next_players_turn') && appState.players[appState.currentPlayer].id === 1 ? <RollTheDiceContainer /> : <></>}
             {appState.currentStep === 'moved' && appState.players[appState.currentPlayer].id === 1 && appState.players[appState.currentPlayer].mapPosition !== 0? <PickupTreasureContainer /> : <></>}
             
+            {/* The TealOverlay and WhoGoesFirst are used at the start of the game. */}
             <TealOverlay className={tealOverlayWhoGoesFirstClassName} />
             <WhoGoesFirst className={whoGoesFirstClassName} /> 
+            {/* The TealOverlay below is used at the end of the game. This could probably be refactored to use the 
+            same tealOverlay, by modifying the classname at the right time. */}
             <TealOverlay className={tealOverlayEndGameClassName} />
         </div>
     )

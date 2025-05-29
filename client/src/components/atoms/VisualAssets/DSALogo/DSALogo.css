@@ -1,0 +1,48 @@
+.DSALogo-homescreen {
+    position: absolute; 
+    transform: rotate(-15deg);
+    top: 360px; 
+    left: 80px;
+    /* animation: DSALogoHomescreen 7s infinite; */
+}
+
+/* @keyframes DSALogoHomescreen {
+    0% {opacity: 0%; left: 90px; top: 360px; transform: rotate(-5deg);}
+    10% {opacity: 100%; left: 140px; top: 360px; transform: rotate(-5deg);}
+    20% {left: 190px; top: 360px;}
+    30% {transform: rotate(-5deg);}
+    40% {left: 290px; top: 360px;}
+    50% {transform: rotate(5deg);}
+    60% {left: 390px; top: 360px;}
+    70% {transform: rotate(-5deg);}
+    80% {left: 490px; top: 360px;}
+    90% {opacity: 100%; transform: rotate(5deg);}
+    100% {opacity: 0%; left: 590px; top: 360px; transform: rotate(-5deg);}
+} */
+
+/* .DSALogo-homescreen-wrapper {
+    position: absolute;
+    width: 5px;
+    height: 5px;
+    background-color: black;
+    animation: DSALogoHomescreenWrapper 7s infinite;
+} */
+/* @keyframes DSALogoHomescreenWrapper {
+    0% {top: 1370px; left: 200px; transform: rotate(0deg);}
+    30% {top: 1370px; left: 200px; transform: rotate(0deg);}
+    40% {top: 1370px; left: 200px; transform: rotate(0deg);}
+    60% {top: 1370px; left: 200px; transform: rotate(0deg);}
+    80% {top: 1370px; left: 200px; transform: rotate(0deg);}
+    100% {top: 1370px; left: 200px; transform: rotate(0deg);}
+} */
+ /* @keyframes DSALogoHomescreenWrapper {
+    0% {top: 370px; left: -90px; transform: rotate(0deg);}
+    10% {top: 290px; left: 0px; transform: rotate(0deg);}
+    20% {top: 350px; left: 90px; transform: rotate(0deg);}
+    30% {top: 270px; left: 180px; transform: rotate(0deg);}
+    40% {top: 330px; left: 270px; transform: rotate(0deg);}
+    50% {top: 40px; left: 360px; transform: rotate(0deg);}
+    60% {top: 40px; left: 450px; transform: rotate(0deg);}
+    70% {top: 40px; left: 540px; transform: rotate(0deg);}
+    100% {top: 370px; left: -90px; transform: rotate(0deg);}
+} */

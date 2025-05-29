@@ -25,11 +25,11 @@ const HomeScreen = () => {
     const [play] = useSound(soundUrl, { playbackRate: 1.0});
     const [tealOverlayHomescreenClassName, setTealOverlayHomescreenClassName] = useState('teal-overlay-name-players-container-on-load');
     const [namePlayersContainerClassName, setNamePlayersContainerClassName] = useState('name-players-container-on-load');
+    
     const playAudio = () => {
         const newPlaybackRate = 0.5 + Math.random();
         play({ playbackRate: newPlaybackRate});
     };
-
 
     const selectNamePlayers = () => {        
         if(appState.currentStep === 'returnToHomeScreen'){
@@ -51,7 +51,6 @@ const HomeScreen = () => {
             type: ActionType.RETURN_TO_HOMESCREEN
         })
     };
-
 
     // The functions below all handle functions used in the namePlayersContainer
     const handleLoadButtonSubmit = () => {
@@ -95,11 +94,11 @@ const HomeScreen = () => {
                     <H1 text={'Click to play!'} style={{marginTop: '60px',color: 'white', fontSize: '45px'}}/>
                     <H1 text={'Jun Sasaki & Goro Sasaki'} style={{marginTop: '350px',fontSize:'50px', color: '#2AD2C5'}}/>
                 </div>
-                <NoTreasure style={{position: 'absolute', top: '20px', left:'20px'}}/>
-                <NoTreasure style={{position: 'absolute', top: '20px', right:'20px'}}/>
-                <NoTreasure style={{position: 'absolute', bottom: '20px', left:'20px'}}/>
-                <NoTreasure style={{position: 'absolute', bottom: '20px', right:'20px'}}/>
-                <DSALogo style={{position: 'absolute', top: '340px', left: '50px', transform: 'rotate(15deg)'}}/>
+                <NoTreasure className={'no-treasure-homescreen-one'} />
+                <NoTreasure className={'no-treasure-homescreen-two'} />
+                <NoTreasure className={'no-treasure-homescreen-three'} />
+                <NoTreasure className={'no-treasure-homescreen-four'} />
+                <DSALogo className={'DSALogo-homescreen'}/> 
                 <OxygenSubmarine style={{position: 'absolute', top: '210px', right: '40px', transform: 'rotate(-15deg)'}}/>
                 <div className="treasure-line">
                     <TreasureOne style={{position: 'absolute', left: '870px', top: '420px'}}/>
