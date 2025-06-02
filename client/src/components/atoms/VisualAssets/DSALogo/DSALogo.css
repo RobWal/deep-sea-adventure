@@ -1,24 +1,35 @@
 .DSALogo-homescreen {
     position: absolute; 
-    transform: rotate(-15deg);
-    top: 360px; 
-    left: 80px;
-    /* animation: DSALogoHomescreen 7s infinite; */
+    animation: DSALogoHomescreen 35s infinite linear;
 }
 
-/* @keyframes DSALogoHomescreen {
-    0% {opacity: 0%; left: 90px; top: 360px; transform: rotate(-5deg);}
-    10% {opacity: 100%; left: 140px; top: 360px; transform: rotate(-5deg);}
-    20% {left: 190px; top: 360px;}
-    30% {transform: rotate(-5deg);}
-    40% {left: 290px; top: 360px;}
-    50% {transform: rotate(5deg);}
-    60% {left: 390px; top: 360px;}
-    70% {transform: rotate(-5deg);}
-    80% {left: 490px; top: 360px;}
-    90% {opacity: 100%; transform: rotate(5deg);}
-    100% {opacity: 0%; left: 590px; top: 360px; transform: rotate(-5deg);}
-} */
+@keyframes DSALogoHomescreen {
+    /* Animation One - Centre left to centre right  */
+    0% {opacity: 0%; left: 0px; top: 360px; clip-path: inset(0% 0% 0% 0%);}
+    2% {opacity: 80%; left: 100px;}
+    18% {opacity: 80%; left: 900px;}
+    20% {opacity: 0%; left: 1000px; top: 360px; width: 220px; height: 120px;}
+    /* Animation Two - Top 33% to top 50% */
+    20.001% {opacity: 0%; left: 200px; top: 140px; width: 110px; height: 60px;}
+    22% {opacity: 80%; left: 250px;}
+    38% {opacity: 80%; left: 650px;}
+    40% {opacity: 0%; left: 700px; top: 140px; width: 110px; height: 60px;}
+    /* Animation Three - Bottom 50% to bottom 80% 'turning' */
+    40.001% {opacity: 0%; left: 550px; top: 560px; width: 165px; height: 90px;}
+    42% {opacity: 80%; left: 600px;}
+    58% {left: 1000px;}
+    60% {opacity: 0%; left: 1050px; top: 575px; width: 90px; height: 60px; transform: rotate(0deg);}
+    /* Animation Four - Top left to bottom right*/
+    60.001% {opacity: 0%; left: 0px; top: 60px; width: 220px; height: 120px; transform: rotate(35deg);}
+    62% {opacity: 80%; left: 75px;}
+    78% {opacity: 80%; left: 600px;}
+    80% {opacity: 0%; left: 675px; top: 560px; width: 220px; height: 120px; transform: rotate(35deg); clip-path: inset(0% 0% 0% 0%);}
+    /* Animation Five - Cut in half top of screen */
+    80.001% {opacity: 0%; left: 0px; top: -60px; width: 220px; height: 120px; transform: rotate(0deg); clip-path: inset(50% 0% 0% 0%);}
+    82% {opacity: 80%; left: 100px; top: -60px;}
+    98% {opacity: 80%; left: 900px; top: -60px;}
+    100% {opacity: 0%; left: 1000px; top: -60px; width: 220px; height: 120px; clip-path: inset(50% 0% 0% 0%);}
+}
 
 /* .DSALogo-homescreen-wrapper {
     position: absolute;
