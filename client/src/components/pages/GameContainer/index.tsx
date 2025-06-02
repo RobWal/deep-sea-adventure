@@ -76,6 +76,8 @@ const GameContainer = () => {
     }, [appState.currentStep]);
 
     useEffect(() => {
+        // console.log(util.inspect(appState, {showHidden: false, depth: null, colors: false}));
+        console.log(appState.currentStep);
         if(appState.currentPlayer === -1) { 
             setAnnouncerInnerText('') 
         };

@@ -10,14 +10,15 @@ const NameForm = ({style, addNewUser, setTotalPlayers, beginPrestart}: any) => {
     const [nameIsValid, setNameIsValid] = useState(false);
     let navigate = useNavigate();
     const [playerName, setPlayerName] = useState("");
+    const [areButtonsClickable, setAreButtonsClickable] = useState(true);
     const soundUrl = bubbleClickSFX;
-    const [play] = useSound(soundUrl, { playbackRate: 1.0});
+    const [play] = useSound(soundUrl, {playbackRate: 1.0});
 
     const playAudio = () => {
         const newPlaybackRate = 0.5;
         play({ playbackRate: newPlaybackRate});
-    };
-    
+
+    };    
     const handleChange = (event: any) => {
         setPlayerName(event.target.value);
     }
@@ -30,13 +31,22 @@ const NameForm = ({style, addNewUser, setTotalPlayers, beginPrestart}: any) => {
         }
     })
 
+    // When a person clicks the number of opponents they'd like to face, once they've submitted a valid name (>0 length)
     const handleSubmit = (e: any) => {
-        playAudio();
-        setTotalPlayers(e.target.innerHTML)
-        addNewUser(playerName);
-        beginPrestart();
-        navigate("/gamecontainer");
-    }
+        // If the buttons are clickable - A value used to lock players out from clicking the button repeatedly before
+        // the game moves to the GameContainer.
+        if(areButtonsClickable){
+            // Set areButtonsClickable to false, to ensure players can't repeatedly click the button. 
+            setAreButtonsClickable(false);
+            playAudio();
+            // setTimeout(() => {
+                setTotalPlayers(e.target.innerHTML)
+                addNewUser(playerName);
+                beginPrestart();
+                navigate("/gamecontainer");
+            // }, 2500);
+        };
+    };
 
     const ignoreSubmit = (e: any) => {}
 

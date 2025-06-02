@@ -19,27 +19,27 @@ import useSound from 'use-sound';
 import bubbleClickSFX from '../../sfx/bubbleClick.mp3';
 
 const HomeScreen = () => {
+    const util = require('util');
     const [appState, appAction] = useContext(GameContext);
     let navigate = useNavigate();
     const soundUrl = bubbleClickSFX;
     const [play] = useSound(soundUrl, { playbackRate: 1.0});
     const [tealOverlayHomescreenClassName, setTealOverlayHomescreenClassName] = useState('teal-overlay-name-players-container-on-load');
     const [namePlayersContainerClassName, setNamePlayersContainerClassName] = useState('name-players-container-on-load');
-    
     const playAudio = () => {
         const newPlaybackRate = 0.5 + Math.random();
         play({ playbackRate: newPlaybackRate});
     };
 
     const selectNamePlayers = () => {        
-        if(appState.currentStep === 'returnToHomeScreen'){
+        if(appState.currentStep === 'return_To_Homescreen'){
             setNamePlayersContainerClassName('name-players-container-visible')
             setTealOverlayHomescreenClassName('teal-overlay-name-players-container-visible');
             playAudio();
             appAction({
                 type: ActionType.SELECT_NAME_PLAYERS,
             });
-        } else if(appState.currentStep === 'selectNamePlayers'){
+        } else if(appState.currentStep === 'select_Name_Players'){
             //Currently does nothing
         };
     };
@@ -51,7 +51,6 @@ const HomeScreen = () => {
             type: ActionType.RETURN_TO_HOMESCREEN
         })
     };
-
     // The functions below all handle functions used in the namePlayersContainer
     const handleLoadButtonSubmit = () => {
         // This checks to see if there is a save file, running an error message if there is no file.
@@ -81,11 +80,21 @@ const HomeScreen = () => {
     // select the amount of opponents you want to play with. 
     const handleHelpButtonSubmit = () => {
         playAudio();
-        appAction({
-            type: ActionType.HOMESCREEN_HELP_BUTTON
-        });
+        // appAction({
+        //     type: ActionType.HOMESCREEN_HELP_BUTTON
+        // });
     };
 
+    useEffect(() => {
+        console.log(`The current step is: ${appState.currentStep}`);
+        if(!(appState.currentStep === 'return_To_Homescreen' || appState.currentStep === 'select_Name_Players' || appState.currentStep === 'begin_prestart')){
+            console.log(`We're in the if() check`);
+            appAction({
+                type: ActionType.RESET_APPSTATE_RETURN_TO_HOMESCREEN
+            });
+        }
+        // console.log(util.inspect(appState, {showHidden: false, depth: null, colors: false}));
+    }, [appState.currentStep]);
     return (
         <div>
             <div className="home-screen" onClick={()=>selectNamePlayers()}>

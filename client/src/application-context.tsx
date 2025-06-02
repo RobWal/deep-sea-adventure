@@ -284,7 +284,7 @@ export const DefaultGameState: GameState = {
     totalRounds: 3,
     currentPlayer: -1,
     totalPlayers: 2,
-    currentStep: 'returnToHomeScreen',
+    currentStep: 'return_To_Homescreen',
     dice: [1, 3],
     players: [],
     // round: 1,
@@ -327,12 +327,13 @@ export enum ActionType {
     REMOVE_EMPTY_TILE_LOCATIONS = "remove_empty_tile_locations",
     END_OF_ROUND_ADJUSTMENTS = "end_of_round_adjustments",
     TALLY_SCORES = "tally_scores",
+    RESET_APPSTATE_RETURN_TO_HOMESCREEN = "reset_appstate_return_to_homescreen",
 }
 
 
-export type GameAction = ReturnToHomeScreenAction | SelectNamePlayers | HomescreenHelpButton | HomescreenLoadButton | AddPlayerAction | SetTotalPlayersAction | GeneratePlayersAction | ShufflePlayers | BeginPrestart | StartGame | SetCurrentPlayer | RollDice | MovePlayerToken | ShowDiceResults | TreasurePickupDecision | TreasureLeaveDecision | TreasureDropDecision | NextPlayerTurn | SetOxygenLevel | DeeperOrBack | PlayerGotBack | SkipPlayersGo | EndTheRound | NextPlayerLogic | CleanUpTheDrowned | MoveDrownedPlayersHome | RemoveEmptyTileLocations | EndOfRoundAdjustments | TallyScores;
+export type GameAction = ReturnToHomescreen | SelectNamePlayers | HomescreenHelpButton | HomescreenLoadButton | AddPlayerAction | SetTotalPlayersAction | GeneratePlayersAction | ShufflePlayers | BeginPrestart | StartGame | SetCurrentPlayer | RollDice | MovePlayerToken | ShowDiceResults | TreasurePickupDecision | TreasureLeaveDecision | TreasureDropDecision | NextPlayerTurn | SetOxygenLevel | DeeperOrBack | PlayerGotBack | SkipPlayersGo | EndTheRound | NextPlayerLogic | CleanUpTheDrowned | MoveDrownedPlayersHome | RemoveEmptyTileLocations | EndOfRoundAdjustments | TallyScores | ResetAppstateReturnToHomescreen;
 
-export interface ReturnToHomeScreenAction { 
+export interface ReturnToHomescreen { 
     type: ActionType.RETURN_TO_HOMESCREEN;
 }
 
@@ -508,6 +509,10 @@ export interface TallyScores {
     }
 }
 
+export interface ResetAppstateReturnToHomescreen {
+    type: ActionType.RESET_APPSTATE_RETURN_TO_HOMESCREEN;
+}
+
 export const GameContextReducer: Reducer<
     GameState,
     GameAction
@@ -516,17 +521,17 @@ export const GameContextReducer: Reducer<
         case ActionType.RETURN_TO_HOMESCREEN: 
             return {
                 ...state,
-                currentStep: 'returnToHomeScreen',
+                currentStep: 'return_To_Homescreen',
             }
         case ActionType.SELECT_NAME_PLAYERS: 
             return {
                 ...state,
-                currentStep: 'selectNamePlayers',
+                currentStep: 'select_Name_Players',
             }
         case ActionType.HOMESCREEN_HELP_BUTTON: 
             return {
                 ...state,
-                currentStep: 'homescreenHelpButton',
+                currentStep: 'homescreen_Help_Button',
             }              
         case ActionType.HOMESCREEN_LOAD_BUTTON: 
             const currentSaveGameData: GameState = JSON.parse(localStorage.getItem("currentGame") || "{}");
@@ -719,24 +724,24 @@ export const GameContextReducer: Reducer<
                 farthestFromTheSub: action.payload.farthestFromTheSub,
                 drownedPlayersTreasures: action.payload.drownedPlayersTreasures,
             }
-            case ActionType.REMOVE_EMPTY_TILE_LOCATIONS:
-                return {
-                    ...state,
-                    tiles: action.payload.newTileArray,
-                    currentStep: 'remove_empty_tile_locations',
-                }
-            case ActionType.END_OF_ROUND_ADJUSTMENTS:
-                return {
-                    ...state,
-                    players: action.payload.reorderedPlayersArray,
-                    currentStep: 'end_of_round_adjustments',
-                    remainingOxygen: 25,
-                    currentRound: action.payload.currentRound,
-                    currentPlayer: 0,
-                    returnedPlayerIDs: [],
-                    farthestFromTheSub: 0,
-                    tilesArrayLength: action.payload.tilesArrayLength,
-                    drownedPlayersTreasures: [],
+        case ActionType.REMOVE_EMPTY_TILE_LOCATIONS:
+            return {
+                ...state,
+                tiles: action.payload.newTileArray,
+                currentStep: 'remove_empty_tile_locations',
+            }
+        case ActionType.END_OF_ROUND_ADJUSTMENTS:
+            return {
+                ...state,
+                players: action.payload.reorderedPlayersArray,
+                currentStep: 'end_of_round_adjustments',
+                remainingOxygen: 25,
+                currentRound: action.payload.currentRound,
+                currentPlayer: 0,
+                returnedPlayerIDs: [],
+                farthestFromTheSub: 0,
+                tilesArrayLength: action.payload.tilesArrayLength,
+                drownedPlayersTreasures: [],
             }
         case ActionType.TALLY_SCORES:
             // updatedScorePlayers takes the existing players array.
@@ -751,7 +756,12 @@ export const GameContextReducer: Reducer<
                 ...state,
                 players: updatedScorePlayers,
                 currentStep: 'tally_scores',
-        }
+            }
+        case ActionType.RESET_APPSTATE_RETURN_TO_HOMESCREEN:
+            return {
+                ...state,
+                currentStep: 'return_To_Homescreen',
+            }
     }
 };
 

@@ -29,30 +29,29 @@ const NamePlayersContainer = ({className, escapeButtonFunction, loadButtonFuncti
         appAction({
         type: ActionType.ADD_PLAYER,
         payload: {
-          userName: value,
+        userName: value,
         }
-      })
+    })
     }
 
     const setTotalPlayers = (value: number) => {
         appAction({
         type: ActionType.SET_TOTAL_PLAYERS,
         payload: {
-          totalPlayers: value,
-        }})
+        totalPlayers: value,
+        }});
         appAction({
             type: ActionType.GENERATE_PLAYERS,
             payload: {
                 totalPlayers: value,
             }
-        })
-    }
-
+        });
+    };
     const beginPrestart = () => {
         appAction({
         type: ActionType.BEGIN_PRESTART,
-      })
-    }
+        })
+    };
 
     return (
         <div>
