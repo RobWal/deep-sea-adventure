@@ -19,20 +19,25 @@ type NamePlayersContainer = {
     helpButtonFunction: () => void,
 }
 
-
 const NamePlayersContainer = ({className, escapeButtonFunction, loadButtonFunction, helpButtonFunction}: NamePlayersContainer) => {
     const [appState, appAction] = useContext(GameContext);
     
+    const checkForPreviousGameData = () => {
+        appAction({
+            type: ActionType.DELETE_PREVIOUS_GAME_DATA,
+        })
+    };
+
     // This function runs when the user has clicked the number of players they want their game to have, after putting in a valid name. 
     // It adds the players to the players[] array in the appState (or simply state in the appliaction-context.tsx).  
-    const addNewUser = (value: string) => {
+    const addPlayer = (value: string) => {
         appAction({
-        type: ActionType.ADD_PLAYER,
-        payload: {
-        userName: value,
-        }
-    })
-    }
+            type: ActionType.ADD_PLAYER,
+            payload: {
+                userName: value,
+            }
+        });
+    };
 
     const setTotalPlayers = (value: number) => {
         appAction({
@@ -47,9 +52,9 @@ const NamePlayersContainer = ({className, escapeButtonFunction, loadButtonFuncti
             }
         });
     };
-    const beginPrestart = () => {
+    const moveToGameContainer = () => {
         appAction({
-        type: ActionType.BEGIN_PRESTART,
+            type: ActionType.MOVE_TO_GAME_CONTAINER,
         })
     };
 
@@ -58,7 +63,7 @@ const NamePlayersContainer = ({className, escapeButtonFunction, loadButtonFuncti
             <div className={className}>
                 <HelpButton helpButtonFunction={helpButtonFunction} style={{position: 'absolute', top:'15px', right:'15px', margin:'15px', zIndex:'1'}}/>
                 <EscapeButton escapeButtonFunction={escapeButtonFunction} style={{position: 'absolute', top:'15px', left:'15px', margin:'15px', zIndex:'1'}}/>
-                <NameForm setTotalPlayers={setTotalPlayers} addNewUser={addNewUser} beginPrestart={beginPrestart} style={{position: 'absolute', top:'50px'}}/>
+                <NameForm setTotalPlayers={setTotalPlayers} addPlayer={addPlayer} moveToGameContainer={moveToGameContainer} checkForPreviousGameData={checkForPreviousGameData} style={{position: 'absolute', top:'50px'}}/>
                 <LoadButton loadButtonFunction={loadButtonFunction} style={{position: 'absolute', top:'5px', right:'245px', margin:'15px', zIndex:'1'}}/>
             </div>
          </div>

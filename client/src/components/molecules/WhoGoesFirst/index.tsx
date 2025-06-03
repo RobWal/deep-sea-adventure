@@ -40,7 +40,7 @@ const WhoGoesFirst = ({className}: any) => {
                 shufflePlayers(arrayForShuffling);
             }, 2500/gameSpeed)
         };
-    }, [])
+    }, [appState.currentStep])
     return (
         <div>
             <div className={className} >

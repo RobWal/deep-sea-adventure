@@ -287,7 +287,6 @@ export const DefaultGameState: GameState = {
     currentStep: 'return_To_Homescreen',
     dice: [1, 3],
     players: [],
-    // round: 1,
     tiles: tileGenerator(),
     tilesArrayLength: 32,
     remainingOxygen: 25,
@@ -306,6 +305,7 @@ export enum ActionType {
     SET_TOTAL_PLAYERS = "set_total_players",
     GENERATE_PLAYERS = "generate_players",
     SHUFFLE_PLAYERS = "shuffle_players",
+    MOVE_TO_GAME_CONTAINER = "move_to_game_container",
     BEGIN_PRESTART = "begin_prestart",
     START_GAME = "start_game",
     SET_CURRENT_PLAYER = "set_current_player",
@@ -328,10 +328,11 @@ export enum ActionType {
     END_OF_ROUND_ADJUSTMENTS = "end_of_round_adjustments",
     TALLY_SCORES = "tally_scores",
     RESET_APPSTATE_RETURN_TO_HOMESCREEN = "reset_appstate_return_to_homescreen",
+    DELETE_PREVIOUS_GAME_DATA = "delete_previous_game_data",
 }
 
 
-export type GameAction = ReturnToHomescreen | SelectNamePlayers | HomescreenHelpButton | HomescreenLoadButton | AddPlayerAction | SetTotalPlayersAction | GeneratePlayersAction | ShufflePlayers | BeginPrestart | StartGame | SetCurrentPlayer | RollDice | MovePlayerToken | ShowDiceResults | TreasurePickupDecision | TreasureLeaveDecision | TreasureDropDecision | NextPlayerTurn | SetOxygenLevel | DeeperOrBack | PlayerGotBack | SkipPlayersGo | EndTheRound | NextPlayerLogic | CleanUpTheDrowned | MoveDrownedPlayersHome | RemoveEmptyTileLocations | EndOfRoundAdjustments | TallyScores | ResetAppstateReturnToHomescreen;
+export type GameAction = ReturnToHomescreen | SelectNamePlayers | HomescreenHelpButton | HomescreenLoadButton | AddPlayerAction | SetTotalPlayersAction | GeneratePlayersAction | ShufflePlayers | MoveToGameContainer | BeginPrestart | StartGame | SetCurrentPlayer | RollDice | MovePlayerToken | ShowDiceResults | TreasurePickupDecision | TreasureLeaveDecision | TreasureDropDecision | NextPlayerTurn | SetOxygenLevel | DeeperOrBack | PlayerGotBack | SkipPlayersGo | EndTheRound | NextPlayerLogic | CleanUpTheDrowned | MoveDrownedPlayersHome | RemoveEmptyTileLocations | EndOfRoundAdjustments | TallyScores | ResetAppstateReturnToHomescreen | DeletePreviousGameData;
 
 export interface ReturnToHomescreen { 
     type: ActionType.RETURN_TO_HOMESCREEN;
@@ -375,6 +376,10 @@ export interface ShufflePlayers {
     payload: {
         shuffledPlayersArray: Players[];
     }
+}
+
+export interface MoveToGameContainer {
+    type: ActionType.MOVE_TO_GAME_CONTAINER;
 }
 
 export interface BeginPrestart {
@@ -513,6 +518,10 @@ export interface ResetAppstateReturnToHomescreen {
     type: ActionType.RESET_APPSTATE_RETURN_TO_HOMESCREEN;
 }
 
+export interface DeletePreviousGameData {
+    type: ActionType.DELETE_PREVIOUS_GAME_DATA;
+}
+
 export const GameContextReducer: Reducer<
     GameState,
     GameAction
@@ -592,6 +601,11 @@ export const GameContextReducer: Reducer<
                 players: [
                     ...action.payload.shuffledPlayersArray
             ]};
+        case ActionType.MOVE_TO_GAME_CONTAINER: 
+            return {
+                ...state,
+                currentStep: 'move_to_game_container',
+            };
         case ActionType.BEGIN_PRESTART: 
             return {
                 ...state,
@@ -761,6 +775,24 @@ export const GameContextReducer: Reducer<
             return {
                 ...state,
                 currentStep: 'return_To_Homescreen',
+            }
+        case ActionType.DELETE_PREVIOUS_GAME_DATA:
+            return {
+                ...state, 
+                currentRound: 0,
+                totalRounds: 3,
+                currentPlayer: -1,
+                totalPlayers: 2,
+                currentStep: 'return_To_Homescreen',
+                dice: [1, 3],
+                players: [],
+                tiles: tileGenerator(),
+                tilesArrayLength: 32,
+                remainingOxygen: 25,
+                gameSpeed: 1,
+                returnedPlayerIDs: [],
+                drownedPlayersTreasures: [],
+                farthestFromTheSub: 0,
             }
     }
 };

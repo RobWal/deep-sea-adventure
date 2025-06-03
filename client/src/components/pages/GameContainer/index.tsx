@@ -59,6 +59,20 @@ const GameContainer = () => {
     }
 
     useEffect(() => {
+        // console.log(util.inspect(appState, {showHidden: false, depth: null, colors: false}));
+        // console.log(`The appState.currentStep is: ${appState.currentStep}`);
+        if(appState.currentPlayer === -1) { 
+            setAnnouncerInnerText('') 
+        };
+
+        // This step exists as a stepping stone from the homescreen URL to the gameContainer URL, allowing for easier 
+        // checks to determine if the player uses the 'back' button in the browser. 
+        if(appState.currentStep === 'move_to_game_container'){
+            appAction({
+                type: ActionType.BEGIN_PRESTART
+            });
+        };
+
         if(appState.currentStep === 'begin_prestart'){
             setTimeout(() => {
                 setWhoGoesFirstClassName('who-goes-first-visible');
@@ -72,14 +86,6 @@ const GameContainer = () => {
                     type: ActionType.START_GAME
                 });
             }, 5000/gameSpeed)
-        }
-    }, [appState.currentStep]);
-
-    useEffect(() => {
-        // console.log(util.inspect(appState, {showHidden: false, depth: null, colors: false}));
-        console.log(appState.currentStep);
-        if(appState.currentPlayer === -1) { 
-            setAnnouncerInnerText('') 
         };
 
         if(appState.currentStep === 'is_player_in_sub'){

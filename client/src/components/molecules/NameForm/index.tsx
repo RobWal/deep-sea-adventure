@@ -6,7 +6,7 @@ import './NameForm.css';
 import useSound from 'use-sound';
 import bubbleClickSFX from '../../sfx/bubbleClick.mp3';
 
-const NameForm = ({style, addNewUser, setTotalPlayers, beginPrestart}: any) => {
+const NameForm = ({style, addPlayer, setTotalPlayers, moveToGameContainer}: any) => {
     const [nameIsValid, setNameIsValid] = useState(false);
     let navigate = useNavigate();
     const [playerName, setPlayerName] = useState("");
@@ -39,11 +39,11 @@ const NameForm = ({style, addNewUser, setTotalPlayers, beginPrestart}: any) => {
             // Set areButtonsClickable to false, to ensure players can't repeatedly click the button. 
             setAreButtonsClickable(false);
             playAudio();
+            setTotalPlayers(e.target.innerHTML)
+            addPlayer(playerName);
+            moveToGameContainer();
+            navigate("/gamecontainer");
             // setTimeout(() => {
-                setTotalPlayers(e.target.innerHTML)
-                addNewUser(playerName);
-                beginPrestart();
-                navigate("/gamecontainer");
             // }, 2500);
         };
     };
