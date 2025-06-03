@@ -89,41 +89,24 @@ const HomeScreen = () => {
     // resetAppstateCurrentstep is triggered onLoad with the <div>home-screen</div>, triggering if the currentStep is
     // anything besides the two valid options.  
     
-    // Unfortunately, the code below sometimes doesn't 100% 'work', if the player decides to use the back button
-    // in the browser, while the game is in a state of change due to a setTimeout(()=>{}). Though the worst thing 
-    // that happens is the namePlayersContainer needs to be re triggered by a click. 
-
-    // The 'simplest' way to fix this would be to create a delay before the player can trigger the namePlayersContainer,
-    // but that would likely require some kind of beginning animation to give the game a 'reason' to lock the player out
-    // from starting the game immediately. However, it would need to be of considerable length, due to the length
-    // of the event at the end of the game, from 'end_of_round' to 'tally_scores'. 
-
-    // The more simple way would be to add a check to each step, to ensure that it's still necessary to run, i.e.
-    // we're still in the gameContainer and not the homescreen. 
-    
-    // const resetAppstateCurentstep = () => {
-    // };
-    
     // The useEffect below performs a similar function to the above, but instead of resetting the currentStep in 
     // isolation, it deletes any unsaved game data that existed, resetting it back to defaultGameState.
     useEffect(() => {
-        console.log(`${appState.currentStep}`);
         if(appState.players.length > 0 && (appState.currentStep === 'return_To_Homescreen' || appState.currentStep === 'select_Name_Players')){
             appAction({
                 type: ActionType.DELETE_PREVIOUS_GAME_DATA
             });
         }
-        // if(!(appState.currentStep === 'return_To_Homescreen' || appState.currentStep === 'select_Name_Players')){
-        //     console.log(`We're in here appropriately`);
-        //     appAction({
-        //         type: ActionType.RESET_APPSTATE_RETURN_TO_HOMESCREEN
-        //     });
-        // };
+        if(!(appState.currentStep === 'return_To_Homescreen' || appState.currentStep === 'select_Name_Players' || appState.currentStep === 'move_to_game_container')){
+            console.log(`We're in here appropriately`);
+            appAction({
+                type: ActionType.RESET_APPSTATE_RETURN_TO_HOMESCREEN
+            });
+        };
     }, [appState.currentStep]);
     return (
         <div>
             <div className="home-screen" onClick={()=>selectNamePlayers()}>
-            {/* <div className="home-screen" onClick={()=>selectNamePlayers()} onLoad={()=>resetAppstateCurentstep()}> */}
                 <div className='text-container'>
                     <H1 text={'DEEP SEA ADVENTURE'} style={{marginTop: '20px', fontSize:'82px', color: '#2AD2C5'}}/>
                     <H1 text={'Click to play!'} style={{marginTop: '60px',color: 'white', fontSize: '45px'}}/>

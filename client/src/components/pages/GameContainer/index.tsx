@@ -59,15 +59,13 @@ const GameContainer = () => {
     }
 
     useEffect(() => {
-        // console.log(util.inspect(appState, {showHidden: false, depth: null, colors: false}));
-        // console.log(`The appState.currentStep is: ${appState.currentStep}`);
         if(appState.currentPlayer === -1) { 
             setAnnouncerInnerText('') 
         };
 
-        // This step exists as a stepping stone from the homescreen URL to the gameContainer URL, allowing for easier 
-        // checks to determine if the player uses the 'back' button in the browser. 
         if(appState.currentStep === 'move_to_game_container'){
+            // This step exists as a stepping stone from the homescreen URL to the gameContainer URL, allowing for easier 
+            // checks to determine if the player uses the 'back' button in the browser. 
             appAction({
                 type: ActionType.BEGIN_PRESTART
             });

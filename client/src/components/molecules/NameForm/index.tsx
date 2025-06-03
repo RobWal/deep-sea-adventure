@@ -43,8 +43,6 @@ const NameForm = ({style, addPlayer, setTotalPlayers, moveToGameContainer}: any)
             addPlayer(playerName);
             moveToGameContainer();
             navigate("/gamecontainer");
-            // setTimeout(() => {
-            // }, 2500);
         };
     };
 
