@@ -30,6 +30,10 @@ https://deep-sea-adventure.onrender.com/
 
 ![In game view](https://i.imgur.com/GZBoYtx.png 'In game view')
 
+## The menu I'm working on implementing now.
+
+![New Menu](https://i.imgur.com/iQ2jGYQ.png 'New menu')
+
 # Wireframe
 
 https://www.canva.com/design/DAE9nxGrJQU/n800FeMsJyuLdoipYZEGMA/edit
