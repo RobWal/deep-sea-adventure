@@ -14,11 +14,11 @@ import TreasureOne from '../../atoms/VisualAssets/TreasureOne';
 import TreasureThree from '../../atoms/VisualAssets/TreasureThree';
 import TreasureTwo from '../../atoms/VisualAssets/TreasureTwo';
 import NamePlayersContainer from '../../organisms/NamePlayersContainer';
-import './HomeScreen.css';
+import './Homescreen.css';
 import useSound from 'use-sound';
 import bubbleClickSFX from '../../sfx/bubbleClick.mp3';
 
-const HomeScreen = () => { 
+const Homescreen = () => { 
     const util = require('util');
     const [appState, appAction] = useContext(GameContext);
     const [loadingSaveFile, setLoadingSaveFile] = useState(false);
@@ -110,7 +110,7 @@ const HomeScreen = () => {
     }, [appState.currentStep]);
     return (
         <div>
-            <div className="home-screen" onClick={()=>selectNamePlayers()}>
+            <div className="homescreen" onClick={()=>selectNamePlayers()}>
                 <div className='text-container'>
                     <H1 text={'DEEP SEA ADVENTURE'} style={{marginTop: '20px', fontSize:'82px', color: '#2AD2C5'}}/>
                     <H1 text={'Click to play!'} style={{marginTop: '60px',color: 'white', fontSize: '45px'}}/>
@@ -142,4 +142,4 @@ const HomeScreen = () => {
     )
 };
 
-export default HomeScreen;
+export default Homescreen;

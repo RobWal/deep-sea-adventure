@@ -2,7 +2,7 @@ import React, { useEffect, useContext, useReducer, useState } from 'react';
 import './App.css';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import GameContainer from './components/pages/GameContainer';
-import HomeScreen from './components/pages/HomeScreen';
+import HomeScreen from './components/pages/Homescreen';
 import { GameContext, ActionType, GameContextReducer, DefaultGameState } from './application-context';
 
 
