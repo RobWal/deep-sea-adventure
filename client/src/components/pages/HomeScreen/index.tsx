@@ -21,6 +21,7 @@ import bubbleClickSFX from '../../sfx/bubbleClick.mp3';
 const HomeScreen = () => { 
     const util = require('util');
     const [appState, appAction] = useContext(GameContext);
+    const [loadingSaveFile, setLoadingSaveFile] = useState(false);
     let navigate = useNavigate();
     const soundUrl = bubbleClickSFX;
     const [play] = useSound(soundUrl, { playbackRate: 1.0});
@@ -60,6 +61,7 @@ const HomeScreen = () => {
         } 
         // If there is a save file, the game will load the save file and continue the game. 
         else if(localStorage.getItem("currentGame") !== null){
+            setLoadingSaveFile(true);
             playAudio();
             appAction({
                 type: ActionType.HOMESCREEN_LOAD_BUTTON
@@ -92,17 +94,20 @@ const HomeScreen = () => {
     // The useEffect below performs a similar function to the above, but instead of resetting the currentStep in 
     // isolation, it deletes any unsaved game data that existed, resetting it back to defaultGameState.
     useEffect(() => {
-        if(appState.players.length > 0 && (appState.currentStep === 'return_To_Homescreen' || appState.currentStep === 'select_Name_Players')){
-            appAction({
-                type: ActionType.DELETE_PREVIOUS_GAME_DATA
-            });
+        console.log(`${loadingSaveFile}`);
+        // Check to make sure the player isn't loading a save file. If they are, don't interfere with the loading process. 
+        if(!loadingSaveFile){
+            if(appState.players.length > 0 && (appState.currentStep === 'return_To_Homescreen' || appState.currentStep === 'select_Name_Players')){
+                appAction({
+                    type: ActionType.DELETE_PREVIOUS_GAME_DATA
+                });
+            }
+            if(!(appState.currentStep === 'return_To_Homescreen' || appState.currentStep === 'select_Name_Players' || appState.currentStep === 'move_to_game_container')){
+                appAction({
+                    type: ActionType.RESET_APPSTATE_RETURN_TO_HOMESCREEN
+                });
+            };
         }
-        if(!(appState.currentStep === 'return_To_Homescreen' || appState.currentStep === 'select_Name_Players' || appState.currentStep === 'move_to_game_container')){
-            console.log(`We're in here appropriately`);
-            appAction({
-                type: ActionType.RESET_APPSTATE_RETURN_TO_HOMESCREEN
-            });
-        };
     }, [appState.currentStep]);
     return (
         <div>

@@ -7,10 +7,9 @@ import ScoreBoardTreasures from '../../molecules/ScoreBoardTreasures';
 import './ScoreBoardContainer.css'
 
 const ScoreBoardContainer = () => {
+    // const util = require('util');
     const [appState, appAction] = useContext(GameContext);
     const player = appState.players;
-    for(let i = 0; i < appState.players.length; i++){
-    }
     return (
         <div className='score-board-container'>
             <ScoreBoardTreasures playerId={0}/>
