@@ -593,11 +593,17 @@ const GameContainer = () => {
                         let individualPlayerDrownedTreasure = [];
                         for(let i = 0; i < player.treasure.length; i++){
                             individualPlayerDrownedTreasure.push(player.treasure[i]);
+                            // If the length of the array to be pushed to the end of the tiles is 3, 
+                            // push that array, reset it back to [], and keep looping through. 
+                            if(individualPlayerDrownedTreasure.length === 3){
+                                newDrownedTreasuresArray.push(individualPlayerDrownedTreasure);
+                                individualPlayerDrownedTreasure = [];
+                            }; 
                         };
+                        newDrownedTreasuresArray.push(individualPlayerDrownedTreasure);
                         // Do nothing if the drowned players array is empty.
-                        if(individualPlayerDrownedTreasure.length === 0){}
-                        else if(individualPlayerDrownedTreasure.length > 0){
-                            newDrownedTreasuresArray.push(individualPlayerDrownedTreasure);
+                        if(individualPlayerDrownedTreasure.length === 0){
+                            // Do nothing if the drowned players array is empty.
                         }
                     };
                 };
@@ -657,6 +663,8 @@ const GameContainer = () => {
                     // Reset the players treasurePickups to 0 
                     newPlayerArray[i].treasurePickups = 0;
                 };
+                console.log(`We're looking at the code responsible for drowned players treasures.`);
+                console.log(util.inspect(newDrownedTreasuresArray, {showHidden: false, depth: null, colors: false}));
                 appAction({
                     type: ActionType.MOVE_DROWNED_PLAYERS_HOME,
                     payload: {
