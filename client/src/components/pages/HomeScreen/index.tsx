@@ -94,7 +94,6 @@ const HomeScreen = () => {
     // The useEffect below performs a similar function to the above, but instead of resetting the currentStep in 
     // isolation, it deletes any unsaved game data that existed, resetting it back to defaultGameState.
     useEffect(() => {
-        console.log(`${loadingSaveFile}`);
         // Check to make sure the player isn't loading a save file. If they are, don't interfere with the loading process. 
         if(!loadingSaveFile){
             if(appState.players.length > 0 && (appState.currentStep === 'return_To_Homescreen' || appState.currentStep === 'select_Name_Players')){
