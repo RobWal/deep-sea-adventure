@@ -864,7 +864,7 @@ const GameContainer = () => {
         <div className="game-container">
             <TileLayout />
             <PlayerTokens />
-            <EscapeButton escapeButtonFunction={handleEscapeButtonSubmit} style={{position: 'absolute', top: '15px', right: '0px'}}/>
+            {/* <EscapeButton escapeButtonFunction={handleEscapeButtonSubmit} style={{position: 'absolute', top: '15px', right: '0px'}}/> */}
             <LoadButton loadButtonFunction={handleHelpButtonSubmit} style={{position: 'absolute', top: '15px', right: '50px'}}/>
             <OxygenSubmarine style={{position: 'absolute', top: '20px', left: '500px'}}/>
             <OxygenMarker style={{position: 'absolute', top: oxygenTokenLocations[appState.remainingOxygen].top, left: oxygenTokenLocations[appState.remainingOxygen].left}}/>
