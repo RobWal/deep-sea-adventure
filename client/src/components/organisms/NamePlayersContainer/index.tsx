@@ -63,7 +63,7 @@ const NamePlayersContainer = ({className}: NamePlayersContainer) => {
             <div className={className}>
                 {/* <HelpButton helpButtonFunction={helpButtonFunction} style={{position: 'absolute', top:'15px', right:'15px', margin:'15px', zIndex:'1'}}/> */}
                 {/* <EscapeButton escapeButtonFunction={escapeButtonFunction} style={{position: 'absolute', top:'15px', left:'15px', margin:'15px', zIndex:'1'}}/> */}
-                <NameForm setTotalPlayers={setTotalPlayers} addPlayer={addPlayer} moveToGameContainer={moveToGameContainer} checkForPreviousGameData={checkForPreviousGameData} style={{position: 'absolute', top:'50px'}}/>
+                <NameForm setTotalPlayers={setTotalPlayers} addPlayer={addPlayer} moveToGameContainer={moveToGameContainer} checkForPreviousGameData={checkForPreviousGameData} style={{position: 'absolute', top:'30px'}}/>
                 {/* <LoadButton loadButtonFunction={loadButtonFunction} style={{position: 'absolute', top:'5px', right:'245px', margin:'15px', zIndex:'1'}}/> */}
             </div>
          </div>
