@@ -1,0 +1,79 @@
+.homescreen-menu-menu-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 200px;
+    height: 40px;
+    margin: 0px 150px 0px 150px; 
+    background-color: #5aa2c5;
+    border-radius: 10px;
+    margin: 40px 70px 10px 70px;
+    padding: 20px;
+    user-select: none;
+}
+
+.homescreen-menu-single-player-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 175px;
+    height: 30px;
+    background-color: #2ad2c5;
+    border-radius: 10px;
+    margin: 0px 0px 0px 20px;
+    padding: 20px;
+    user-select: none;
+}
+
+.homescreen-menu-multiplayer-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 175px;
+    height: 30px;
+    background-color: #5aa2c5;
+    border-radius: 10px;
+    margin: 0px 20px 0px 0px;
+    padding: 20px;
+    user-select: none;
+}
+
+.homescreen-menu-tutorial-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 175px;
+    height: 30px;
+    background-color: #5aa2c5;
+    border-radius: 10px;
+    margin: 0px 0px 0px 20px;
+    padding: 20px;
+    user-select: none;
+}
+
+.homescreen-menu-load-game-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 175px;
+    height: 30px;
+    background-color: #2ad2c5;
+    border-radius: 10px;
+    margin: 0px 20px 0px 0px;
+    padding: 20px;
+    user-select: none;
+}
+
+.homescreen-menu-exit-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 200px;
+    height: 30px;
+    margin: 0px 150px 0px 150px; 
+    background-color: #2ad2c5;
+    border-radius: 10px;
+    /* margin: 40px 70px 0px 70px; */
+    padding: 20px;
+    user-select: none;
+}

@@ -14,9 +14,11 @@ import TreasureOne from '../../atoms/VisualAssets/TreasureOne';
 import TreasureThree from '../../atoms/VisualAssets/TreasureThree';
 import TreasureTwo from '../../atoms/VisualAssets/TreasureTwo';
 import NamePlayersContainer from '../../organisms/NamePlayersContainer';
+import HomescreenMenuContainer from '../../organisms/HomescreenMenuContainer';
 import './Homescreen.css';
 import useSound from 'use-sound';
 import bubbleClickSFX from '../../sfx/bubbleClick.mp3';
+import { appendFile } from 'fs';
 
 const Homescreen = () => { 
     const util = require('util');
@@ -27,15 +29,18 @@ const Homescreen = () => {
     const [play] = useSound(soundUrl, { playbackRate: 1.0});
     const [tealOverlayHomescreenClassName, setTealOverlayHomescreenClassName] = useState('teal-overlay-name-players-container-on-load');
     const [namePlayersContainerClassName, setNamePlayersContainerClassName] = useState('name-players-container-on-load');
+    const [homescreenMenuContainerClassName, setHomescreenMenuContainerClassName] = useState('homescreen-menu-container-on-load');
     const playAudio = () => {
         const newPlaybackRate = 0.5 + Math.random();
         play({ playbackRate: newPlaybackRate});
     };
 
+    
     const selectNamePlayers = () => {        
         if(appState.currentStep === 'return_To_Homescreen'){
-            setNamePlayersContainerClassName('name-players-container-visible')
+            setNamePlayersContainerClassName('name-players-container-on-load');
             setTealOverlayHomescreenClassName('teal-overlay-name-players-container-visible');
+            setHomescreenMenuContainerClassName('homescreen-menu-container-visible');
             playAudio();
             appAction({
                 type: ActionType.SELECT_NAME_PLAYERS,
@@ -45,13 +50,36 @@ const Homescreen = () => {
         };
     };
     const handleTealOverlayClick = () => {
-        setNamePlayersContainerClassName('name-players-container-invisible')
-        setTealOverlayHomescreenClassName('teal-overlay-name-players-container-invisible');
+        if(appState.currentStep === 'return_To_Homescreen'){
+            setNamePlayersContainerClassName('name-players-container-invisible'); 
+            setTealOverlayHomescreenClassName('teal-overlay-name-players-container-invisible');
+            setHomescreenMenuContainerClassName('homescreen-menu-container-invisible');
+        }
+        else if(appState.currentStep === 'select_Name_Players'){
+            setNamePlayersContainerClassName('name-players-container-on-load')
+            setTealOverlayHomescreenClassName('teal-overlay-name-players-container-invisible');
+            setHomescreenMenuContainerClassName('homescreen-menu-container-invisible');
+        };
         playAudio();
         appAction({
             type: ActionType.RETURN_TO_HOMESCREEN
         })
     };
+
+    const handleSinglePlayerButtonSubmit = () => {
+        if(appState.currentStep === 'select_Name_Players'){
+            setNamePlayersContainerClassName('name-players-container-visible')
+            setTealOverlayHomescreenClassName('teal-overlay-name-players-container-visible');
+            setHomescreenMenuContainerClassName('homescreen-menu-container-invisible');
+            playAudio();
+            appAction({
+                type: ActionType.SELECT_NAME_PLAYERS,
+            });
+        } else if(appState.currentStep === 'select_Name_Players'){
+            //Currently does nothing
+        };
+    };
+
     // The functions below all handle functions used in the namePlayersContainer
     const handleLoadButtonSubmit = () => {
         // This checks to see if there is a save file, running an error message if there is no file.
@@ -69,9 +97,11 @@ const Homescreen = () => {
             navigate("/gamecontainer");
         };
     };
+
     const handleEscapeButtonSubmit = () => {
-        setNamePlayersContainerClassName('name-players-container-invisible')
+        // setNamePlayersContainerClassName('name-players-container-invisible')
         setTealOverlayHomescreenClassName('teal-overlay-name-players-container-invisible');
+        setHomescreenMenuContainerClassName('homescreen-menu-container-invisible');
         playAudio();
         appAction({
             type: ActionType.RETURN_TO_HOMESCREEN
@@ -94,6 +124,7 @@ const Homescreen = () => {
     // The useEffect below performs a similar function to the above, but instead of resetting the currentStep in 
     // isolation, it deletes any unsaved game data that existed, resetting it back to defaultGameState.
     useEffect(() => {
+        // console.log(appState.currentStep);
         // Check to make sure the player isn't loading a save file. If they are, don't interfere with the loading process. 
         if(!loadingSaveFile){
             if(appState.players.length > 0 && (appState.currentStep === 'return_To_Homescreen' || appState.currentStep === 'select_Name_Players')){
@@ -108,6 +139,7 @@ const Homescreen = () => {
             };
         }
     }, [appState.currentStep]);
+
     return (
         <div>
             <div className="homescreen" onClick={()=>selectNamePlayers()}>
@@ -133,10 +165,13 @@ const Homescreen = () => {
                     <TreasureFour style={{position: 'absolute', top: '450px', left: '330px'}}/>
                 </div> 
                 <TealOverlay className={tealOverlayHomescreenClassName} onClickFunction={handleTealOverlayClick}/>
-                <NamePlayersContainer className={namePlayersContainerClassName} 
+                <NamePlayersContainer className={namePlayersContainerClassName} />
+                <HomescreenMenuContainer containerClassName={homescreenMenuContainerClassName} 
+                singlePlayerButtonFunction={handleSinglePlayerButtonSubmit}
+                loadButtonFunction={handleLoadButtonSubmit}
                 escapeButtonFunction={handleEscapeButtonSubmit}
-                helpButtonFunction={handleHelpButtonSubmit}
-                loadButtonFunction={handleLoadButtonSubmit} />
+                
+                />
             </div>
         </div>
     )

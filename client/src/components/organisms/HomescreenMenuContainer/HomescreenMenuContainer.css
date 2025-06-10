@@ -1,0 +1,56 @@
+.homescreen-menu-container-on-load {
+    position: absolute;
+    display: flex;
+    justify-content: space-around;
+    flex-direction: row;
+    flex-wrap: wrap;
+    top: -730px;
+    left: 350px;
+    width: 550px;
+    height: 470px;
+    background-color: #004489;
+    border-radius: 10px;
+    opacity: 0%;
+}
+
+.homescreen-menu-container-visible {
+    position: absolute;
+    display: flex;
+    justify-content: space-around;
+    flex-direction: row;
+    flex-wrap: wrap;
+    top: 120px;
+    left: 350px;
+    width: 550px;
+    height: 470px;
+    background-color: #004489;
+    border-radius: 10px;
+    opacity: 100%;
+    animation: homescreenMenuContainerVisibility 0.5s;
+}
+@keyframes homescreenMenuContainerVisibility {
+    0% {top: -730px; opacity: 0%}
+    40% {top: 120px; opacity: 0%;}
+    100% {top: 120px; opacity: 100%}
+}
+
+.homescreen-menu-container-invisible {
+    position: absolute;
+    display: flex;
+    justify-content: space-around;
+    flex-direction: row;
+    flex-wrap: wrap;
+    top: -730px;
+    left: 350px;
+    width: 550px;
+    height: 470px;
+    background-color: #004489;
+    border-radius: 10px;
+    opacity: 0%;
+    animation: homescreenMenuContainerInvisibility 0.5s;
+}
+@keyframes homescreenMenuContainerInvisibility {
+    0% {top: 120px; opacity: 100%}
+    40% {top: 120px; opacity: 0%}
+    100% {top: -730px; opacity: 0%}
+}

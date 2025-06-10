@@ -14,12 +14,12 @@ const util = require('util');
 
 type NamePlayersContainer = {
     className: string,
-    escapeButtonFunction: () => void,
-    loadButtonFunction: () => void,
-    helpButtonFunction: () => void,
+    // escapeButtonFunction: () => void,
+    // loadButtonFunction: () => void,
+    // helpButtonFunction: () => void,
 }
 
-const NamePlayersContainer = ({className, escapeButtonFunction, loadButtonFunction, helpButtonFunction}: NamePlayersContainer) => {
+const NamePlayersContainer = ({className}: NamePlayersContainer) => {
     const [appState, appAction] = useContext(GameContext);
     
     const checkForPreviousGameData = () => {
@@ -61,10 +61,10 @@ const NamePlayersContainer = ({className, escapeButtonFunction, loadButtonFuncti
     return (
         <div>
             <div className={className}>
-                <HelpButton helpButtonFunction={helpButtonFunction} style={{position: 'absolute', top:'15px', right:'15px', margin:'15px', zIndex:'1'}}/>
-                <EscapeButton escapeButtonFunction={escapeButtonFunction} style={{position: 'absolute', top:'15px', left:'15px', margin:'15px', zIndex:'1'}}/>
+                {/* <HelpButton helpButtonFunction={helpButtonFunction} style={{position: 'absolute', top:'15px', right:'15px', margin:'15px', zIndex:'1'}}/> */}
+                {/* <EscapeButton escapeButtonFunction={escapeButtonFunction} style={{position: 'absolute', top:'15px', left:'15px', margin:'15px', zIndex:'1'}}/> */}
                 <NameForm setTotalPlayers={setTotalPlayers} addPlayer={addPlayer} moveToGameContainer={moveToGameContainer} checkForPreviousGameData={checkForPreviousGameData} style={{position: 'absolute', top:'50px'}}/>
-                <LoadButton loadButtonFunction={loadButtonFunction} style={{position: 'absolute', top:'5px', right:'245px', margin:'15px', zIndex:'1'}}/>
+                {/* <LoadButton loadButtonFunction={loadButtonFunction} style={{position: 'absolute', top:'5px', right:'245px', margin:'15px', zIndex:'1'}}/> */}
             </div>
          </div>
     )

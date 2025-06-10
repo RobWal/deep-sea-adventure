@@ -1,0 +1,10 @@
+.homescreen-menu-button-text {
+    /* position: absolute; */
+    /* text-align: right; */
+    /* background-color: #2ad2c5; */
+    color: white;
+    font-size: 26px;
+    font-family: 'Open Sans', sans-serif;
+    cursor: default;
+    /* text-box-trim: trim-end; */
+}
