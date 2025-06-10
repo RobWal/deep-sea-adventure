@@ -18,7 +18,6 @@ import HomescreenMenuContainer from '../../organisms/HomescreenMenuContainer';
 import './Homescreen.css';
 import useSound from 'use-sound';
 import bubbleClickSFX from '../../sfx/bubbleClick.mp3';
-import { appendFile } from 'fs';
 
 const Homescreen = () => { 
     const util = require('util');

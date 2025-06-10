@@ -1,18 +1,14 @@
-import { useState } from 'react';
 import HomescreenMenuButton from '../../molecules/HomescreenMenuButton';
 import './HomescreenMenuContainer.css';
 
 type HomescreenMenuContainer = {
     containerClassName: string,
-    // buttonClassName: string,
-    // HomescreenMenuButton: () => void,
     escapeButtonFunction: () => void,
     loadButtonFunction: () => void,
     singlePlayerButtonFunction: () => void,
 };
 
 const HomescreenMenuContainer = ({containerClassName, escapeButtonFunction, loadButtonFunction, singlePlayerButtonFunction}: HomescreenMenuContainer) => {
-    // const [homescreenMenuButtonClassName, setHomescreenMenuButtonClassName] = useState('homescreen-menu-button-on-load');
     return (
         <div>
             <div className={containerClassName}>
