@@ -9,6 +9,7 @@ import {
     GameContext,
     oxygenTokenLocations
 } from "../../../application-context";
+import { useNavigate } from "react-router-dom";
 import ScoreBoardContainer from '../../organisms/ScoreBoardContainer';
 import EscapeButton from '../../molecules/EscapeButton';
 import LoadButton from '../../molecules/LoadButton';
@@ -35,6 +36,7 @@ export interface PlayerMapPositions {
 
 const GameContainer = () => {
     const [appState, appAction] = useContext(GameContext);
+    let navigate = useNavigate();
     const [tealOverlayWhoGoesFirstClassName, setTealOverlayWhoGoesFirstClassName] = useState('teal-overlay-who-goes-first-invisible');
     const [tealOverlayEndGameClassName, setTealOverlayEndGameClassName] = useState('teal-overlay-end-game-invisible');
     const [whoGoesFirstClassName, setWhoGoesFirstClassName] = useState('who-goes-first-invisible');
@@ -57,8 +59,13 @@ const GameContainer = () => {
         localStorage.setItem(`currentGame`, `${currentGameSaveState}`);
         playAudio();
     }
-
+    
     useEffect(() => {
+        if(appState.currentStep === 'return_To_Homescreen'){
+            console.log(util.inspect(appState, {showHidden: false, depth: null, colors: false}));
+            navigate("/");
+        };
+        
         if(appState.currentPlayer === -1) { 
             setAnnouncerInnerText('') 
         };
