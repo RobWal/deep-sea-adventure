@@ -113,7 +113,7 @@ const HomeScreen = () => {
             if(appState.currentStep === "return_To_Homescreen"){
                 // Do nothing.
             }
-            else if(appState.currentStep == "homescreen_menu"){
+            else if(appState.currentStep == "select_Name_Players"){
                 setTealOverlayHomescreenClassName('teal-overlay-name-players-container-invisible');
                 setHomescreenMenuContainerClassName('homescreen-menu-container-invisible');
                 playAudio();
