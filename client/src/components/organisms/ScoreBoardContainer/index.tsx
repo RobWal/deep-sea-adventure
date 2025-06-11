@@ -7,9 +7,14 @@ import ScoreBoardTreasures from '../../molecules/ScoreBoardTreasures';
 import './ScoreBoardContainer.css'
 
 const ScoreBoardContainer = () => {
-    // const util = require('util');
+    const util = require('util');
     const [appState, appAction] = useContext(GameContext);
     const player = appState.players;
+    // 
+    if(appState.currentPlayer === -1){
+
+    }
+    console.log(util.inspect(appState, {showHidden: false, depth: null, colors: false}));
     return (
         <div className='score-board-container'>
             <ScoreBoardTreasures playerId={0}/>

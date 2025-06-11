@@ -15,11 +15,11 @@ import TreasureThree from '../../atoms/VisualAssets/TreasureThree';
 import TreasureTwo from '../../atoms/VisualAssets/TreasureTwo';
 import NamePlayersContainer from '../../organisms/NamePlayersContainer';
 import HomescreenMenuContainer from '../../organisms/HomescreenMenuContainer';
-import './HomeScreen.css';
+import './Homescreen.css';
 import useSound from 'use-sound';
 import bubbleClickSFX from '../../sfx/bubbleClick.mp3';
 
-const HomeScreen = () => { 
+const Homescreen = () => { 
     const util = require('util');
     const [appState, appAction] = useContext(GameContext);
     const [loadingSaveFile, setLoadingSaveFile] = useState(false);
@@ -84,7 +84,7 @@ const HomeScreen = () => {
         // This checks to see if there is a save file, running an error message if there is no file.
         if(localStorage.getItem("currentGame") === null){
             // Placeholder message, need to imlpement a user friendly error message.
-            console.log(`There is no save file`);
+            // console.log(`There is no save file`);
         } 
         // If there is a save file, the game will load the save file and continue the game. 
         else if(localStorage.getItem("currentGame") !== null){
@@ -176,4 +176,4 @@ const HomeScreen = () => {
     )
 };
 
-export default HomeScreen;
+export default Homescreen;
