@@ -4,8 +4,6 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import GameContainer from './components/pages/GameContainer';
-import Homescreen from './components/pages/Homescreen';
 
 
 const root = ReactDOM.createRoot(
