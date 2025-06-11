@@ -19,7 +19,7 @@ import './Homescreen.css';
 import useSound from 'use-sound';
 import bubbleClickSFX from '../../sfx/bubbleClick.mp3';
 
-const Homescreen = () => { 
+const HomeScreen = () => { 
     const util = require('util');
     const [appState, appAction] = useContext(GameContext);
     const [loadingSaveFile, setLoadingSaveFile] = useState(false);
@@ -176,4 +176,4 @@ const Homescreen = () => {
     )
 };
 
-export default Homescreen;
+export default HomeScreen;

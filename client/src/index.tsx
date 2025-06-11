@@ -5,7 +5,7 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import GameContainer from './components/pages/GameContainer';
-import Homescreen from './components/pages/Homescreen';
+import Homescreen from './components/pages/HomeScreen';
 
 
 const root = ReactDOM.createRoot(
