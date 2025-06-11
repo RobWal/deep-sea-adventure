@@ -15,7 +15,7 @@ import TreasureThree from '../../atoms/VisualAssets/TreasureThree';
 import TreasureTwo from '../../atoms/VisualAssets/TreasureTwo';
 import NamePlayersContainer from '../../organisms/NamePlayersContainer';
 import HomescreenMenuContainer from '../../organisms/HomescreenMenuContainer';
-import './Homescreen.css';
+import './HomeScreen.css';
 import useSound from 'use-sound';
 import bubbleClickSFX from '../../sfx/bubbleClick.mp3';
 
