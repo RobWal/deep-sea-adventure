@@ -3,12 +3,12 @@ import './HomescreenMenuContainer.css';
 
 type HomescreenMenuContainer = {
     containerClassName: string,
-    escapeButtonFunction: () => void,
+    exitButtonFunction: () => void,
     loadButtonFunction: () => void,
     singlePlayerButtonFunction: () => void,
 };
 
-const HomescreenMenuContainer = ({containerClassName, escapeButtonFunction, loadButtonFunction, singlePlayerButtonFunction}: HomescreenMenuContainer) => {
+const HomescreenMenuContainer = ({containerClassName, exitButtonFunction, loadButtonFunction, singlePlayerButtonFunction}: HomescreenMenuContainer) => {
     return (
         <div>
             <div className={containerClassName}>
@@ -17,7 +17,7 @@ const HomescreenMenuContainer = ({containerClassName, escapeButtonFunction, load
                 <HomescreenMenuButton className={'homescreen-menu-multiplayer-button'} innerText={'Multiplayer'} onClickFunction={()=>{}}/>
                 <HomescreenMenuButton className={'homescreen-menu-tutorial-button'} innerText={'Tutorial'} onClickFunction={()=>{}}/>
                 <HomescreenMenuButton className={'homescreen-menu-load-game-button'} innerText={'Load Game'} onClickFunction={loadButtonFunction}/>
-                <HomescreenMenuButton className={'homescreen-menu-exit-button'} innerText={'Exit'} onClickFunction={escapeButtonFunction}/>
+                <HomescreenMenuButton className={'homescreen-menu-exit-button'} innerText={'Exit'} onClickFunction={exitButtonFunction}/>
             </div>
          </div>
     )

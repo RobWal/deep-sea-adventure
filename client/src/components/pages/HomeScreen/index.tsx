@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useState, KeyboardEvent } from 'react';
 import { useNavigate } from "react-router-dom";
 import {
     ActionType,
@@ -97,7 +97,7 @@ const HomeScreen = () => {
         };
     };
 
-    const handleEscapeButtonSubmit = () => {
+    const handleExitButtonSubmit = () => {
         // setNamePlayersContainerClassName('name-players-container-invisible')
         setTealOverlayHomescreenClassName('teal-overlay-name-players-container-invisible');
         setHomescreenMenuContainerClassName('homescreen-menu-container-invisible');
@@ -106,14 +106,22 @@ const HomeScreen = () => {
             type: ActionType.RETURN_TO_HOMESCREEN
         });
     };
-    // This is a currently useless button that only plays audio and console logs that it's being clicked.
-    // This will be turned into a button that explains this menu - That You must enter a name of at least one character, and
-    // select the amount of opponents you want to play with. 
-    const handleHelpButtonSubmit = () => {
-        playAudio();
-        // appAction({
-        //     type: ActionType.HOMESCREEN_HELP_BUTTON
-        // });
+
+    // This allows users to use the escape button to back out through the menu's. 
+    const handleEscapeButtonKeyDown = (e: KeyboardEvent<HTMLImageElement>) => {
+        if(e.key === "Escape"){
+            if(appState.currentStep === "return_To_Homescreen"){
+                // Do nothing.
+            }
+            else if(appState.currentStep == "homescreen_menu"){
+                setTealOverlayHomescreenClassName('teal-overlay-name-players-container-invisible');
+                setHomescreenMenuContainerClassName('homescreen-menu-container-invisible');
+                playAudio();
+                appAction({
+                    type: ActionType.RETURN_TO_HOMESCREEN
+                });
+            }
+        }
     };
 
     // The two functions below work to prevent game crashes due to players using the 'back' button in their browser.
@@ -123,7 +131,7 @@ const HomeScreen = () => {
     // The useEffect below performs a similar function to the above, but instead of resetting the currentStep in 
     // isolation, it deletes any unsaved game data that existed, resetting it back to defaultGameState.
     useEffect(() => {
-        // console.log(appState.currentStep);
+        console.log(appState.currentStep);
         // Check to make sure the player isn't loading a save file. If they are, don't interfere with the loading process. 
         if(!loadingSaveFile){
             if(appState.players.length > 0 && (appState.currentStep === 'return_To_Homescreen' || appState.currentStep === 'select_Name_Players')){
@@ -141,7 +149,7 @@ const HomeScreen = () => {
 
     return (
         <div>
-            <div className="homescreen" onClick={()=>selectNamePlayers()}>
+            <div tabIndex={0} className="homescreen" onClick={selectNamePlayers} onKeyDown={handleEscapeButtonKeyDown}>
                 <div className='text-container'>
                     <H1 text={'DEEP SEA ADVENTURE'} style={{marginTop: '20px', fontSize:'82px', color: '#2AD2C5'}}/>
                     <H1 text={'Click to play!'} style={{marginTop: '60px',color: 'white', fontSize: '45px'}}/>
@@ -168,7 +176,7 @@ const HomeScreen = () => {
                 <HomescreenMenuContainer containerClassName={homescreenMenuContainerClassName} 
                 singlePlayerButtonFunction={handleSinglePlayerButtonSubmit}
                 loadButtonFunction={handleLoadButtonSubmit}
-                escapeButtonFunction={handleEscapeButtonSubmit}
+                exitButtonFunction={handleExitButtonSubmit}
                 
                 />
             </div>
