@@ -50,7 +50,7 @@ const NameForm = ({style, addPlayer, setTotalPlayers, moveToGameContainer}: any)
 
     return (
         <div className="number-of-players" style={style}>
-            <H1 style={{display: 'block', textAlign: 'center', color: 'white', fontSize: '45px', margin: '0 0 10px 0'}} text='Player name:'/>
+            <H1 style={{display: 'block', textAlign: 'center', color: 'white', fontSize: '45px', margin: '0 0 10px 0'}} text='Your name:'/>
             <input placeholder={"Dave"} autoFocus type="text" value={playerName} onChange={handleChange} maxLength={10}/>
             <H1 style={{display: 'block', textAlign: 'center', color: 'white', fontSize: '45px', margin: '0 0 10px 0'}} text='Number of players:'/>
             {nameIsValid ? <div className='button-block'>

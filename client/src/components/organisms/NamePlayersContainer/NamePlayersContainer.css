@@ -3,7 +3,7 @@
     top: -730px;
     left: 350px;
     width: 550px;
-    height: 370px;
+    height: 450px;
     background-color: #004489;
     border-radius: 10px;
     opacity: 0%;
@@ -14,7 +14,7 @@
     top: -730px;
     left: 350px;
     width: 550px;
-    height: 370px;
+    height: 450px;
     background-color: #004489;
     border-radius: 10px;
     opacity: 100%;
@@ -27,13 +27,12 @@
     100% {top: -730px; opacity: 0%}
 }
 
-
 .name-players-container-visible {
     position: absolute;
     top: 170px;
     left: 350px;
     width: 550px;
-    height: 370px;
+    height: 450px;
     background-color: #004489;
     border-radius: 10px;
     opacity: 100%;
@@ -44,4 +43,19 @@
     0% {top: -730px; opacity: 0%}
     40% {top: 170px; opacity: 0%;}
     100% {top: 170px; opacity: 100%}
+}
+
+.homescreen-single-player-menu-back-button {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    top: 350px;
+    left: 167.5px;
+    width: 175px;
+    height: 30px;
+    background-color: #2ad2c5;
+    border-radius: 10px;
+    padding: 20px;
+    user-select: none;
 }
