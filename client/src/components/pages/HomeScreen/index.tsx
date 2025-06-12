@@ -35,27 +35,37 @@ const HomeScreen = () => {
     };
 
     
-    const selectNamePlayers = () => {        
+    const openHomescreenMenu = () => {
+        // If the currentStep is 'return_To_Homescreen', open the homescreen menu and teal overlay.
         if(appState.currentStep === 'return_To_Homescreen'){
             setNamePlayersContainerClassName('name-players-container-on-load');
             setTealOverlayHomescreenClassName('teal-overlay-name-players-container-visible');
             setHomescreenMenuContainerClassName('homescreen-menu-container-visible');
             playAudio();
             appAction({
-                type: ActionType.SELECT_NAME_PLAYERS,
+                type: ActionType.OPEN_HOMESCREEN_MENU,
             });
-        } else if(appState.currentStep === 'select_Name_Players'){
+        } else if(appState.currentStep === 'open_Homescreen_Menu'){
             //Currently does nothing
         };
     };
     const handleTealOverlayClick = () => {
+        // If the user clicks the tealOverlay and it makes the currentStep: 'return_To_Homescreen', set the menu's and teal
+        //  overlay to invisible. 
         if(appState.currentStep === 'return_To_Homescreen'){
             setNamePlayersContainerClassName('name-players-container-invisible'); 
             setTealOverlayHomescreenClassName('teal-overlay-name-players-container-invisible');
             setHomescreenMenuContainerClassName('homescreen-menu-container-invisible');
         }
+        // If the user clicks the tealOverlay and it makes the currentStep: 'open_Homescreen_Menu', set the menu's and teal
+        //  overlay to invisible. 
+        else if(appState.currentStep === 'open_Homescreen_Menu'){
+            setNamePlayersContainerClassName('name-players-container-on-load');
+            setTealOverlayHomescreenClassName('teal-overlay-name-players-container-invisible');
+            setHomescreenMenuContainerClassName('homescreen-menu-container-invisible');
+        }
         else if(appState.currentStep === 'select_Name_Players'){
-            setNamePlayersContainerClassName('name-players-container-on-load')
+            setNamePlayersContainerClassName('name-players-container-on-load');
             setTealOverlayHomescreenClassName('teal-overlay-name-players-container-invisible');
             setHomescreenMenuContainerClassName('homescreen-menu-container-invisible');
         };
@@ -66,8 +76,8 @@ const HomeScreen = () => {
     };
 
     const handleSinglePlayerButtonSubmit = () => {
-        if(appState.currentStep === 'select_Name_Players'){
-            setNamePlayersContainerClassName('name-players-container-visible')
+        if(appState.currentStep === 'open_Homescreen_Menu'){
+            setNamePlayersContainerClassName('name-players-container-visible');
             setTealOverlayHomescreenClassName('teal-overlay-name-players-container-visible');
             setHomescreenMenuContainerClassName('homescreen-menu-container-invisible');
             playAudio();
@@ -76,6 +86,18 @@ const HomeScreen = () => {
             });
         } else if(appState.currentStep === 'select_Name_Players'){
             //Currently does nothing
+        };
+    };
+
+    const singlePlayerMenuBackButtonSubmit = () => {
+        if(appState.currentStep === 'select_Name_Players'){
+            setNamePlayersContainerClassName('name-players-container-invisible');
+            setTealOverlayHomescreenClassName('teal-overlay-name-players-container-visible');
+            setHomescreenMenuContainerClassName('homescreen-menu-container-visible');
+            playAudio();
+            appAction({
+                type: ActionType.OPEN_HOMESCREEN_MENU,
+            });
         };
     };
 
@@ -97,8 +119,9 @@ const HomeScreen = () => {
         };
     };
 
+    // Handle the use of the Exit button in the homescreen Menu. 
     const handleExitButtonSubmit = () => {
-        // setNamePlayersContainerClassName('name-players-container-invisible')
+        setNamePlayersContainerClassName('name-players-container-on-load');
         setTealOverlayHomescreenClassName('teal-overlay-name-players-container-invisible');
         setHomescreenMenuContainerClassName('homescreen-menu-container-invisible');
         playAudio();
@@ -113,7 +136,8 @@ const HomeScreen = () => {
             if(appState.currentStep === "return_To_Homescreen"){
                 // Do nothing.
             }
-            else if(appState.currentStep == "select_Name_Players"){
+            else if(appState.currentStep == "open_Homescreen_Menu"){
+
                 setTealOverlayHomescreenClassName('teal-overlay-name-players-container-invisible');
                 setHomescreenMenuContainerClassName('homescreen-menu-container-invisible');
                 playAudio();
@@ -139,7 +163,7 @@ const HomeScreen = () => {
                     type: ActionType.DELETE_PREVIOUS_GAME_DATA
                 });
             }
-            if(!(appState.currentStep === 'return_To_Homescreen' || appState.currentStep === 'select_Name_Players' || appState.currentStep === 'move_to_game_container')){
+            if(!(appState.currentStep === 'return_To_Homescreen' ||  appState.currentStep === 'open_Homescreen_Menu' || appState.currentStep === 'select_Name_Players' || appState.currentStep === 'move_to_game_container')){
                 appAction({
                     type: ActionType.RESET_APPSTATE_RETURN_TO_HOMESCREEN
                 });
@@ -149,7 +173,7 @@ const HomeScreen = () => {
 
     return (
         <div>
-            <div tabIndex={0} className="homescreen" onClick={selectNamePlayers} onKeyDown={handleEscapeButtonKeyDown}>
+            <div tabIndex={0} className="homescreen" onClick={openHomescreenMenu} onKeyDown={handleEscapeButtonKeyDown}>
                 <div className='text-container'>
                     <H1 text={'DEEP SEA ADVENTURE'} style={{marginTop: '20px', fontSize:'82px', color: '#2AD2C5'}}/>
                     <H1 text={'Click to play!'} style={{marginTop: '60px',color: 'white', fontSize: '45px'}}/>
@@ -172,13 +196,12 @@ const HomeScreen = () => {
                     <TreasureFour style={{position: 'absolute', top: '450px', left: '330px'}}/>
                 </div> 
                 <TealOverlay className={tealOverlayHomescreenClassName} onClickFunction={handleTealOverlayClick}/>
-                <NamePlayersContainer className={namePlayersContainerClassName} />
+                <NamePlayersContainer className={namePlayersContainerClassName} 
+                singlePlayerMenuBackButtonFunction={singlePlayerMenuBackButtonSubmit}/>
                 <HomescreenMenuContainer containerClassName={homescreenMenuContainerClassName} 
                 singlePlayerButtonFunction={handleSinglePlayerButtonSubmit}
                 loadButtonFunction={handleLoadButtonSubmit}
-                exitButtonFunction={handleExitButtonSubmit}
-                
-                />
+                exitButtonFunction={handleExitButtonSubmit}/>
             </div>
         </div>
     )

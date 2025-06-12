@@ -8,18 +8,17 @@ import {
     ActionType,
     GameContext,
 } from "../../../application-context";
+import HomescreenMenuButton from "../../molecules/HomescreenMenuButton";
 
 // util allows us to read nested objects in the console in a user friendly way, i.e. instead of '[object Object]', it will log '{Tiles:[type:1, value:2]}'.
 const util = require('util');
 
 type NamePlayersContainer = {
     className: string,
-    // escapeButtonFunction: () => void,
-    // loadButtonFunction: () => void,
-    // helpButtonFunction: () => void,
+    singlePlayerMenuBackButtonFunction: () => void;
 }
 
-const NamePlayersContainer = ({className}: NamePlayersContainer) => {
+const NamePlayersContainer = ({className, singlePlayerMenuBackButtonFunction}: NamePlayersContainer) => {
     const [appState, appAction] = useContext(GameContext);
     
     const checkForPreviousGameData = () => {
@@ -61,10 +60,8 @@ const NamePlayersContainer = ({className}: NamePlayersContainer) => {
     return (
         <div>
             <div className={className}>
-                {/* <HelpButton helpButtonFunction={helpButtonFunction} style={{position: 'absolute', top:'15px', right:'15px', margin:'15px', zIndex:'1'}}/> */}
-                {/* <EscapeButton escapeButtonFunction={escapeButtonFunction} style={{position: 'absolute', top:'15px', left:'15px', margin:'15px', zIndex:'1'}}/> */}
                 <NameForm setTotalPlayers={setTotalPlayers} addPlayer={addPlayer} moveToGameContainer={moveToGameContainer} checkForPreviousGameData={checkForPreviousGameData} style={{position: 'absolute', top:'30px'}}/>
-                {/* <LoadButton loadButtonFunction={loadButtonFunction} style={{position: 'absolute', top:'5px', right:'245px', margin:'15px', zIndex:'1'}}/> */}
+                <HomescreenMenuButton className={'homescreen-single-player-menu-back-button'} innerText={'Back'} onClickFunction={singlePlayerMenuBackButtonFunction}/>
             </div>
          </div>
     )

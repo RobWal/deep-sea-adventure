@@ -298,6 +298,7 @@ export const DefaultGameState: GameState = {
 
 export enum ActionType {
     RETURN_TO_HOMESCREEN = "return_to_homescreen",
+    OPEN_HOMESCREEN_MENU = "open_homescreen_menu",
     SELECT_NAME_PLAYERS = "select_name_players",
     HOMESCREEN_HELP_BUTTON = "homescreen_help_button",
     HOMESCREEN_LOAD_BUTTON = "homescreen_load_button",
@@ -332,10 +333,14 @@ export enum ActionType {
 }
 
 
-export type GameAction = ReturnToHomescreen | SelectNamePlayers | HomescreenHelpButton | HomescreenLoadButton | AddPlayerAction | SetTotalPlayersAction | GeneratePlayersAction | ShufflePlayers | MoveToGameContainer | BeginPrestart | StartGame | SetCurrentPlayer | RollDice | MovePlayerToken | ShowDiceResults | TreasurePickupDecision | TreasureLeaveDecision | TreasureDropDecision | NextPlayerTurn | SetOxygenLevel | DeeperOrBack | PlayerGotBack | SkipPlayersGo | EndTheRound | NextPlayerLogic | CleanUpTheDrowned | MoveDrownedPlayersHome | RemoveEmptyTileLocations | EndOfRoundAdjustments | TallyScores | ResetAppstateReturnToHomescreen | DeletePreviousGameData;
+export type GameAction = ReturnToHomescreen | OpenHomescreenMenu | SelectNamePlayers | HomescreenHelpButton | HomescreenLoadButton | AddPlayerAction | SetTotalPlayersAction | GeneratePlayersAction | ShufflePlayers | MoveToGameContainer | BeginPrestart | StartGame | SetCurrentPlayer | RollDice | MovePlayerToken | ShowDiceResults | TreasurePickupDecision | TreasureLeaveDecision | TreasureDropDecision | NextPlayerTurn | SetOxygenLevel | DeeperOrBack | PlayerGotBack | SkipPlayersGo | EndTheRound | NextPlayerLogic | CleanUpTheDrowned | MoveDrownedPlayersHome | RemoveEmptyTileLocations | EndOfRoundAdjustments | TallyScores | ResetAppstateReturnToHomescreen | DeletePreviousGameData;
 
 export interface ReturnToHomescreen { 
     type: ActionType.RETURN_TO_HOMESCREEN;
+}
+
+export interface OpenHomescreenMenu {
+    type: ActionType.OPEN_HOMESCREEN_MENU;
 }
 
 export interface SelectNamePlayers { 
@@ -531,6 +536,11 @@ export const GameContextReducer: Reducer<
             return {
                 ...state,
                 currentStep: 'return_To_Homescreen',
+            }
+        case ActionType.OPEN_HOMESCREEN_MENU:
+            return {
+                ...state,
+                currentStep: 'open_Homescreen_Menu',
             }
         case ActionType.SELECT_NAME_PLAYERS: 
             return {
