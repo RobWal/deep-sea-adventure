@@ -22,14 +22,19 @@
 }
 
 @keyframes namePlayersContainerInvisibility {
-    0% {top: 170px; opacity: 100%}
-    40% {top: 170px; opacity: 0%}
+    0% {top: 130px; opacity: 100%}
+    40% {top: 130px; opacity: 0%}
     100% {top: -730px; opacity: 0%}
 }
 
+/* Homescreen is 710px high */
+/* The container is 450px high */
+/* Whitespace is 260px */
+/* Half of that is 130px */
+
 .name-players-container-visible {
     position: absolute;
-    top: 170px;
+    top: 130px;
     left: 350px;
     width: 550px;
     height: 450px;
@@ -41,8 +46,8 @@
 
 @keyframes namePlayersContainerVisibility {
     0% {top: -730px; opacity: 0%}
-    40% {top: 170px; opacity: 0%;}
-    100% {top: 170px; opacity: 100%}
+    40% {top: 130px; opacity: 0%;}
+    100% {top: 130px; opacity: 100%}
 }
 
 .homescreen-single-player-menu-back-button {
