@@ -67,7 +67,7 @@ Some examples are:
 # What I'm working towards now.
 1. ~~I was informed that when players drown, they drop treasure in stacks of three at most. E.g. if they had seven treasures, there would be true stacks of three and one of one. Well, that's what I'm working towards now!~~
 1. ~~User friendly buttons need to be added to replace the currently unhelpful ? buttons used to save and load the game.~~ This will likely require the addition of a menu, to also add the ability for users to change the game speed in game, leave the current game, etc..". **Please note that I have decided I don't want to do this yet, to all my adoring fans, please sit tightly for these updates and enjoy the weird load/save buttons for now.
-    1. Due to the implementation of a menu in the homescreen, the appState.currentStep needs to be updated to be in the correct area, as it's currently reading the homescreen menu as 'select_Name_Players'. This will require an additional appState.currentStep, and to re-wire the appActions and their paths.
+    1. ~~Due to the implementation of a menu in the homescreen, the appState.currentStep needs to be updated to be in the correct area, as it's currently reading the homescreen menu as 'select_Name_Players'. This will require an additional appState.currentStep, and to re-wire the appActions and their paths.~~
 
 # Ongoing improvements
 
@@ -86,4 +86,5 @@ Some examples are:
 
 # Bugs
 
+1. The live version of the game experiences a 404 error when refreshing the /gameContainer. While this issue is fixed locally, evidently there is more work to be done here to handle the error and correctly redirect to the homescreen. 
 1. While using the game speed feature, player tile animations using the style={style} syntax aren't sped up, causing a lag between player tokens and potential player decisions. 
