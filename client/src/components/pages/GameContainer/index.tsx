@@ -61,6 +61,9 @@ const GameContainer = () => {
     }
     
     useEffect(() => {
+        console.log(util.inspect(appState, {showHidden: false, depth: null, colors: false}));
+        // This code is triggered when a player refreshes the tab while in /gamecontainer, due to the game data being wiped. 
+        // There are no other circumstances in which the currentStep will be 'return_To_Homescreen' while in /gamecontainer. 
         if(appState.currentStep === 'return_To_Homescreen'){
             console.log(util.inspect(appState, {showHidden: false, depth: null, colors: false}));
             navigate("/");
