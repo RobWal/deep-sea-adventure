@@ -18,6 +18,7 @@ function App() {
           <Routes>
               <Route path="/" element={<HomeScreen />}/>
               <Route path="/gamecontainer" element={<GameContainer />}/>
+              <Route path="*" element={<HomeScreen />}/>
             </Routes>
         </GameContext.Provider>
       </div>
