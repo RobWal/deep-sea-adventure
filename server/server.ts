@@ -24,11 +24,6 @@ if (process.env.NODE_ENV === "production") {
             path.join(__dirname, "..", "client", "build", "index.html")
         );
     });
-    app.get("/gamecontainer", (req, res) => {
-        res.sendFile(
-            path.join(__dirname, "..", "client", "build", "index.html")
-        );
-    });
 }
 
 app.listen(+PORT, () => {
