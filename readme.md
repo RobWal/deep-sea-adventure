@@ -65,10 +65,12 @@ Some examples are:
 -   Utilising react JSX components in a dynamic way to populate the UI depending on the useContext
 
 # What I'm working towards now.
-1. Bug #1 on the Bugs list - Refreshing the /gamecontainer causing a 404. 
-1. ~~User friendly buttons need to be added to replace the currently unhelpful ? buttons used to save and load the game.~~ This will likely require the addition of a menu, to also add the ability for users to change the game speed in game, leave the current game, etc..". **Please note that I have decided I don't want to do this yet, to all my adoring fans, please sit tightly for these updates and enjoy the weird load/save buttons for now.
-    1. ~~Due to the implementation of a menu in the homescreen, the appState.currentStep needs to be updated to be in the correct area, as it's currently reading the homescreen menu as 'select_Name_Players'. This will require an additional appState.currentStep, and to re-wire the appActions and their paths.~~
-    1. The save button for the gameContainer needs to be rewritten so as to not seem like a load button. 
+1. Create an in-game menu resmbling the homescreen menu, which will include: 
+    1. The existing save button.
+    1. An in-game load button.
+    1. A settings menu. 
+    1. Exit game button. 
+1. ~~Bug #1 on the Bugs list - Refreshing the /gamecontainer causing a 404.~~
 
 # Ongoing improvements
 
@@ -76,9 +78,10 @@ Some examples are:
 
 # Potential future improvements
 
+1. A quicksave function that saves automatically at particular intervals. 
 1. Sound effects for a more immersive experience.
 1. Animations added to the movement of pieces such as treasure tiles and player tokens to more clearly illustrate the game state.
-1. Three rounds in total, which would include tile reorganising and drowned diver treasure being added to the trail.
+1. ~~Three rounds in total, which would include tile reorganising and drowned diver treasure being added to the trail.~~
 1. An indicator that makes clear whose turn it is, between the players score and their name.
 1. ~~The ability to 'rewind' the game in order to see 'what if' a user had done something else.~~ This has been somewhat implemented through the use of the save game function. 
 1. Allowing for multiple local users to play against each other, or AI (hotseat).
@@ -87,5 +90,5 @@ Some examples are:
 
 # Bugs
 
-1. The live version of the game experiences a 404 error when refreshing the /gameContainer. While this issue is fixed locally, evidently there is more work to be done here to handle the error and correctly redirect to the homescreen. 
 1. While using the game speed feature, player tile animations using the style={style} syntax aren't sped up, causing a lag between player tokens and potential player decisions. 
+1. ~~The live version of the game experiences a 404 error when refreshing the /gameContainer. While this issue is fixed locally, evidently there is more work to be done here to handle the error and correctly redirect to the homescreen.~~

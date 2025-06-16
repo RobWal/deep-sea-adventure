@@ -1,6 +1,6 @@
 import React, { useEffect, useContext, useReducer, useState } from 'react';
 import './App.css';
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, HashRouter } from "react-router";
 import GameContainer from './components/pages/GameContainer';
 import HomeScreen from './components/pages/HomeScreen';
 import { GameContext, ActionType, GameContextReducer, DefaultGameState } from './application-context';
@@ -15,7 +15,7 @@ function App() {
     return (
       <div className="App">
         <GameContext.Provider value={[gameState, gameAction]}>
-          <Routes>
+            <Routes>
               <Route path="/" element={<HomeScreen />}/>
               <Route path="/gamecontainer" element={<GameContainer />}/>
             </Routes>
