@@ -1,13 +1,13 @@
 import { useContext } from 'react';
 import { GameContext, playerTokenHomeLocations, tileLocations } from '../../../application-context';
 import PlayerToken from '../../atoms/PlayerToken';
-import './PlayerTokens.css'
+import './GameContainerPlayerTokensBay.css';
 import { Players } from '../../../application-context';
 
-const PlayerTokens = () => {
+const GameContainerPlayerTokensBay = () => {
     const [appState, appAction] = useContext(GameContext);
     return (
-        <div className="player-tokens">
+        <div className="in-game-player-tokens-bay">
             {/* This code maps through the appState.players array, in order to render each player token at the correct location */}
             {appState.players.map((player: Players, index) => {
                 // This if checks to see whether the player is out on a tile, or home in the submarine. Being on the submarine is considered mapPosition 0,
@@ -27,4 +27,4 @@ const PlayerTokens = () => {
     )
 }
 
-export default PlayerTokens;
+export default GameContainerPlayerTokensBay;

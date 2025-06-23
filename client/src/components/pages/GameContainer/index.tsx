@@ -15,7 +15,7 @@ import EscapeButton from '../../molecules/EscapeButton';
 import LoadButton from '../../molecules/LoadButton';
 import OxygenMarker from '../../atoms/OxygenMarker';
 import TileLayout from '../../organisms/TileLayout';
-import PlayerTokens from '../../molecules/PlayerTokens';
+import GameContainerPlayerTokensBay from '../../molecules/GameContainerPlayerTokensBay';
 import WhoGoesFirst from '../../molecules/WhoGoesFirst';
 import TealOverlay from '../../atoms/TealOverlay';
 import RollTheDiceContainer from '../../molecules/RollTheDiceContainer';
@@ -23,6 +23,7 @@ import PickupTreasureContainer from '../../molecules/PickupTreasureContainer';
 import ForwardsOrBackwardsContainer from '../../molecules/ForwardsOrBackwardsContainer';
 import useSound from 'use-sound';
 import bubbleClickSFX from '../../sfx/bubbleClick.mp3';
+import GameContainerMenuButton from '../../molecules/GameContainerMenuButton';
 
 // util allows us to read nested objects in the console in a user friendly way, i.e. instead of '[object Object]', it will log '{Tiles:[type:1, value:2]}'.
 const util = require('util');
@@ -40,6 +41,7 @@ const GameContainer = () => {
     const [tealOverlayWhoGoesFirstClassName, setTealOverlayWhoGoesFirstClassName] = useState('teal-overlay-who-goes-first-invisible');
     const [tealOverlayEndGameClassName, setTealOverlayEndGameClassName] = useState('teal-overlay-end-game-invisible');
     const [whoGoesFirstClassName, setWhoGoesFirstClassName] = useState('who-goes-first-invisible');
+    const [gameContainerMenuButtonClassName, setGameContainerMenuButtonClassName] = useState('game-container-menu-button');
     const [announcerInnerText, setAnnouncerInnerText] = useState("");
     const gameSpeed = appState.gameSpeed;
     const soundUrl = bubbleClickSFX;
@@ -873,23 +875,24 @@ const GameContainer = () => {
     return (
         <div className="game-container">
             <TileLayout />
-            <PlayerTokens />
-            {/* <EscapeButton escapeButtonFunction={handleEscapeButtonSubmit} style={{position: 'absolute', top: '15px', right: '0px'}}/> */}
-            <LoadButton loadButtonFunction={handleHelpButtonSubmit} style={{position: 'absolute', top: '15px', right: '50px'}}/>
+            <GameContainerPlayerTokensBay />
             <OxygenSubmarine style={{position: 'absolute', top: '20px', left: '500px'}}/>
             <OxygenMarker style={{position: 'absolute', top: oxygenTokenLocations[appState.remainingOxygen].top, left: oxygenTokenLocations[appState.remainingOxygen].left}}/>
             <AnnouncerContainer dice={<DiceContainer />} announcerMessage={<AnnouncerMessage text={announcerInnerText}/>}/>
+            {/* <EscapeButton escapeButtonFunction={handleEscapeButtonSubmit} style={{position: 'absolute', top: '15px', right: '0px'}}/> */}
+            {/* <LoadButton loadButtonFunction={handleHelpButtonSubmit} style={{position: 'absolute', top: '15px', right: '50px'}}/> */}
             <ScoreBoardContainer />
             {(appState.currentStep === 'direction_logic' && appState.players[appState.currentPlayer].id === 1 && appState.players[appState.currentPlayer].mapPosition !== 0 && appState.players[appState.currentPlayer].direction === 'forwards') ? <ForwardsOrBackwardsContainer /> : <></>}
             {(appState.currentStep === 'rolling' || appState.currentStep === 'next_players_turn') && appState.players[appState.currentPlayer].id === 1 ? <RollTheDiceContainer /> : <></>}
             {appState.currentStep === 'moved' && appState.players[appState.currentPlayer].id === 1 && appState.players[appState.currentPlayer].mapPosition !== 0? <PickupTreasureContainer /> : <></>}
-            
+            <GameContainerMenuButton className={gameContainerMenuButtonClassName}/>
+
             {/* The TealOverlay and WhoGoesFirst are used at the start of the game. */}
             <TealOverlay className={tealOverlayWhoGoesFirstClassName} />
             <WhoGoesFirst className={whoGoesFirstClassName} /> 
             {/* The TealOverlay below is used at the end of the game. This could probably be refactored to use the 
             same tealOverlay, by modifying the classname at the right time. */}
-            <TealOverlay className={tealOverlayEndGameClassName} />
+            <TealOverlay className={tealOverlayEndGameClassName}/>
         </div>
     )
 }
